@@ -52,6 +52,7 @@ export default function MobileMenu({
 }: MobileMenuProps) {
   const pathname = usePathname();
   const { navigate } = usePageTransition();
+  const menuLinks = NAV_LINKS.filter((item) => item.href !== "/");
 
   function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
     e.preventDefault();
@@ -94,6 +95,10 @@ export default function MobileMenu({
           />
 
           <div className="menudivgl div-block-25" style={{ display: "flex" }}>
+            <button className="vs-menu-close" type="button" onClick={onClose} aria-label="Закрыть меню">
+              ×
+            </button>
+
             <AnimatePresence>
               {showForm && (
                 <motion.div
@@ -110,7 +115,7 @@ export default function MobileMenu({
 
             <PanelDiv className="menu2" delay={0.06}>
               <ul role="list" className="list-3">
-                {NAV_LINKS.map((item, i) => (
+                {menuLinks.map((item, i) => (
                   <li key={item.href} className={`m${i + 1}`}>
                     <h1 className="heading-9">
                       <motion.a
@@ -133,7 +138,7 @@ export default function MobileMenu({
                     <motion.a
                       href="#"
                       className="menu-link"
-                      custom={NAV_LINKS.length}
+                      custom={menuLinks.length}
                       variants={linkVariants}
                       initial="closed"
                       animate="open"
@@ -151,7 +156,7 @@ export default function MobileMenu({
 
               <motion.p
                 className="paragraph-300"
-                custom={NAV_LINKS.length + 1}
+                custom={menuLinks.length + 1}
                 variants={linkVariants}
                 initial="closed"
                 animate="open"
