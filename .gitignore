@@ -80,3 +80,9 @@ apps/backend/apps/rkl/tmp/
 *.log
 deploy/.state/
 deploy/generated/
+
+backend/.venv/
+backend/db.sqlite3
+backend/media/
+backend/staticfiles/
+backend/.env

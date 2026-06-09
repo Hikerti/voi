@@ -1,12 +1,4 @@
 {
-  "/api/contact/route": "app/api/contact/route.js",
-  "/contacts/page": "app/contacts/page.js",
-  "/faq/page": "app/faq/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/o-nas/page": "app/o-nas/page.js",
-  "/page": "app/page.js",
-  "/portfolio/page": "app/portfolio/page.js",
-  "/privacy/page": "app/privacy/page.js",
-  "/reviews/page": "app/reviews/page.js",
-  "/services/page": "app/services/page.js"
+  "/page": "app/page.js"
 }

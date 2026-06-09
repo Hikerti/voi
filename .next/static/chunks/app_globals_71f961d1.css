@@ -752,6 +752,46 @@ body {
   color: var(--vs-accent-2);
 }
 
+.vs-page-back, .vs-page-back.kybikm, .vs-page-back.div-block-59 {
+  z-index: 20;
+  width: auto;
+  min-height: 0;
+  padding: 0 var(--vs-page-pad);
+  text-align: left;
+  pointer-events: none;
+  display: block;
+  position: absolute;
+  top: 86px;
+  left: 0;
+}
+
+.vs-page-back .back-parent {
+  float: none;
+  min-height: 38px;
+  color: var(--vs-ink);
+  text-transform: uppercase;
+  pointer-events: auto;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, .68);
+  border: 1px solid rgba(17, 17, 17, .18);
+  border-radius: 8px;
+  align-items: center;
+  padding: 0 13px;
+  font-family: Jura, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex !important;
+}
+
+.vs-page-back__label, .vs-page-back .nynaxyi, .vs-page-back .text-block-45 {
+  color: inherit;
+  font: inherit;
+  letter-spacing: .08em;
+  opacity: 1;
+}
+
 .vs-site-header__actions {
   align-items: center;
   gap: 8px;
@@ -776,9 +816,11 @@ body {
 }
 
 .vs-hero-wordmark.logo {
+  z-index: 30;
   letter-spacing: .02em;
   color: #111;
   text-align: center;
+  text-shadow: 0 1px rgba(255, 255, 255, .18);
   text-transform: uppercase;
   flex-direction: column;
   justify-content: center;
@@ -791,6 +833,7 @@ body {
   font-weight: 700;
   line-height: .86;
   display: flex;
+  position: relative;
 }
 
 .block-hidden-logo:has(.vs-hero-wordmark) {
