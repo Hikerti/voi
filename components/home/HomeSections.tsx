@@ -8,7 +8,7 @@ export default function HomeSections() {
         <div className="vs-section-head">
           <p>услуги</p>
           <h2>Сайт должен выглядеть так, чтобы его хотелось заказать</h2>
-          <Link href="/services">Все услуги</Link>
+          <h3 className="vs-section-head__label">Все услуги</h3>
         </div>
         <div className="vs-service-strip">
           {SERVICES.slice(0, 4).map((service) => (
