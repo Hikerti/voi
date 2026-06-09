@@ -4,10 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NAV_LINKS, SITE } from "@/lib/constants";
 import { useMenu } from "./MenuProvider";
+import MenuToggle from "./MenuToggle";
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const { open } = useMenu();
+  const { isOpen, open, toggle } = useMenu();
 
   return (
     <header className="vs-site-header">
@@ -16,7 +17,7 @@ export default function SiteHeader() {
         <span>Studio</span>
       </Link>
       <nav className="vs-site-header__nav" aria-label="Основная навигация">
-        {NAV_LINKS.slice(0, 5).map((item) => (
+        {NAV_LINKS.filter((item) => item.href !== "/").slice(0, 5).map((item) => (
           <Link
             key={item.href}
             href={item.href}
@@ -31,9 +32,7 @@ export default function SiteHeader() {
         <button className="vs-site-header__cta" type="button" onClick={open}>
           Консультация
         </button>
-        <button className="vs-site-header__menu" type="button" onClick={open}>
-          Меню
-        </button>
+        <MenuToggle isOpen={isOpen} onToggle={toggle} />
       </div>
     </header>
   );
