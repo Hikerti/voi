@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/anika/WebstormProjects/nextJS/nextJS/app/not-found.tsx"],"sourcesContent":["import Link from \"next/link\";\n\nexport default function NotFound() {\n  return (\n    <main className=\"vs-page-shell vs-page-shell--dark vs-not-found\">\n      <p className=\"vs-kicker\">404</p>\n      <h1>Страница не найдена</h1>\n      <p>Возможно, ссылка устарела или раздел переехал в новую структуру Voitov Studio.</p>\n      <div className=\"vs-link-row\">\n        <Link href=\"/\">Главная</Link>\n        <Link href=\"/services\">Услуги</Link>\n        <Link href=\"/portfolio\">Портфолио</Link>\n      </div>\n    </main>\n  );\n}\n"],"names":[],"mappings":";;;;;AAAA;;;AAEe,SAAS;IACtB,qBACE,8OAAC;QAAK,WAAU;;0BACd,8OAAC;gBAAE,WAAU;0BAAY;;;;;;0BACzB,8OAAC;0BAAG;;;;;;0BACJ,8OAAC;0BAAE;;;;;;0BACH,8OAAC;gBAAI,WAAU;;kCACb,8OAAC,uKAAI;wBAAC,MAAK;kCAAI;;;;;;kCACf,8OAAC,uKAAI;wBAAC,MAAK;kCAAY;;;;;;kCACvB,8OAAC,uKAAI;wBAAC,MAAK;kCAAa;;;;;;;;;;;;;;;;;;AAIhC","debugId":null}}]
+}

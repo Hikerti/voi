@@ -1,0 +1,12 @@
+{
+  "pages": {
+    "/sitemap.xml/route": [
+      "static/chunks/905e7d0bbaa8a366.js",
+      "static/chunks/c052ed440c56c951.js",
+      "static/chunks/15d7348493c374ea.js",
+      "static/chunks/8082ab48faca5ea1.js",
+      "static/chunks/d89b38702f233448.js",
+      "static/chunks/turbopack-f0d53c2ed3a0d35d.js"
+    ]
+  }
+}

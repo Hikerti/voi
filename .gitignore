@@ -1,0 +1,81 @@
+# Dependencies and build output
+node_modules/
+dist/
+build/
+out/
+.turbo/
+.agents/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Tests
+coverage/
+.nyc_output/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Environment files
+.env
+.env.*
+!.env.example
+envs/prod
+!envs/prod/
+!envs/prod/scopes/
+!envs/prod/scopes/s3.env
+!envs/prod/scopes/payments-database.env
+!envs/prod/scopes/kafka.env
+!envs/prod/scopes/valkey.env
+!envs/prod/service/
+!envs/prod/service/elasticsearch.env
+!envs/prod/service/payments-service.env
+!envs/prod/service/rkl-service.env
+
+# Temporary files
+.temp/
+.tmp/
+
+repomix-output.xml
+apps/backend/certs
+apps/backend/uploads
+apps/backend/repomix-output.xml
+apps/frontend/repomix-output.xml
+apps/frontend/visualizer.html
+
+/packages/database/generated
+/packages/payments-database/generated
+
+AGENTS.md
+
+/docs
+!/docs/
+!/docs/knowledge-base/
+!/docs/knowledge-base/**
+!/docs/admin-assistant/
+!/docs/admin-assistant/**
+/outputs
+
+# Playwright browsers
+.pw-browsers/
+ms-playwright/
+playwright/.cache/
+
+# Runtime temporary files
+tmp/
+apps/verification-worker/tmp/
+apps/backend/apps/rkl/tmp/
+
+# Local generated files
+*.log
+deploy/.state/
+deploy/generated/

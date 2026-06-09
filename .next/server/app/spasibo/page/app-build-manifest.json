@@ -1,0 +1,17 @@
+{
+  "pages": {
+    "/spasibo/page": [
+      "static/chunks/ff1a16fafef87110.js",
+      "static/chunks/7dd66bdf8a7e5707.js",
+      "static/chunks/f4d150180105e4c3.js",
+      "static/chunks/2465ffa3ea00e13c.js",
+      "static/chunks/295e828c23764f9d.css",
+      "static/chunks/905e7d0bbaa8a366.js",
+      "static/chunks/c052ed440c56c951.js",
+      "static/chunks/15d7348493c374ea.js",
+      "static/chunks/8082ab48faca5ea1.js",
+      "static/chunks/d89b38702f233448.js",
+      "static/chunks/turbopack-f0d53c2ed3a0d35d.js"
+    ]
+  }
+}
