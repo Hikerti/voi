@@ -7,52 +7,53 @@ interface MenuToggleProps {
   onToggle: () => void;
 }
 
-const line1Variants: Variants = {
-  closed: { rotate: 0, y: 0 },
-  open: { rotate: 45, y: 6, transition: { duration: 0.3, ease: "easeInOut" as const } },
+const topLineVariants: Variants = {
+  closed: { rotate: 0, y: -7, scaleX: 1 },
+  open: { rotate: 45, y: 0, scaleX: 1.05 },
 };
 
-const line2Variants: Variants = {
-  closed: { rotate: 0, y: 0 },
-  open: { rotate: -45, y: -6, transition: { duration: 0.3, ease: "easeInOut" as const } },
+const middleLineVariants: Variants = {
+  closed: { opacity: 1, scaleX: 0.72, x: 5 },
+  open: { opacity: 0, scaleX: 0.2, x: 18 },
+};
+
+const bottomLineVariants: Variants = {
+  closed: { rotate: 0, y: 7, scaleX: 1 },
+  open: { rotate: -45, y: 0, scaleX: 1.05 },
 };
 
 export default function MenuToggle({ isOpen, onToggle }: MenuToggleProps) {
   return (
-    <div
-      className="div-block-21"
+    <motion.button
+      className={`vs-burger${isOpen ? " is-open" : ""}`}
+      type="button"
       onClick={onToggle}
-      style={{ cursor: "pointer" }}
+      aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
+      aria-expanded={isOpen}
+      whileHover={{ scale: 1.04 }}
+      whileTap={{ scale: 0.94 }}
     >
-      <div className="textmenu">
-        <motion.div
-          className="textmeny"
-          animate={{ opacity: isOpen ? 0 : 1 }}
-          transition={{ duration: 0.2 }}
-        >
-          Menu
-        </motion.div>
-        <motion.div
-          className="menuclose"
-          animate={{ opacity: isOpen ? 1 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          Close
-        </motion.div>
-      </div>
-
-      <div className="div-block-22">
-        <motion.div
-          className="div-block-23"
-          variants={line1Variants}
+      <span className="vs-burger__rings" aria-hidden="true" />
+      <span className="vs-burger__lines" aria-hidden="true">
+        <motion.span
+          className="vs-burger__line"
+          variants={topLineVariants}
           animate={isOpen ? "open" : "closed"}
+          transition={{ duration: 0.34, ease: [0.76, 0, 0.24, 1] }}
         />
-        <motion.div
-          className="div-block-24"
-          variants={line2Variants}
+        <motion.span
+          className="vs-burger__line"
+          variants={middleLineVariants}
           animate={isOpen ? "open" : "closed"}
+          transition={{ duration: 0.24, ease: "easeOut" }}
         />
-      </div>
-    </div>
+        <motion.span
+          className="vs-burger__line"
+          variants={bottomLineVariants}
+          animate={isOpen ? "open" : "closed"}
+          transition={{ duration: 0.34, ease: [0.76, 0, 0.24, 1] }}
+        />
+      </span>
+    </motion.button>
   );
 }
