@@ -4,6 +4,7 @@ import "./globals.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
+import AnalyticsEvents from "@/components/analytics/AnalyticsEvents";
 import { SITE } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -52,6 +53,7 @@ export default function RootLayout({
       </head>
       <body className="body">
         <MenuProvider>
+          <AnalyticsEvents />
           <SiteHeader />
           {children}
           <Footer />

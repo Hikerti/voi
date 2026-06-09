@@ -758,6 +758,49 @@ body {
   color: var(--vs-accent-2);
 }
 
+.vs-page-back,
+.vs-page-back.kybikm,
+.vs-page-back.div-block-59 {
+  position: absolute;
+  top: 86px;
+  left: 0;
+  z-index: 20;
+  display: block;
+  width: auto;
+  min-height: 0;
+  padding: 0 var(--vs-page-pad);
+  text-align: left;
+  pointer-events: none;
+}
+
+.vs-page-back .back-parent {
+  float: none;
+  display: inline-flex !important;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid rgba(17, 17, 17, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--vs-ink);
+  font-family: Jura, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  pointer-events: auto;
+  backdrop-filter: blur(12px);
+}
+
+.vs-page-back__label,
+.vs-page-back .nynaxyi,
+.vs-page-back .text-block-45 {
+  color: inherit;
+  font: inherit;
+  letter-spacing: 0.08em;
+  opacity: 1;
+}
+
 .vs-site-header__actions {
   display: flex;
   align-items: center;

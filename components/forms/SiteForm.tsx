@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { trackGoal } from "@/lib/analytics";
 import { SITE } from "@/lib/constants";
 
 interface SiteFormProps {
@@ -59,6 +60,7 @@ export default function SiteForm({
       if (!res.ok) throw new Error("Request failed");
       form.reset();
       setStatus("success");
+      trackGoal("lead_form_submit", { source });
     } catch {
       setStatus("error");
     }

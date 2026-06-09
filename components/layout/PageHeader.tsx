@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import AnimatedLink from "@/components/ui/AnimatedLink";
-import { SITE } from "@/lib/constants";
 
 const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
@@ -14,24 +13,20 @@ interface PageHeaderProps {
 }
 
 export default function PageHeader({
-  wrapperClass = "kybikm w-clearfix",
+  wrapperClass,
   backHref = "/",
   backLabel = "back",
-  backLabelClass = "nynaxyi",
+  backLabelClass,
 }: PageHeaderProps) {
   return (
     <motion.div
-      className={wrapperClass}
+      className={`vs-page-back ${wrapperClass ?? ""}`.trim()}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: EASE }}
     >
       <AnimatedLink href={backHref} className="back-parent w-inline-block">
-        <div className={backLabelClass}>{backLabel}</div>
-      </AnimatedLink>
-      <AnimatedLink href="/" className="link-home vs-page-logo w-inline-block" aria-label={SITE.name}>
-        <span>Voitov</span>
-        <span>Studio</span>
+        <div className={backLabelClass ?? "vs-page-back__label"}>{backLabel}</div>
       </AnimatedLink>
     </motion.div>
   );
