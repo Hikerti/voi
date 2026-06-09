@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
+import "./ui-fixes.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
@@ -47,7 +48,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Great+Vibes&family=Varela&family=Forum&family=Iceland&family=Jura:wght@300..700&family=Russo+One&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&family=Great+Vibes&family=Varela&family=Forum&family=Iceland&family=Jura:wght@300..700&family=Russo+One&display=swap"
           rel="stylesheet"
         />
       </head>
