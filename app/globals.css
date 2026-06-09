@@ -826,6 +826,8 @@ body {
 }
 
 .vs-hero-wordmark.logo {
+  position: relative;
+  z-index: 30;
   display: flex;
   width: min(76vw, 760px);
   max-width: 760px;
@@ -840,6 +842,7 @@ body {
   letter-spacing: 0.02em;
   color: #111;
   text-align: center;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.18);
   text-transform: uppercase;
 }
 

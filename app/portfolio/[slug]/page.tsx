@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getProjectBySlug, getAllProjectSlugs } from "@/lib/portfolio";
 import PageHeader from "@/components/layout/PageHeader";
-import LeadForm from "@/components/home/LeadForm";
+import SiteForm from "@/components/forms/SiteForm";
 import AnimatedLink from "@/components/ui/AnimatedLink";
 
 export async function generateStaticParams() {
@@ -198,8 +198,13 @@ export default async function ProjectDetailPage({
         </div>
       </div>
 
-      {/* Lead form (compact) */}
-      <LeadForm variant="compact" />
+      <section className="vs-final-cta">
+        <div>
+          <p className="vs-kicker">проект</p>
+          <h2>Хотите сайт с таким же уровнем подачи? Обсудим задачу и первый прототип.</h2>
+        </div>
+        <SiteForm source={`portfolio-${project.slug}`} compact />
+      </section>
     </>
   );
 }

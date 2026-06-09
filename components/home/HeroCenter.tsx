@@ -22,9 +22,9 @@ export default function HeroCenter() {
         <div className="block-hidden-logo">
           <motion.div
             className="logo vs-hero-wordmark"
-            initial={{ y: -80, opacity: 0 }}
+            initial={{ y: -48, opacity: 1 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2, ease: EASE }}
+            transition={{ duration: 0.75, delay: 0.1, ease: EASE }}
           >
             <span>Voitov</span>
             <span>Studio</span>

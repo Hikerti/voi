@@ -4,9 +4,10 @@ import HeroCenter from "@/components/home/HeroCenter";
 import Hero from "@/components/home/Hero";
 import IntroSection from "@/components/home/IntroSection";
 import StudioSection from "@/components/home/StudioSection";
-import LeadForm from "@/components/home/LeadForm";
 import NewsPreview from "@/components/home/NewsPreview";
 import HomeSections from "@/components/home/HomeSections";
+import HomeTrustSections from "@/components/home/HomeTrustSections";
+import HomeFinalCta from "@/components/home/HomeFinalCta";
 import { getAllProjectSlugs, getProjectBySlug } from "@/lib/portfolio";
 import { getAllArticleSlugs, getArticleBySlug } from "@/lib/blog";
 import GridLines from "@/components/layout/GridLines";
@@ -43,9 +44,9 @@ export default function HomePage() {
       <IntroSection />
       <HomeSections />
       <StudioSection projects={projects} />
-      <LeadForm variant="compact" />
-      <LeadForm variant="full" />
+      <HomeTrustSections />
       <NewsPreview items={newsItems} />
+      <HomeFinalCta />
     </>
   );
 }
