@@ -1,7 +1,3 @@
-"use client";
-
-import { usePageTransition } from "@/lib/hooks/usePageTransition";
-
 interface AnimatedLinkProps {
   href: string;
   className?: string;
@@ -9,15 +5,8 @@ interface AnimatedLinkProps {
 }
 
 export default function AnimatedLink({ href, className, children }: AnimatedLinkProps) {
-  const { navigate } = usePageTransition();
-
-  function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
-    e.preventDefault();
-    navigate(href);
-  }
-
   return (
-    <a href={href} className={className} onClick={handleClick}>
+    <a href={href} className={className}>
       {children}
     </a>
   );
