@@ -23,6 +23,18 @@ export default function ServicesCatalog({ services = SERVICES }: ServicesCatalog
           Сайты, айдентика, SEO-структура и поддержка после запуска. Услуги
           собраны так, чтобы быстро понять формат работы, бюджет и следующий шаг.
         </p>
+        <div className="vs-services-infographic" aria-hidden="true">
+          <div className="vs-services-infographic__orbit">
+            <span className="vs-services-infographic__node is-format">Формат</span>
+            <span className="vs-services-infographic__node is-budget">Бюджет</span>
+            <span className="vs-services-infographic__node is-time">Сроки</span>
+            <span className="vs-services-infographic__node is-launch">Запуск</span>
+          </div>
+          <div className="vs-services-infographic__caption">
+            <strong>4 точки выбора</strong>
+            <span>по ним быстро понятно, какая услуга подходит проекту</span>
+          </div>
+        </div>
       </div>
 
       <div className="vs-catalog-grid">

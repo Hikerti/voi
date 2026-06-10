@@ -4191,3 +4191,289 @@ body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dar
     font-size: 15px;
   }
 }
+
+/* Final pass: home FAQ card rhythm and services hero infographic */
+.vs-faq-preview {
+  grid-template-columns: minmax(280px, 0.36fr) minmax(720px, 0.64fr) !important;
+  gap: var(--vs-s40) !important;
+  align-items: start !important;
+}
+
+.vs-faq-preview > div:first-child {
+  max-width: 560px !important;
+}
+
+.vs-faq-preview h2 {
+  max-width: 560px !important;
+  font-size: clamp(52px, 5vw, 92px) !important;
+  line-height: 0.98 !important;
+}
+
+.vs-faq-preview .vs-faq-list {
+  width: 100% !important;
+}
+
+.vs-faq-row {
+  grid-template-columns: minmax(280px, 0.42fr) minmax(360px, 1fr) !important;
+  min-height: 176px !important;
+  align-items: center !important;
+  column-gap: var(--vs-s40) !important;
+  padding: var(--vs-s40) !important;
+}
+
+.vs-faq-row h3 {
+  grid-column: 1 !important;
+  max-width: 360px !important;
+  font-size: clamp(26px, 1.9vw, 38px) !important;
+  line-height: 1.08 !important;
+}
+
+.vs-faq-row p {
+  grid-column: 2 !important;
+  margin: 0 !important;
+  max-width: 560px !important;
+  font-size: clamp(16px, 1vw, 19px) !important;
+  line-height: 1.55 !important;
+}
+
+body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dark .vs-page-hero {
+  display: grid !important;
+  grid-template-columns: minmax(420px, 0.54fr) minmax(360px, 0.46fr) !important;
+  grid-template-rows: auto 1fr auto !important;
+  gap: var(--vs-s40) !important;
+  min-height: 660px !important;
+  align-items: center !important;
+}
+
+body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dark .vs-page-hero::before,
+body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dark .vs-page-hero::after {
+  content: none !important;
+  display: none !important;
+}
+
+body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dark .vs-page-hero .vs-kicker {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+}
+
+body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dark .vs-page-hero h1 {
+  grid-column: 2 !important;
+  grid-row: 1 / span 2 !important;
+  align-self: start !important;
+  margin-top: calc(var(--vs-s40) * 2) !important;
+}
+
+body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dark .vs-page-hero > p:not(.vs-kicker) {
+  grid-column: 1 !important;
+  grid-row: 3 !important;
+  max-width: 760px !important;
+  margin: 0 !important;
+  z-index: 2 !important;
+}
+
+.vs-services-infographic {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  position: relative !important;
+  width: min(620px, 100%) !important;
+  min-height: 340px !important;
+  align-self: center !important;
+  isolation: isolate !important;
+}
+
+.vs-services-infographic__orbit {
+  position: absolute !important;
+  inset: 0 !important;
+  border: 1px solid rgba(216, 255, 85, 0.22) !important;
+  border-radius: var(--vs-s8) !important;
+  background:
+    radial-gradient(circle at 24% 26%, rgba(216, 255, 85, 0.18), transparent 18%),
+    radial-gradient(circle at 74% 64%, rgba(157, 85, 255, 0.2), transparent 22%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px) 0 0 / var(--vs-s40) var(--vs-s40),
+    rgba(255, 255, 255, 0.045) !important;
+  box-shadow:
+    0 0 80px rgba(216, 255, 85, 0.12),
+    inset 0 0 80px rgba(157, 85, 255, 0.08) !important;
+  overflow: hidden !important;
+}
+
+.vs-services-infographic__orbit::before,
+.vs-services-infographic__orbit::after {
+  content: "" !important;
+  position: absolute !important;
+  pointer-events: none !important;
+}
+
+.vs-services-infographic__orbit::before {
+  inset: 56px 72px !important;
+  border: 1px dashed rgba(255, 255, 255, 0.2) !important;
+  border-radius: 999px !important;
+  transform: rotate(-8deg) !important;
+}
+
+.vs-services-infographic__orbit::after {
+  left: 18% !important;
+  right: 14% !important;
+  top: 50% !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent, rgba(216, 255, 85, 0.72), transparent) !important;
+}
+
+.vs-services-infographic__node {
+  position: absolute !important;
+  display: grid !important;
+  place-items: center !important;
+  min-width: 132px !important;
+  min-height: 72px !important;
+  padding: var(--vs-s16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: var(--vs-s8) !important;
+  background: rgba(7, 7, 9, 0.78) !important;
+  color: var(--vs-lime) !important;
+  font-family: Iceland, sans-serif !important;
+  font-size: 25px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.3) !important;
+  z-index: 2 !important;
+}
+
+.vs-services-infographic__node.is-format {
+  left: var(--vs-s40) !important;
+  top: var(--vs-s40) !important;
+}
+
+.vs-services-infographic__node.is-budget {
+  right: var(--vs-s40) !important;
+  top: calc(var(--vs-s40) + var(--vs-s16)) !important;
+}
+
+.vs-services-infographic__node.is-time {
+  left: calc(var(--vs-s40) * 2) !important;
+  bottom: var(--vs-s40) !important;
+}
+
+.vs-services-infographic__node.is-launch {
+  right: calc(var(--vs-s40) + var(--vs-s16)) !important;
+  bottom: calc(var(--vs-s40) + var(--vs-s8)) !important;
+}
+
+.vs-services-infographic__caption {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  z-index: 3 !important;
+  display: grid !important;
+  gap: var(--vs-s8) !important;
+  width: min(260px, 50%) !important;
+  padding: var(--vs-s16) !important;
+  border: 1px solid rgba(216, 255, 85, 0.18) !important;
+  border-radius: var(--vs-s8) !important;
+  background: rgba(0, 0, 0, 0.82) !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.vs-services-infographic__caption strong {
+  color: #fff !important;
+  font-family: Iceland, sans-serif !important;
+  font-size: 28px !important;
+  line-height: 1 !important;
+}
+
+.vs-services-infographic__caption span {
+  font-family: Jura, sans-serif !important;
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+}
+
+@media (max-width: 1180px) {
+  .vs-faq-preview {
+    grid-template-columns: minmax(260px, 0.4fr) minmax(560px, 0.6fr) !important;
+  }
+
+  .vs-faq-row {
+    grid-template-columns: minmax(220px, 0.42fr) minmax(280px, 1fr) !important;
+    padding: var(--vs-s16) var(--vs-s40) !important;
+  }
+}
+
+@media (max-width: 1080px) {
+  body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dark .vs-page-hero {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+  }
+
+  body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dark .vs-page-hero .vs-kicker,
+  body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dark .vs-page-hero h1,
+  body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dark .vs-page-hero > p:not(.vs-kicker),
+  .vs-services-infographic {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  body:has(.vs-site-header__nav a[href="/services"].is-active) .vs-page-shell--dark .vs-page-hero h1 {
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .vs-faq-preview {
+    grid-template-columns: 1fr !important;
+  }
+
+  .vs-faq-preview h2 {
+    max-width: none !important;
+    font-size: 42px !important;
+  }
+
+  .vs-faq-row {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+    gap: var(--vs-s16) !important;
+    padding: var(--vs-s16) !important;
+  }
+
+  .vs-faq-row h3,
+  .vs-faq-row p {
+    grid-column: 1 !important;
+    max-width: none !important;
+  }
+
+  .vs-services-infographic {
+    min-height: 300px !important;
+  }
+
+  .vs-services-infographic__node {
+    min-width: 104px !important;
+    min-height: 56px !important;
+    padding: var(--vs-s8) !important;
+    font-size: 19px !important;
+  }
+
+  .vs-services-infographic__node.is-format {
+    left: var(--vs-s16) !important;
+    top: var(--vs-s16) !important;
+  }
+
+  .vs-services-infographic__node.is-budget {
+    right: var(--vs-s16) !important;
+    top: var(--vs-s40) !important;
+  }
+
+  .vs-services-infographic__node.is-time {
+    left: var(--vs-s16) !important;
+    bottom: var(--vs-s40) !important;
+  }
+
+  .vs-services-infographic__node.is-launch {
+    right: var(--vs-s16) !important;
+    bottom: var(--vs-s16) !important;
+  }
+
+  .vs-services-infographic__caption {
+    width: min(220px, 72%) !important;
+  }
+}
