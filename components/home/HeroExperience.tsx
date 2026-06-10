@@ -1,55 +1,101 @@
+"use client";
+
+import { type CSSProperties, type PointerEvent, useState } from "react";
+
 const HERO_ITEMS = [
-  { label: "Наш подход", href: "/o-nas", cta: "Подробнее о подходе", visual: "wrench" },
-  { label: "Комплекс", href: "/services", cta: "Смотреть услуги", visual: "runner" },
-  { label: "Портфолио", href: "/portfolio", cta: "Смотреть работу полностью", visual: "phone" },
-  { label: "News", href: "/blog", cta: "Читать статьи", visual: "paper" },
+  {
+    label: "Наш подход",
+    href: "/o-nas",
+    visual: "runner",
+    shape: "/images/winxpered.png",
+    left: "/images/win1left.png",
+    right: "/images/win1right.png",
+  },
+  {
+    label: "Комплекс",
+    href: "/services",
+    visual: "wrench",
+    shape: "/images/winKKpered.png",
+    left: "/images/win2left.png",
+    right: "/images/win2right.png",
+  },
+  {
+    label: "Портфолио",
+    href: "/portfolio",
+    visual: "phone",
+    shape: "/images/winOpered.png",
+    left: "/images/win3left.png",
+    right: "/images/win3right.png",
+  },
+  {
+    label: "News",
+    href: "/blog",
+    visual: "paper",
+    shape: "/images/winRRpered.png",
+    left: "/images/win4left.png",
+    right: "/images/win4right.png",
+  },
 ] as const;
 
-function Scene({ visual }: { visual: string }) {
+type HeroItem = (typeof HERO_ITEMS)[number];
+
+function Scene({ item }: { item: HeroItem }) {
   return (
-    <div className={`home-ref__scene home-ref__scene--${visual}`} aria-hidden="true">
+    <div className={`home-ref__scene home-ref__scene--${item.visual}`} aria-hidden="true">
       <span className="home-ref__code">590105</span>
-      <span className="home-ref__shape" />
-
-      {visual === "wrench" && <img className="home-ref__tool" src="/images/winKKpered.png" alt="" />}
-
-      {visual === "runner" && (
-        <span className="home-ref__runner">
-          <i />
-          <b />
-          <em />
-          <small />
-        </span>
-      )}
-
-      {visual === "phone" && (
-        <span className="home-ref__phone">
-          <i />
-          <b />
-        </span>
-      )}
-
-      {visual === "paper" && (
-        <span className="home-ref__paper">
-          <i />
-          <b />
-        </span>
-      )}
-
+      <img className="home-ref__shape" src={item.shape} alt="" />
+      <span className="home-ref__split" aria-hidden="true" />
+      <img className="home-ref__asset home-ref__asset--left" src={item.left} alt="" />
+      <img className="home-ref__asset home-ref__asset--right" src={item.right} alt="" />
       <strong className="home-ref__logo">VOITOV STUDIO</strong>
       <span className="home-ref__subline">creative club</span>
     </div>
   );
 }
 
+type PointerVars = CSSProperties & {
+  "--mx": string;
+  "--my": string;
+};
+
 export default function HeroExperience() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [pointerVars, setPointerVars] = useState<PointerVars>({
+    "--mx": "0",
+    "--my": "0",
+  });
+
+  function handlePointerMove(event: PointerEvent<HTMLElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+    setPointerVars({
+      "--mx": x.toFixed(3),
+      "--my": y.toFixed(3),
+    });
+  }
+
   return (
-    <section className="home-ref" aria-label="Главный экран Voitov Studio">
+    <section
+      className="home-ref"
+      aria-label="Главный экран Voitov Studio"
+      data-active={activeIndex}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={() => setPointerVars({ "--mx": "0", "--my": "0" })}
+      style={pointerVars}
+    >
       <div className="home-ref__grid" aria-hidden="true" />
 
       <div className="home-ref__hotspots" aria-label="Разделы первого экрана">
-        {HERO_ITEMS.map((item) => (
-          <a key={item.label} href={item.href} aria-label={item.label} />
+        {HERO_ITEMS.map((item, index) => (
+          <a
+            key={item.label}
+            href={item.href}
+            aria-label={item.label}
+            onPointerEnter={() => setActiveIndex(index)}
+            onFocus={() => setActiveIndex(index)}
+          />
         ))}
       </div>
 
@@ -62,29 +108,28 @@ export default function HeroExperience() {
 
       <div className="home-ref__scenes">
         {HERO_ITEMS.map((item) => (
-          <Scene key={item.visual} visual={item.visual} />
-        ))}
-      </div>
-
-      <div className="home-ref__ctas">
-        {HERO_ITEMS.map((item) => (
-          <a key={item.cta} href={item.href} className={`home-ref__cta home-ref__cta--${item.visual}`}>
-            {item.cta}
-            <span>→</span>
-          </a>
+          <Scene key={item.visual} item={item} />
         ))}
       </div>
 
       <nav className="home-ref__nav" aria-label="Разделы первого экрана">
         {HERO_ITEMS.map((item, index) => (
-          <a key={item.label} href={item.href}>
+          <a
+            key={item.label}
+            href={item.href}
+            className={activeIndex === index ? "is-active" : undefined}
+            onPointerEnter={() => setActiveIndex(index)}
+            onFocus={() => setActiveIndex(index)}
+          >
             <span>{String(index + 1).padStart(2, "0")}</span>
             {item.label}
           </a>
         ))}
       </nav>
 
-      <div className="home-ref__hint" aria-hidden="true">Наведите на четверть экрана</div>
+      <div className="home-ref__hint" aria-hidden="true">
+        Наведите на четверть экрана
+      </div>
     </section>
   );
 }
