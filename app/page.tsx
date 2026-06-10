@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import HeroOverlay from "@/components/home/HeroOverlay";
-import HeroCenter from "@/components/home/HeroCenter";
-import Hero from "@/components/home/Hero";
+import HeroExperience from "@/components/home/HeroExperience";
 import IntroSection from "@/components/home/IntroSection";
 import StudioSection from "@/components/home/StudioSection";
 import NewsPreview from "@/components/home/NewsPreview";
@@ -51,9 +49,7 @@ export default async function HomePage() {
     <>
       <GridLines />
 
-      <HeroOverlay />
-      <Hero />
-      <HeroCenter />
+      <HeroExperience />
       <IntroSection />
       <HomeSections services={services} />
       <StudioSection projects={projects} />
