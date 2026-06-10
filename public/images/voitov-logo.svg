@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 150" role="img" aria-labelledby="title">
+  <title id="title">Voitov Studio</title>
+  <rect width="540" height="150" fill="none"/>
+  <g fill="currentColor">
+    <text x="0" y="61" font-family="Impact, 'Russo One', Arial Black, sans-serif" font-size="64" font-weight="900" letter-spacing="-2">VOITOV</text>
+    <text x="0" y="128" font-family="Impact, 'Russo One', Arial Black, sans-serif" font-size="64" font-weight="900" letter-spacing="-2">STUDIO</text>
+  </g>
+</svg>
