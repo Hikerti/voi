@@ -34,6 +34,11 @@ const REVEAL_SELECTOR = [
   ".article-page__header",
   ".article-page__media",
   ".article-page__body",
+  ".lead-page__copy",
+  ".lead-page__brief",
+  ".lead-page__signal",
+  ".lead-page .vs-form",
+  ".lead-page__brief span",
 ].join(",");
 
 export default function ScrollRevealLayer() {
