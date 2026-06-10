@@ -6,6 +6,12 @@ import AnimatedLink from "@/components/ui/AnimatedLink";
 
 const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
+const PORTFOLIO_POINTS = [
+  { label: "Фокус", value: "1 экран", text: "Сначала показываем главный результат проекта." },
+  { label: "Навигация", value: "5 кейсов", text: "Быстрый выбор без длинного полотна карточек." },
+  { label: "Формат", value: "desktop + mobile", text: "На широком экране — витрина, на телефоне — свайп." },
+];
+
 export interface Project {
   slug: string;
   title: string;
@@ -43,13 +49,33 @@ export default function PortfolioTabs({ projects = [] }: Props) {
   return (
     <main className="work-v2">
       <section className="work-v2__hero">
-        <p className="vs-kicker">работы</p>
-        <h1>Кейсы, которые удобно смотреть</h1>
-        <p>
-          На большом экране проект раскрывается как медийный экран с быстрым
-          выбором по списку. На телефоне остаётся свайп-лента без мелких
-          элементов управления.
-        </p>
+        <div className="work-v2__hero-copy">
+          <p className="vs-kicker">работы</p>
+          <h1>Кейсы, которые удобно смотреть</h1>
+          <p>
+            Собрали портфолио как витрину: крупный экран проекта, понятный
+            список работ и короткие пояснения, по которым быстро считывается
+            задача, формат и результат.
+          </p>
+        </div>
+
+        <div className="work-v2__infographic" aria-label="Как устроена витрина проектов">
+          <div className="work-v2__orbit" aria-hidden="true">
+            <span>формат</span>
+            <span>задача</span>
+            <span>результат</span>
+            <i />
+          </div>
+          <div className="work-v2__metrics">
+            {PORTFOLIO_POINTS.map((point) => (
+              <article className="work-v2__metric" key={point.label}>
+                <span>{point.label}</span>
+                <strong>{point.value}</strong>
+                <p>{point.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
       </section>
 
       {orderedProjects.length > 0 && activeProject ? (
