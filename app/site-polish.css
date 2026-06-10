@@ -1,0 +1,143 @@
+/* Cross-page polish: safe overrides loaded last. */
+
+:root {
+  --vs-page-inner-pad: clamp(28px, 4.8vw, 78px);
+}
+
+/* Remove small page labels in hero blocks: Работы / Услуги / Отзывы / FAQ / Статьи. */
+.work-v2__hero-copy > .vs-kicker,
+.vs-page-hero > .vs-kicker,
+.reviews-page__copy > .vs-kicker,
+.faq-page__copy > .vs-kicker,
+.blog-page__hero > .vs-kicker,
+.contacts-page__hero > .vs-kicker {
+  display: none !important;
+}
+
+/* Keep content away from the outer bordered page frame. */
+.work-v2,
+.vs-page-shell,
+.reviews-page,
+.faq-page,
+.blog-page,
+.contacts-page {
+  padding-left: var(--vs-page-inner-pad) !important;
+  padding-right: var(--vs-page-inner-pad) !important;
+}
+
+.work-v2__hero,
+.work-v2__desktop,
+.vs-page-hero,
+.vs-catalog-grid,
+.reviews-page__form,
+.vs-review-grid--page,
+.faq-accordion,
+.blog-page__grid,
+.contacts-page__layout {
+  max-width: 1480px !important;
+  width: 100%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.work-v2__hero,
+.vs-page-hero,
+.reviews-page__hero,
+.faq-page__hero,
+.blog-page__hero,
+.contacts-page__hero {
+  padding-top: clamp(24px, 3vw, 42px);
+}
+
+/* Home portfolio slider: long project titles should stay inside the left panel. */
+.studio2__slider {
+  grid-template-columns: minmax(340px, 0.36fr) minmax(0, 1fr) !important;
+}
+
+.studio2__slider-copy {
+  overflow: hidden;
+  min-width: 0;
+}
+
+.studio2__slider-copy h3,
+.studio2__card-title {
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.studio2__slider-copy h3 {
+  font-size: clamp(28px, 2.45vw, 44px) !important;
+  line-height: 1.08 !important;
+}
+
+.studio2__slider-copy p {
+  max-width: 100%;
+}
+
+/* More deliberate reveal: blocks slide in smoothly, cards get a subtle stagger. */
+.reveal-block {
+  transform: translate3d(0, 54px, 0) scale(0.985);
+  transform-origin: center top;
+  transition-duration: 1.05s !important;
+}
+
+.reveal-block.is-visible {
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.vs-catalog-card.reveal-block,
+.vs-review.reveal-block,
+.blog-card.reveal-block,
+.faq-accordion__item.reveal-block,
+.vs-service-card.reveal-block,
+.vs-price-card.reveal-block,
+.vs-stage.reveal-block,
+.work-v2__buttons button.reveal-block,
+.work-v2__card.reveal-block {
+  transition-duration: 0.88s !important;
+}
+
+/* Services page: cleaner first screen after removing the small label. */
+.vs-page-hero h1,
+.reviews-page__copy h1,
+.faq-page__copy h1,
+.blog-page__hero h1,
+.contacts-page__hero h1 {
+  margin-top: 0 !important;
+}
+
+.vs-page-hero p:not(.vs-kicker),
+.reviews-page__copy p:not(.vs-kicker),
+.faq-page__copy p:not(.vs-kicker),
+.blog-page__hero p:not(.vs-kicker),
+.contacts-page__hero p:not(.vs-kicker) {
+  max-width: 700px !important;
+}
+
+@media (max-width: 1180px) {
+  .studio2__slider {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --vs-page-inner-pad: clamp(18px, 5vw, 24px);
+  }
+
+  .work-v2,
+  .vs-page-shell,
+  .reviews-page,
+  .faq-page,
+  .blog-page,
+  .contacts-page {
+    padding-left: var(--vs-page-inner-pad) !important;
+    padding-right: var(--vs-page-inner-pad) !important;
+  }
+
+  .studio2__slider-copy h3 {
+    font-size: clamp(28px, 9vw, 42px) !important;
+  }
+}
