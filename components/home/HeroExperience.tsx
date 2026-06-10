@@ -38,15 +38,20 @@ const HERO_ITEMS = [
 ] as const;
 
 type HeroItem = (typeof HERO_ITEMS)[number];
+type AssetStyle = CSSProperties & { "--asset-url": string };
+
+function assetStyle(src: string): AssetStyle {
+  return { "--asset-url": `url("${src}")` };
+}
 
 function Scene({ item }: { item: HeroItem }) {
   return (
     <div className={`home-ref__scene home-ref__scene--${item.visual}`} aria-hidden="true">
       <span className="home-ref__code">590105</span>
-      <img className="home-ref__shape" src={item.shape} alt="" />
+      <span className="home-ref__shape" style={assetStyle(item.shape)} />
       <span className="home-ref__split" aria-hidden="true" />
-      <img className="home-ref__asset home-ref__asset--left" src={item.left} alt="" />
-      <img className="home-ref__asset home-ref__asset--right" src={item.right} alt="" />
+      <span className="home-ref__asset home-ref__asset--left" style={assetStyle(item.left)} />
+      <span className="home-ref__asset home-ref__asset--right" style={assetStyle(item.right)} />
       <strong className="home-ref__logo">VOITOV STUDIO</strong>
       <span className="home-ref__subline">creative club</span>
     </div>

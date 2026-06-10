@@ -448,6 +448,179 @@
   transform: translate(-50%, -50%) scale(1) !important;
 }
 
+/* Production-safe hero layers: CSS backgrounds keep both halves visible on Linux deploys. */
+.home-ref .home-ref__shape,
+.home-ref .home-ref__asset {
+  display: block !important;
+  background-image: var(--asset-url);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  overflow: visible;
+}
+
+.home-ref .home-ref__shape {
+  width: var(--shape-width) !important;
+  aspect-ratio: var(--shape-ratio, 1 / 1);
+  height: auto !important;
+  background-color: transparent !important;
+}
+
+.home-ref .home-ref__shape::before,
+.home-ref .home-ref__shape::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.96;
+  pointer-events: none;
+}
+
+.home-ref .home-ref__scene--runner .home-ref__shape::before {
+  top: 43%;
+  right: 0;
+  left: 0;
+  height: 14%;
+  background: #ffd24d;
+  transform: rotate(45deg);
+}
+
+.home-ref .home-ref__scene--runner .home-ref__shape::after {
+  top: 43%;
+  right: 0;
+  left: 0;
+  height: 14%;
+  background: #ffd24d;
+  transform: rotate(-45deg);
+}
+
+.home-ref .home-ref__scene--wrench .home-ref__shape {
+  background-color: #5787b7 !important;
+}
+
+.home-ref .home-ref__scene--wrench .home-ref__shape::before {
+  inset: 20%;
+  z-index: 0;
+  background: #f8f8f6;
+}
+
+.home-ref .home-ref__scene--phone .home-ref__shape::before {
+  border: clamp(54px, 5.2vw, 88px) solid #45c178;
+  border-radius: 50%;
+}
+
+.home-ref .home-ref__scene--paper .home-ref__shape::before {
+  background: #d6534d;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+
+.home-ref .home-ref__scene--runner {
+  --shape-width: min(35vw, 520px);
+  --shape-ratio: 1 / 1;
+  --asset-height: min(47vw, 700px);
+  --asset-half-width: min(15vw, 230px);
+  --asset-top: -18%;
+  --closed-offset: 18px;
+  --open-gap: 1px;
+}
+
+.home-ref .home-ref__scene--wrench {
+  --shape-width: min(31vw, 470px);
+  --shape-ratio: 1 / 1;
+  --asset-height: min(42vw, 630px);
+  --asset-half-width: min(10vw, 170px);
+  --asset-top: -10%;
+  --closed-offset: 12px;
+  --open-gap: 1px;
+}
+
+.home-ref .home-ref__scene--phone {
+  --shape-width: min(33vw, 500px);
+  --shape-ratio: 1 / 1;
+  --asset-height: min(41vw, 620px);
+  --asset-half-width: min(11vw, 170px);
+  --asset-top: -8%;
+  --closed-offset: 14px;
+  --open-gap: 1px;
+}
+
+.home-ref .home-ref__scene--paper {
+  --shape-width: min(34vw, 500px);
+  --shape-ratio: 1 / 1;
+  --asset-height: min(20vw, 300px);
+  --asset-half-width: min(18vw, 300px);
+  --asset-top: 22%;
+  --closed-offset: 18px;
+  --open-gap: 1px;
+}
+
+.home-ref__asset {
+  width: var(--asset-half-width) !important;
+  height: var(--asset-height) !important;
+  max-width: none !important;
+  opacity: 0;
+  animation: none !important;
+  background-size: contain;
+}
+
+.home-ref__asset--left {
+  right: 50%;
+  left: auto;
+  background-position: right center;
+  transform: translate3d(var(--closed-offset), 0, 0);
+}
+
+.home-ref__asset--right {
+  right: auto;
+  left: 50%;
+  background-position: left center;
+  transform: translate3d(calc(var(--closed-offset) * -1), 0, 0);
+}
+
+.home-ref[data-active="0"] .home-ref__scene--runner .home-ref__asset,
+.home-ref[data-active="1"] .home-ref__scene--wrench .home-ref__asset,
+.home-ref[data-active="2"] .home-ref__scene--phone .home-ref__asset,
+.home-ref[data-active="3"] .home-ref__scene--paper .home-ref__asset {
+  opacity: 0.96;
+}
+
+.home-ref[data-active="0"] .home-ref__scene--runner .home-ref__asset--left,
+.home-ref[data-active="1"] .home-ref__scene--wrench .home-ref__asset--left,
+.home-ref[data-active="2"] .home-ref__scene--phone .home-ref__asset--left,
+.home-ref[data-active="3"] .home-ref__scene--paper .home-ref__asset--left {
+  transform: translate3d(calc(var(--open-gap) * -1), 0, 0);
+}
+
+.home-ref[data-active="0"] .home-ref__scene--runner .home-ref__asset--right,
+.home-ref[data-active="1"] .home-ref__scene--wrench .home-ref__asset--right,
+.home-ref[data-active="2"] .home-ref__scene--phone .home-ref__asset--right,
+.home-ref[data-active="3"] .home-ref__scene--paper .home-ref__asset--right {
+  transform: translate3d(var(--open-gap), 0, 0);
+}
+
+.home-ref__split {
+  width: 1px;
+  opacity: 0.28;
+}
+
+@media (max-width: 760px) {
+  .home-ref .home-ref__scene--runner,
+  .home-ref .home-ref__scene--wrench,
+  .home-ref .home-ref__scene--phone {
+    --shape-width: min(78vw, 360px);
+    --asset-height: min(88vw, 520px);
+    --asset-half-width: min(24vw, 160px);
+    --asset-top: -10%;
+  }
+
+  .home-ref .home-ref__scene--paper {
+    --shape-width: min(78vw, 360px);
+    --asset-height: min(44vw, 250px);
+    --asset-half-width: min(38vw, 220px);
+    --asset-top: 22%;
+  }
+}
+
 .home-ref[data-active="1"] .home-ref__scene--wrench,
 .home-ref[data-active="2"] .home-ref__scene--wrench,
 .home-ref[data-active="3"] .home-ref__scene--wrench {
@@ -800,6 +973,168 @@
 
   .home-ref__split {
     opacity: 0.28;
+  }
+}
+
+/* Final production override. Keep this block last: Beget/Linux must not inherit old img sizing. */
+.home-ref .home-ref__shape,
+.home-ref .home-ref__asset {
+  display: block !important;
+  background-image: var(--asset-url) !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  overflow: visible !important;
+}
+
+.home-ref .home-ref__shape {
+  top: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: 50% !important;
+  width: var(--shape-width) !important;
+  height: auto !important;
+  aspect-ratio: var(--shape-ratio, 1 / 1) !important;
+  background-position: center !important;
+  transform: translate(-50%, -50%) scale(0.98) !important;
+}
+
+.home-ref__asset {
+  top: var(--asset-top) !important;
+  width: var(--asset-half-width) !important;
+  height: var(--asset-height) !important;
+  max-width: none !important;
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+.home-ref__asset--left {
+  right: 50% !important;
+  left: auto !important;
+  background-position: right center !important;
+  transform: translate3d(var(--closed-offset), 0, 0) !important;
+}
+
+.home-ref__asset--right {
+  right: auto !important;
+  left: 50% !important;
+  background-position: left center !important;
+  transform: translate3d(calc(var(--closed-offset) * -1), 0, 0) !important;
+}
+
+.home-ref[data-active="0"] .home-ref__scene--runner .home-ref__asset,
+.home-ref[data-active="1"] .home-ref__scene--wrench .home-ref__asset,
+.home-ref[data-active="2"] .home-ref__scene--phone .home-ref__asset,
+.home-ref[data-active="3"] .home-ref__scene--paper .home-ref__asset {
+  opacity: 0.96 !important;
+}
+
+.home-ref[data-active="0"] .home-ref__scene--runner .home-ref__asset--left,
+.home-ref[data-active="1"] .home-ref__scene--wrench .home-ref__asset--left,
+.home-ref[data-active="2"] .home-ref__scene--phone .home-ref__asset--left,
+.home-ref[data-active="3"] .home-ref__scene--paper .home-ref__asset--left {
+  transform: translate3d(calc(var(--open-gap) * -1), 0, 0) !important;
+}
+
+.home-ref[data-active="0"] .home-ref__scene--runner .home-ref__asset--right,
+.home-ref[data-active="1"] .home-ref__scene--wrench .home-ref__asset--right,
+.home-ref[data-active="2"] .home-ref__scene--phone .home-ref__asset--right,
+.home-ref[data-active="3"] .home-ref__scene--paper .home-ref__asset--right {
+  transform: translate3d(var(--open-gap), 0, 0) !important;
+}
+
+.home-ref .home-ref__scene--runner {
+  --shape-width: min(35vw, 520px);
+  --shape-ratio: 1 / 1;
+  --asset-height: min(47vw, 700px);
+  --asset-half-width: min(15vw, 230px);
+  --asset-top: -18%;
+  --closed-offset: 18px;
+  --open-gap: 1px;
+}
+
+.home-ref .home-ref__scene--wrench {
+  --shape-width: min(31vw, 470px);
+  --shape-ratio: 1 / 1;
+  --asset-height: min(42vw, 630px);
+  --asset-half-width: min(10vw, 170px);
+  --asset-top: -10%;
+  --closed-offset: 12px;
+  --open-gap: 1px;
+}
+
+.home-ref .home-ref__scene--phone {
+  --shape-width: min(33vw, 500px);
+  --shape-ratio: 1 / 1;
+  --asset-height: min(41vw, 620px);
+  --asset-half-width: min(11vw, 170px);
+  --asset-top: -8%;
+  --closed-offset: 14px;
+  --open-gap: 1px;
+}
+
+.home-ref .home-ref__scene--paper {
+  --shape-width: min(34vw, 500px);
+  --shape-ratio: 1 / 1;
+  --asset-height: min(20vw, 300px);
+  --asset-half-width: min(18vw, 300px);
+  --asset-top: 22%;
+  --closed-offset: 18px;
+  --open-gap: 1px;
+}
+
+.home-ref .home-ref__scene--runner .home-ref__shape::before {
+  top: 43%;
+  right: 0;
+  left: 0;
+  height: 14%;
+  background: #ffd24d;
+  transform: rotate(45deg);
+}
+
+.home-ref .home-ref__scene--runner .home-ref__shape::after {
+  top: 43%;
+  right: 0;
+  left: 0;
+  height: 14%;
+  background: #ffd24d;
+  transform: rotate(-45deg);
+}
+
+.home-ref .home-ref__scene--wrench .home-ref__shape {
+  background-color: #5787b7 !important;
+}
+
+.home-ref .home-ref__scene--wrench .home-ref__shape::before {
+  inset: 20%;
+  z-index: 0;
+  background: #f8f8f6;
+}
+
+.home-ref .home-ref__scene--phone .home-ref__shape::before {
+  border: clamp(54px, 5.2vw, 88px) solid #45c178;
+  border-radius: 50%;
+}
+
+.home-ref .home-ref__scene--paper .home-ref__shape::before {
+  background: #d6534d;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+
+@media (max-width: 760px) {
+  .home-ref .home-ref__scene--runner,
+  .home-ref .home-ref__scene--wrench,
+  .home-ref .home-ref__scene--phone {
+    --shape-width: min(78vw, 360px);
+    --asset-height: min(88vw, 520px);
+    --asset-half-width: min(24vw, 160px);
+    --asset-top: -10%;
+  }
+
+  .home-ref .home-ref__scene--paper {
+    --shape-width: min(78vw, 360px);
+    --asset-height: min(44vw, 250px);
+    --asset-half-width: min(38vw, 220px);
+    --asset-top: 22%;
   }
 }
 
