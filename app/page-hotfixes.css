@@ -1,113 +1,33 @@
-/* Hotfixes after VPS visual check: homepage FAQ, reviews, page transitions and portfolio hero. */
+/* Hotfixes after VPS visual check: homepage FAQ, reviews, scroll reveal and portfolio hero. */
 
 body {
   overflow-x: hidden;
 }
 
-main,
-.vs-page-shell,
-.work-v2,
-.reviews-page,
-.faq-page,
-.contacts-page,
-.blog-page,
-.article-page,
-.news-preview {
-  animation: pageContentEnter 0.72s cubic-bezier(0.76, 0, 0.24, 1) both;
+.reveal-block {
+  opacity: 0;
+  transform: translate3d(0, 46px, 0);
+  filter: blur(8px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
 }
 
-.page-transition {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  pointer-events: none;
-  visibility: hidden;
+.reveal-block.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
 }
 
-.page-transition span {
-  display: block;
-  background:
-    radial-gradient(circle at 32% 28%, rgba(216, 255, 85, 0.22), transparent 36%),
-    linear-gradient(135deg, #050505, #19151f 58%, #050505);
-  transform: translateY(101%);
-}
-
-.page-transition span:nth-child(2) {
-  transition-delay: 0.055s;
-}
-
-.page-transition span:nth-child(3) {
-  transition-delay: 0.11s;
-}
-
-.page-transition span:nth-child(4) {
-  transition-delay: 0.165s;
-}
-
-.page-leaving .page-transition {
-  visibility: visible;
-}
-
-.page-leaving .page-transition span {
-  animation: pageBlockIn 0.62s cubic-bezier(0.76, 0, 0.24, 1) both;
-}
-
-.page-leaving .page-transition span:nth-child(2) {
-  animation-delay: 0.055s;
-}
-
-.page-leaving .page-transition span:nth-child(3) {
-  animation-delay: 0.11s;
-}
-
-.page-leaving .page-transition span:nth-child(4) {
-  animation-delay: 0.165s;
-}
-
-.page-leaving main,
-.page-leaving .vs-site-header,
-.page-leaving footer {
-  animation: pageContentLeave 0.52s cubic-bezier(0.76, 0, 0.24, 1) both;
-}
-
-.page-entering main {
-  animation: pageContentEnter 0.72s cubic-bezier(0.76, 0, 0.24, 1) both;
-}
-
-@keyframes pageBlockIn {
-  from {
-    transform: translateY(101%);
-  }
-  to {
-    transform: translateY(0%);
-  }
-}
-
-@keyframes pageContentLeave {
-  from {
+@media (prefers-reduced-motion: reduce) {
+  .reveal-block {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-28px) scale(0.985);
-    filter: blur(8px);
-  }
-}
-
-@keyframes pageContentEnter {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-    filter: blur(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
+    transform: none;
+    filter: none;
+    transition: none;
   }
 }
 
@@ -429,10 +349,6 @@ main,
 }
 
 @media (max-width: 760px) {
-  .page-transition {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .work-v2__desktop {
     display: none !important;
   }
