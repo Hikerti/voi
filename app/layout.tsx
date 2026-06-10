@@ -6,7 +6,6 @@ import "./page-hotfixes.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
-import PageTransitionLayer from "@/components/layout/PageTransitionLayer";
 import AnalyticsEvents from "@/components/analytics/AnalyticsEvents";
 import { SITE } from "@/lib/constants";
 
@@ -60,7 +59,6 @@ export default function RootLayout({
           <SiteHeader />
           {children}
           <Footer />
-          <PageTransitionLayer />
         </MenuProvider>
 
         {process.env.NEXT_PUBLIC_GA_ID && (
