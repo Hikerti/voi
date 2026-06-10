@@ -3,6 +3,7 @@ import PageHeader from "@/components/layout/PageHeader";
 import ServicesCatalog from "@/components/services/ServicesCatalog";
 import GridLines from "@/components/layout/GridLines";
 import { SITE } from "@/lib/constants";
+import { getCmsServices } from "@/lib/cms-api";
 
 export const metadata: Metadata = {
   title: `Услуги и цены | ${SITE.name}`,
@@ -13,12 +14,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await getCmsServices();
+
   return (
     <>
       <PageHeader wrapperClass="div-block-59 w-clearfix" backLabel="home" backLabelClass="text-block-45" />
       <GridLines />
-      <ServicesCatalog />
+      <ServicesCatalog services={services} />
     </>
   );
 }

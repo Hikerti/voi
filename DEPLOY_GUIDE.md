@@ -1,141 +1,154 @@
-# Установка сайта на сервер
+# Deploy Guide: Voitov Studio
 
-## Требования к серверу
+Инструкция для демо/production-развертывания на VPS. Для первого показа можно поднять frontend и backend через PM2. Для полноценного production позже лучше вынести базу в PostgreSQL и добавить backup.
 
-- Ubuntu 20.04 / 22.04 (или любой Linux)
-- RAM: минимум 1 GB
+## Требования
+
+- Ubuntu 22.04+
 - Node.js 20+
 - npm 10+
+- Nginx
+- PM2
+- SSL через Certbot
 
----
-
-## Шаг 1 — Установка Node.js
+## 1. Подготовка проекта
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt-get install -y nodejs
-node -v   # должно показать v20.x.x
+git clone <repo-url> voitov-studio
+cd voitov-studio
+npm install
+cd backend
+npm install
 ```
 
----
+## 2. Frontend env
 
-## Шаг 2 — Загрузка файлов на сервер
+Создать `.env.local` в корне:
 
-Скопируйте папку с проектом на сервер (через FTP, SFTP или git).
+```env
+CMS_API_URL=http://127.0.0.1:4000/api
+NEXT_PUBLIC_CMS_API_URL=http://127.0.0.1:4000/api
+CONTACT_EMAIL_TO=hello@voitov.studio
+CONTACT_EMAIL_FROM="Voitov Studio <site@voitov.studio>"
+RESEND_API_KEY=
+NEXT_PUBLIC_GA_ID=
+NEXT_PUBLIC_YANDEX_METRIKA_ID=
+```
 
-Убедитесь, что в папке есть файлы:
-`package.json`, папки `app/`, `components/`, `content/`, `public/`
+## 3. Backend env
 
----
+Создать `backend/.env`:
 
-## Шаг 3 — Установка зависимостей и сборка
+```env
+DATABASE_URL="file:../.tmp/dev.db"
+PORT=4000
+CORS_ORIGIN="https://voitov.studio,https://www.voitov.studio,http://localhost:3000"
+```
+
+Для production с PostgreSQL позже заменить `DATABASE_URL` на PostgreSQL-строку и обновить provider в Prisma.
+
+## 4. Подготовить базу
 
 ```bash
-cd /путь/до/папки/с/проектом
+cd backend
+npm run prisma:generate
+npm run db:push
+npm run db:seed
+```
 
-npm install
+Проверить данные:
+
+```bash
+npm run prisma:studio
+```
+
+## 5. Сборка
+
+```bash
+cd /path/to/voitov-studio
+npm run build
+cd backend
 npm run build
 ```
 
-Сборка занимает 1–3 минуты.
-
----
-
-## Шаг 4 — Запуск сайта
+## 6. Запуск через PM2
 
 ```bash
-npm run start
-```
+cd /path/to/voitov-studio
+pm2 start npm --name "voitov-frontend" -- start
 
-Сайт запустится на `http://localhost:3000`
+cd /path/to/voitov-studio/backend
+pm2 start npm --name "voitov-backend" -- start:prod
 
----
-
-## Шаг 5 — Автозапуск через PM2
-
-PM2 обеспечивает постоянную работу сайта и автозапуск после перезагрузки сервера.
-
-```bash
-# Установить PM2
-npm install -g pm2
-
-# Запустить сайт
-pm2 start npm --name "creativenest" -- start
-
-# Добавить в автозапуск при перезагрузке сервера
-pm2 startup
 pm2 save
+pm2 startup
 ```
 
----
+## 7. Nginx
 
-## Шаг 6 — Настройка Nginx
-
-Чтобы сайт был доступен по вашему домену, настройте Nginx.
-
-Создайте файл конфигурации:
-
-```bash
-sudo nano /etc/nginx/sites-available/creativenest
-```
-
-Вставьте следующее содержимое (замените `ВАШ_ДОМЕН.com` на ваш домен):
+Пример для домена без `www`, где `www` редиректится на основной домен:
 
 ```nginx
 server {
     listen 80;
-    server_name ВАШ_ДОМЕН.com www.ВАШ_ДОМЕН.com;
+    server_name www.voitov.studio;
+    return 301 https://voitov.studio$request_uri;
+}
+
+server {
+    listen 80;
+    server_name voitov.studio;
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:4000/api/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
 
     location / {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
+        proxy_set_header Connection "upgrade";
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
     }
 }
 ```
 
-Активируйте конфигурацию:
+Проверка и перезагрузка:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/creativenest /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
 
----
-
-## Шаг 7 — SSL-сертификат (HTTPS)
+## 8. SSL
 
 ```bash
 sudo apt install certbot python3-certbot-nginx -y
-sudo certbot --nginx -d ВАШ_ДОМЕН.com -d www.ВАШ_ДОМЕН.com
+sudo certbot --nginx -d voitov.studio -d www.voitov.studio
 ```
 
-Certbot автоматически настроит HTTPS и добавит автообновление сертификата.
+## 9. Проверка после релиза
 
----
+- Главная открывается.
+- `/services`, `/portfolio`, `/reviews`, `/faq`, `/news`, `/blog`, `/contacts`, `/zayavka` открываются.
+- `/sitemap.xml` и `/robots.txt` доступны.
+- `www` редиректится на домен без `www`.
+- Форма заявки сохраняет запись в `LeadRequest`.
+- Email-уведомления работают, если заполнен `RESEND_API_KEY`.
+- Яндекс.Метрика и Google Analytics появляются только после заполнения env.
 
-## Управление сайтом
-
-| Действие | Команда |
-|---|---|
-| Посмотреть статус | `pm2 status` |
-| Перезапустить | `pm2 restart creativenest` |
-| Остановить | `pm2 stop creativenest` |
-| Запустить | `pm2 start creativenest` |
-| Логи (для диагностики) | `pm2 logs creativenest` |
-
----
-
-## Если что-то пошло не так
-
-Пришлите вывод команды:
+## 10. Полезные команды
 
 ```bash
-pm2 logs creativenest
+pm2 status
+pm2 logs voitov-frontend
+pm2 logs voitov-backend
+pm2 restart voitov-frontend
+pm2 restart voitov-backend
 ```
-
-Это поможет найти причину ошибки.

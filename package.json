@@ -6,7 +6,15 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "backend:lint": "npm --prefix backend run lint",
+    "backend:build": "npm --prefix backend run build",
+    "backend:dev": "npm --prefix backend run start:dev",
+    "backend:studio": "npm --prefix backend run prisma:studio",
+    "backend:db:push": "npm --prefix backend run db:push",
+    "backend:test": "npm --prefix backend run test",
+    "backend:test:e2e": "npm --prefix backend run test:e2e",
+    "check": "npm run lint && npm run build && npm run backend:lint && npm run backend:build && npm run backend:test && npm run backend:test:e2e"
   },
   "dependencies": {
     "framer-motion": "^12.40.0",

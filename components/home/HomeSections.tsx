@@ -1,7 +1,22 @@
 import Link from "next/link";
-import { SERVICES } from "@/lib/site-data";
+import { SERVICES, type ServiceItem } from "@/lib/site-data";
 
-export default function HomeSections() {
+interface HomeSectionsProps {
+  services?: ServiceItem[];
+}
+
+function splitPrice(price: string) {
+  const match = price.match(/^(от)\s+(.+)$/i);
+
+  return {
+    prefix: match?.[1] ?? "",
+    amount: match?.[2] ?? price,
+  };
+}
+
+export default function HomeSections({ services = SERVICES }: HomeSectionsProps) {
+  const previewServices = services.slice(0, 4);
+
   return (
     <>
       <section className="vs-services-band">
@@ -11,7 +26,7 @@ export default function HomeSections() {
           <h3 className="vs-section-head__label">Все услуги</h3>
         </div>
         <div className="vs-service-strip">
-          {SERVICES.slice(0, 4).map((service) => (
+          {previewServices.map((service) => (
             <Link href={`/services/${service.slug}`} className="vs-service-card" key={service.slug}>
               <span>{service.price}</span>
               <h3>{service.title}</h3>
@@ -27,13 +42,20 @@ export default function HomeSections() {
           <h2>Понятные стартовые пакеты без ощущения конструктора</h2>
         </div>
         <div className="vs-price-grid">
-          {SERVICES.slice(0, 3).map((service) => (
-            <Link href={`/services/${service.slug}`} className="vs-price-card" key={service.slug}>
-              <h3>{service.title}</h3>
-              <strong>{service.price}</strong>
-              <p>{service.summary}</p>
-            </Link>
-          ))}
+          {services.slice(0, 3).map((service) => {
+            const price = splitPrice(service.price);
+
+            return (
+              <Link href={`/services/${service.slug}`} className="vs-price-card" key={service.slug}>
+                <h3>{service.title}</h3>
+                <strong>
+                  {price.prefix && <small>{price.prefix}</small>}
+                  {price.amount}
+                </strong>
+                <p>{service.summary}</p>
+              </Link>
+            );
+          })}
         </div>
       </section>
     </>

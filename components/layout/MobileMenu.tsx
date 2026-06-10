@@ -3,14 +3,11 @@
 import { AnimatePresence, motion, type Variants, type Transition } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { SITE, NAV_LINKS } from "@/lib/constants";
-import ContactForm from "./ContactForm";
 import { usePageTransition } from "@/lib/hooks/usePageTransition";
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  showForm: boolean;
-  onToggleForm: () => void;
 }
 
 type BezierTuple = [number, number, number, number];
@@ -47,8 +44,6 @@ const linkVariants: Variants = {
 export default function MobileMenu({
   isOpen,
   onClose,
-  showForm,
-  onToggleForm,
 }: MobileMenuProps) {
   const pathname = usePathname();
   const { navigate } = usePageTransition();
@@ -96,20 +91,9 @@ export default function MobileMenu({
 
           <div className="menudivgl div-block-25" style={{ display: "flex" }}>
             <button className="vs-menu-close" type="button" onClick={onClose} aria-label="Закрыть меню">
-              ×
+              <span className="vs-menu-close__icon" aria-hidden="true">×</span>
+              <span className="vs-menu-close__text">Закрыть</span>
             </button>
-
-            <AnimatePresence>
-              {showForm && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0, transition: { duration: 0.3 } }}
-                  exit={{ opacity: 0, y: 20, transition: { duration: 0.2 } }}
-                >
-                  <ContactForm onClose={onToggleForm} />
-                </motion.div>
-              )}
-            </AnimatePresence>
 
             <PanelDiv className="menu1" delay={0} />
 
@@ -136,17 +120,14 @@ export default function MobileMenu({
                 <li className="m6">
                   <h1 className="heading-51">
                     <motion.a
-                      href="#"
+                      href="/zayavka"
                       className="menu-link"
                       custom={menuLinks.length}
                       variants={linkVariants}
                       initial="closed"
                       animate="open"
                       exit="exit"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onToggleForm();
-                      }}
+                      onClick={(e) => handleNavClick(e, "/zayavka")}
                     >
                       Оставить заявку
                     </motion.a>

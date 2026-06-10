@@ -8,7 +8,7 @@ import MenuToggle from "./MenuToggle";
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const { isOpen, open, toggle } = useMenu();
+  const { isOpen, toggle } = useMenu();
 
   return (
     <header className="vs-site-header">
@@ -29,9 +29,6 @@ export default function SiteHeader() {
         ))}
       </nav>
       <div className="vs-site-header__actions">
-        <button className="vs-site-header__cta" type="button" onClick={open}>
-          Консультация
-        </button>
         <MenuToggle isOpen={isOpen} onToggle={toggle} />
       </div>
     </header>

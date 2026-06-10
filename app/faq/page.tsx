@@ -1,33 +1,38 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import PageHeader from "@/components/layout/PageHeader";
-import GridLines from "@/components/layout/GridLines";
+import FaqAccordion from "@/components/faq/FaqAccordion";
 import { SITE } from "@/lib/constants";
-import { FAQ_ITEMS } from "@/lib/site-data";
+import { getCmsFaq } from "@/lib/cms-api";
 
 export const metadata: Metadata = {
   title: `FAQ | ${SITE.name}`,
-  description: "Ответы на частые вопросы о разработке сайтов, SEO и будущей админке Voitov Studio.",
+  description: "Ответы на частые вопросы о разработке сайтов, дизайне, SEO, сроках и запуске Voitov Studio.",
 };
 
-export default function FaqPage() {
+export default async function FaqPage() {
+  const faq = await getCmsFaq();
+
   return (
     <>
       <PageHeader backLabel="home" />
-      <GridLines />
-      <main className="vs-page-shell">
-        <section className="vs-page-hero">
-          <p className="vs-kicker">faq</p>
-          <h1>Короткие ответы перед стартом проекта</h1>
+      <main className="vs-page-shell faq-page">
+        <section className="vs-page-hero faq-page__hero">
+          <div className="faq-page__copy">
+            <p className="vs-kicker">faq</p>
+            <h1>Короткие ответы перед стартом проекта</h1>
+            <p>
+              Собрали вопросы, которые обычно появляются до брифа: сроки, дизайн,
+              SEO, контент, правки, запуск и дальнейшее развитие сайта.
+            </p>
+          </div>
+          <div className="faq-page__map" aria-hidden="true">
+            <span className="faq-topic faq-topic--brief">бриф</span>
+            <span className="faq-topic faq-topic--design">дизайн</span>
+            <span className="faq-topic faq-topic--seo">seo</span>
+            <span className="faq-topic faq-topic--launch">запуск</span>
+          </div>
         </section>
-        <section className="vs-faq-list vs-faq-list--page">
-          {FAQ_ITEMS.map((item) => (
-            <Link href={`/faq/${item.slug}`} className="vs-faq-row" key={item.slug}>
-              <h2>{item.question}</h2>
-              <p>{item.answer}</p>
-            </Link>
-          ))}
-        </section>
+        <FaqAccordion items={faq} />
       </main>
     </>
   );

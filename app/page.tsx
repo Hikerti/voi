@@ -11,6 +11,12 @@ import HomeFinalCta from "@/components/home/HomeFinalCta";
 import { getAllProjectSlugs, getProjectBySlug } from "@/lib/portfolio";
 import { getAllArticleSlugs, getArticleBySlug } from "@/lib/blog";
 import GridLines from "@/components/layout/GridLines";
+import {
+  getCmsFaq,
+  getCmsReviews,
+  getCmsServices,
+  getCmsWorkStages,
+} from "@/lib/cms-api";
 
 export const metadata: Metadata = {
   title: "Voitov Studio | Нешаблонные сайты с вау-эффектом",
@@ -21,7 +27,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [services, stages, reviews, faq] = await Promise.all([
+    getCmsServices(),
+    getCmsWorkStages(),
+    getCmsReviews(),
+    getCmsFaq(),
+  ]);
+
   const projects = getAllProjectSlugs()
     .map((slug) => getProjectBySlug(slug))
     .filter(Boolean)
@@ -42,9 +55,9 @@ export default function HomePage() {
       <Hero />
       <HeroCenter />
       <IntroSection />
-      <HomeSections />
+      <HomeSections services={services} />
       <StudioSection projects={projects} />
-      <HomeTrustSections />
+      <HomeTrustSections stages={stages} reviews={reviews} faq={faq} />
       <NewsPreview items={newsItems} />
       <HomeFinalCta />
     </>

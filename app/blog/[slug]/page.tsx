@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getArticleBySlug, getAllArticleSlugs } from "@/lib/blog";
-import PageHeader from "@/components/layout/PageHeader";
-import AnimatedLink, { ShuffleText } from "@/components/ui/AnimatedLink";
+import AnimatedLink from "@/components/ui/AnimatedLink";
 
 export async function generateStaticParams() {
   return getAllArticleSlugs().map((slug) => ({ slug }));
@@ -17,6 +16,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const article = getArticleBySlug(slug);
   if (!article) return {};
+
   return {
     title: `${article.title} | Voitov Studio`,
     description: article.subtitle,
@@ -37,67 +37,29 @@ export default async function ArticleDetailPage({
   if (!article) notFound();
 
   return (
-    <>
-      <div className="grid-parent-case">
-        <div className="grid-child-1-w" />
-        <div className="grid-child-2-w" />
-        <div className="grid-child-3-w" />
-        <div className="grid-child-4-w" />
-      </div>
+    <main className="article-page">
+      <AnimatedLink href="/blog" className="article-back">
+        <span aria-hidden="true">←</span>
+        Все статьи
+      </AnimatedLink>
 
-      {/* Hero */}
-      <div className="case-hero-hider">
-        <div
-          className="case-hero"
-          style={
-            article.thumbnail
-              ? { backgroundImage: `url(${article.thumbnail})` }
-              : undefined
-          }
-        />
-      </div>
+      <article className="article-page__inner">
+        <header className="article-page__header">
+          {article.date && <p className="vs-kicker">{article.date}</p>}
+          <h1>{article.title}</h1>
+          {article.subtitle && <p>{article.subtitle}</p>}
+        </header>
 
-      {/* Title bar */}
-      <div className="block-strip">
-        <div className="title-holder">
-          <h1 className="project-title">{article.title}</h1>
-        </div>
-      </div>
-
-      {/* Article body */}
-      <div className="wrapper-b-mnews">
         {article.thumbnail && (
-          <div className="news-div-1">
-            <img src={article.thumbnail} alt="" className="news-thumbnail" />
+          <div className="article-page__media">
+            <img src={article.thumbnail} alt="" />
           </div>
         )}
-        <div className="c-section">
-          <div className="news-row w-row">
-            <div className="news-col-fixed w-col w-col-3" />
-            <div className="w-col w-col-2" />
-            <div className="news-col-no-overflow w-col w-col-7">
-              {article.subtitle && (
-                <h5 className="heading-27">{article.subtitle}</h5>
-              )}
-              <div className="rich-text-block w-richtext">
-                <MDXRemote source={article.content} />
-              </div>
-              <AnimatedLink href="/blog" className="n-s-link w-inline-block">
-                <ShuffleText tag="h3" className="btn-text">
-                  Другие статьи
-                </ShuffleText>
-              </AnimatedLink>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Bottom nav — matches original placement */}
-      <PageHeader
-        backHref="/blog"
-        backLabel="back news"
-        backLabelClass="nynaxyi"
-      />
-    </>
+        <div className="article-page__body">
+          <MDXRemote source={article.content} />
+        </div>
+      </article>
+    </main>
   );
 }

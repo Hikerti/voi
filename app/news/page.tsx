@@ -1,27 +1,27 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHeader from "@/components/layout/PageHeader";
-import GridLines from "@/components/layout/GridLines";
 import { SITE } from "@/lib/constants";
-import { NEWS_ITEMS } from "@/lib/site-data";
+import { getCmsNews } from "@/lib/cms-api";
 
 export const metadata: Metadata = {
   title: `Новости | ${SITE.name}`,
-  description: "Новости Voitov Studio: развитие проекта, редизайн, CMS и технические обновления.",
+  description: "Новости Voitov Studio: дизайн, запуск сайтов, SEO, контент и развитие проектов.",
 };
 
-export default function NewsPage() {
+export default async function NewsPage() {
+  const news = await getCmsNews();
+
   return (
     <>
       <PageHeader backLabel="home" />
-      <GridLines />
       <main className="vs-page-shell vs-page-shell--dark">
         <section className="vs-page-hero">
           <p className="vs-kicker">новости</p>
           <h1>Новости проекта и этапы развития</h1>
         </section>
         <section className="vs-news-list">
-          {NEWS_ITEMS.map((item) => (
+          {news.map((item) => (
             <Link href={`/news/${item.slug}`} className="vs-news-row" key={item.slug}>
               <span>{item.date}</span>
               <h2>{item.title}</h2>

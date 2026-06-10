@@ -20,7 +20,6 @@ export function useMenu() {
 
 export default function MenuProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [showForm, setShowForm] = useState(false);
 
   const open = useCallback(() => {
     setIsOpen(true);
@@ -31,7 +30,6 @@ export default function MenuProvider({ children }: { children: React.ReactNode }
 
   const close = useCallback(() => {
     setIsOpen(false);
-    setShowForm(false);
     if (typeof document !== "undefined") {
       document.body.style.overflow = "";
     }
@@ -44,12 +42,7 @@ export default function MenuProvider({ children }: { children: React.ReactNode }
 
   return (
     <MenuContext.Provider value={{ isOpen, open, close, toggle }}>
-      <MobileMenu
-        isOpen={isOpen}
-        onClose={close}
-        showForm={showForm}
-        onToggleForm={() => setShowForm((v) => !v)}
-      />
+      <MobileMenu isOpen={isOpen} onClose={close} />
       {children}
     </MenuContext.Provider>
   );

@@ -1,7 +1,7 @@
 .section {
   max-width: none;
   margin: 0;
-  padding: clamp(72px, 9vw, 128px) clamp(24px, 5vw, 80px);
+  padding: calc(40px * 2) 40px;
   background:
     radial-gradient(circle at 14% 18%, rgba(157, 85, 255, 0.28), transparent 34%),
     linear-gradient(135deg, #08080a 0%, #151419 58%, #090909 100%);
@@ -10,11 +10,11 @@
 
 .heading {
   font-family: "Russo One", sans-serif;
-  font-size: clamp(36px, 4vw, 58px);
+  font-size: 56px;
   font-weight: 400;
   line-height: 1.1;
   color: #fff;
-  margin: 0 0 72px;
+  margin: 0 0 40px;
   letter-spacing: 0;
   max-width: 1280px;
   margin-left: auto;
@@ -24,7 +24,7 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: calc(40px * 2);
   align-items: start;
   max-width: 1280px;
   margin: 0 auto;
@@ -42,11 +42,11 @@
   top: -32px;
   left: -16px;
   font-family: "Iceland", sans-serif;
-  font-size: 240px;
-  font-weight: 400;
+  font-size: 260px;
+  font-weight: 800;
   line-height: 1;
   color: #9d55ff;
-  opacity: 0.2;
+  opacity: 0.28;
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -55,12 +55,12 @@
 .description {
   position: relative;
   z-index: 1;
-  margin-top: 200px;
+  margin-top: calc(40px * 5);
   font-family: "Jura", sans-serif;
-  font-size: 17px;
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.72);
-  max-width: 400px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 440px;
 }
 
 /* ── RIGHT ────────────────────────────── */
@@ -73,15 +73,15 @@
 .item {
   display: flex;
   align-items: flex-start;
-  gap: 20px;
-  padding: 22px 0 22px 0;
+  gap: 16px;
+  padding: 16px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.18);
   cursor: pointer;
   background: none;
   text-align: left;
   width: 100%;
   transition: padding-left 0.3s ease;
-  border-left: 3px solid transparent;
+  border-left: 4px solid transparent;
   position: relative;
 }
 
@@ -91,12 +91,13 @@
 
 .itemActive {
   border-left-color: #d8ff55;
-  padding-left: 18px;
+  padding-left: 16px;
 }
 
 .itemNum {
   font-family: "Iceland", sans-serif;
-  font-size: 20px;
+  font-size: 28px;
+  font-weight: 800;
   color: #d8ff55;
   line-height: 1.5;
   min-width: 40px;
@@ -106,7 +107,7 @@
 
 .itemTitle {
   font-family: "Jura", sans-serif;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: #fff;
   line-height: 1.4;
@@ -117,13 +118,13 @@
 
 @media (max-width: 860px) {
   .section {
-    padding: 52px 24px 72px;
+    padding: 40px 16px;
     overflow-x: clip;
   }
 
   .heading {
     margin-bottom: 40px;
-    font-size: clamp(28px, 8vw, 40px);
+    font-size: 40px;
   }
 
   .grid {
@@ -142,7 +143,7 @@
   .item {
     flex-direction: column;
     gap: 8px;
-    padding: 20px 0;
+    padding: 16px 0;
   }
 
   .itemActive {

@@ -1,88 +1,65 @@
-# Dependencies and build output
+# Dependencies
 node_modules/
+backend/node_modules/
+
+# Build output
+.next/
+out/
 dist/
 build/
-out/
-.next/
-.turbo/
-.agents/
+backend/dist/
+
+# Local env
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+
+# Local databases and runtime files
+.tmp/
+.temp/
+tmp/
+backend/.tmp/
+backend/prisma/*.db
+backend/prisma/*.db-*
+backend/db.sqlite3
+*.sqlite
+*.sqlite3
 
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
-pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# Tests
+# Tests and caches
 coverage/
 .nyc_output/
-
-# IDEs
-.idea/
-.vscode/
-*.swp
-*.swo
-.DS_Store
-
-# Environment files
-.env
-.env.*
-!.env.example
-envs/prod
-!envs/prod/
-!envs/prod/scopes/
-!envs/prod/scopes/s3.env
-!envs/prod/scopes/payments-database.env
-!envs/prod/scopes/kafka.env
-!envs/prod/scopes/valkey.env
-!envs/prod/service/
-!envs/prod/service/elasticsearch.env
-!envs/prod/service/payments-service.env
-!envs/prod/service/rkl-service.env
-
-# Temporary files
-.temp/
-.tmp/
-
-repomix-output.xml
-apps/backend/certs
-apps/backend/uploads
-apps/backend/repomix-output.xml
-apps/frontend/repomix-output.xml
-apps/frontend/visualizer.html
-
-/packages/database/generated
-/packages/payments-database/generated
-
-AGENTS.md
-
-/docs
-!/docs/
-!/docs/knowledge-base/
-!/docs/knowledge-base/**
-!/docs/admin-assistant/
-!/docs/admin-assistant/**
-/outputs
-
-# Playwright browsers
+.turbo/
+tsconfig.tsbuildinfo
+.eslintcache
 .pw-browsers/
 ms-playwright/
 playwright/.cache/
 
-# Runtime temporary files
-tmp/
-apps/verification-worker/tmp/
-apps/backend/apps/rkl/tmp/
+# Python/Django leftovers
+venv/
+.venv/
+__pycache__/
+*.pyc
 
-# Local generated files
-*.log
-deploy/.state/
-deploy/generated/
+# IDE and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
 
-backend/.venv/
-backend/db.sqlite3
-backend/media/
-backend/staticfiles/
-backend/.env
+# Generated reports
+repomix-output.xml
+outputs/

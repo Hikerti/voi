@@ -6,10 +6,66 @@ interface ContactPayload {
   email?: string;
   message?: string;
   source?: string;
+  pageUrl?: string;
+  startedAt?: string;
+}
+
+interface StoredLeadResult {
+  ok: boolean;
+  id?: number;
+  error?: string;
 }
 
 function countDigits(value: string) {
   return value.replace(/\D/g, "").length;
+}
+
+function backendLeadPath(source?: string) {
+  const normalized = source?.toLowerCase() ?? "";
+  if (normalized.includes("review")) return "/leads/review";
+  if (normalized.includes("question") || normalized.includes("faq")) return "/leads/question";
+  if (normalized.includes("callback")) return "/leads/callback";
+  return "/leads/contact";
+}
+
+function cleanOptional(value?: string) {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : undefined;
+}
+
+async function storeLead(body: ContactPayload): Promise<StoredLeadResult> {
+  const baseUrl =
+    process.env.CMS_API_URL ||
+    process.env.NEXT_PUBLIC_CMS_API_URL ||
+    "http://127.0.0.1:4000/api";
+
+  try {
+    const res = await fetch(`${baseUrl}${backendLeadPath(body.source)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: cleanOptional(body.name),
+        phone: body.phone,
+        email: cleanOptional(body.email),
+        message: cleanOptional(body.message),
+        source: cleanOptional(body.source),
+        pageUrl: cleanOptional(body.pageUrl),
+        startedAt: body.startedAt,
+      }),
+    });
+
+    if (!res.ok) {
+      return { ok: false, error: await res.text() };
+    }
+
+    const data = (await res.json()) as { id?: number };
+    return { ok: true, id: data.id };
+  } catch (error) {
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "Backend unavailable",
+    };
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -22,6 +78,16 @@ export async function POST(req: NextRequest) {
 
     if (body.email && !body.email.includes("@")) {
       return NextResponse.json({ error: "Некорректный email" }, { status: 400 });
+    }
+
+    const storedLead = await storeLead(body);
+
+    if (!storedLead.ok) {
+      console.error("Lead store error:", storedLead.error);
+      return NextResponse.json(
+        { error: "Не получилось сохранить заявку" },
+        { status: 502 },
+      );
     }
 
     const to = process.env.CONTACT_EMAIL_TO;
@@ -52,7 +118,6 @@ export async function POST(req: NextRequest) {
 
       if (!emailRes.ok) {
         console.error("Email send error:", await emailRes.text());
-        return NextResponse.json({ error: "Email send error" }, { status: 502 });
       }
     } else {
       console.log("Contact form submission (email not configured):", {
@@ -61,10 +126,11 @@ export async function POST(req: NextRequest) {
         email: body.email,
         message: body.message,
         source: body.source,
+        leadId: storedLead.id,
       });
     }
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, leadId: storedLead.id });
   } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }

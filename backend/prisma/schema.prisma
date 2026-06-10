@@ -1,0 +1,247 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+  HIDDEN
+}
+
+enum LeadStatus {
+  NEW
+  IN_PROGRESS
+  DONE
+  SPAM
+}
+
+enum LeadKind {
+  CONTACT
+  CALLBACK
+  REVIEW
+  QUESTION
+}
+
+model SiteSettings {
+  id                 Int      @id @default(1)
+  brandName          String   @default("Voitov Studio")
+  tagline            String?
+  email              String?
+  phone              String?
+  workHours          String?
+  address            String?
+  telegramUrl        String?
+  vkUrl              String?
+  youtubeUrl         String?
+  policyUrl          String   @default("/privacy")
+  seoTitle           String?
+  seoDescription     String?
+  seoKeywords        String?
+  ogImage            String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model ServiceCategory {
+  id             Int           @id @default(autoincrement())
+  title          String
+  slug           String        @unique
+  summary        String?
+  sortOrder      Int           @default(100)
+  status         PublishStatus @default(PUBLISHED)
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+  h1             String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  services       Service[]
+}
+
+model Service {
+  id                Int               @id @default(autoincrement())
+  categoryId        Int?
+  title             String
+  slug              String            @unique
+  summary           String
+  description       String?
+  price             String?
+  pricePrefix       String?
+  image             String?
+  icon              String?
+  seoText           String?
+  sortOrder         Int               @default(100)
+  status            PublishStatus     @default(PUBLISHED)
+  seoTitle          String?
+  seoDescription    String?
+  seoKeywords       String?
+  h1                String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  category          ServiceCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  pricePackages     PricePackage[]
+  relatedServices   ServiceRelation[] @relation("ServiceRelatedFrom")
+  relatedByServices ServiceRelation[] @relation("ServiceRelatedTo")
+
+  @@index([categoryId])
+  @@index([status, sortOrder])
+}
+
+model ServiceRelation {
+  serviceId Int
+  relatedId Int
+  service   Service @relation("ServiceRelatedFrom", fields: [serviceId], references: [id], onDelete: Cascade)
+  related   Service @relation("ServiceRelatedTo", fields: [relatedId], references: [id], onDelete: Cascade)
+
+  @@id([serviceId, relatedId])
+}
+
+model PricePackage {
+  id          Int           @id @default(autoincrement())
+  serviceId   Int?
+  title       String
+  slug        String        @unique
+  price       String
+  summary     String?
+  features    String?
+  sortOrder   Int           @default(100)
+  status      PublishStatus @default(PUBLISHED)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  service     Service?      @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  @@index([serviceId])
+}
+
+model Advantage {
+  id          Int           @id @default(autoincrement())
+  title       String
+  slug        String        @unique
+  summary     String
+  icon        String?
+  sortOrder   Int           @default(100)
+  status      PublishStatus @default(PUBLISHED)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model WorkStage {
+  id          Int           @id @default(autoincrement())
+  title       String
+  slug        String        @unique
+  summary     String
+  stepNumber  Int
+  sortOrder   Int           @default(100)
+  status      PublishStatus @default(PUBLISHED)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model FAQItem {
+  id             Int           @id @default(autoincrement())
+  question       String
+  slug           String        @unique
+  answer         String
+  category       String?
+  sortOrder      Int           @default(100)
+  status         PublishStatus @default(PUBLISHED)
+  seoTitle       String?
+  seoDescription String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Review {
+  id          Int           @id @default(autoincrement())
+  authorName  String
+  company     String?
+  role        String?
+  text        String
+  rating      Int           @default(5)
+  sourceUrl   String?
+  avatar      String?
+  sortOrder   Int           @default(100)
+  status      PublishStatus @default(PUBLISHED)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model NewsPost {
+  id             Int           @id @default(autoincrement())
+  title          String
+  slug           String        @unique
+  excerpt        String
+  content        String?
+  coverImage     String?
+  publishedAt    DateTime?
+  sortOrder      Int           @default(100)
+  status         PublishStatus @default(PUBLISHED)
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+  h1             String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Article {
+  id             Int           @id @default(autoincrement())
+  title          String
+  slug           String        @unique
+  excerpt        String
+  content        String?
+  coverImage     String?
+  publishedAt    DateTime?
+  sortOrder      Int           @default(100)
+  status         PublishStatus @default(PUBLISHED)
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+  h1             String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Project {
+  id             Int           @id @default(autoincrement())
+  title          String
+  slug           String        @unique
+  client         String?
+  industry       String?
+  summary        String
+  description    String?
+  coverImage     String?
+  gallery        String?
+  projectUrl     String?
+  sortOrder      Int           @default(100)
+  status         PublishStatus @default(PUBLISHED)
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+  h1             String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model LeadRequest {
+  id          Int        @id @default(autoincrement())
+  kind        LeadKind
+  status      LeadStatus @default(NEW)
+  name        String?
+  phone       String
+  email       String?
+  message     String?
+  source      String?
+  pageUrl     String?
+  ip          String?
+  userAgent   String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([kind, status, createdAt])
+}

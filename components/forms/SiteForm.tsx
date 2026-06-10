@@ -46,6 +46,7 @@ export default function SiteForm({
     setStatus("loading");
 
     try {
+      const startedAt = new Date(Date.now() - 3000).toISOString();
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -55,6 +56,8 @@ export default function SiteForm({
           email,
           message: formData.get("message"),
           source,
+          pageUrl: window.location.href,
+          startedAt,
         }),
       });
       if (!res.ok) throw new Error("Request failed");

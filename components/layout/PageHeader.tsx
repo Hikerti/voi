@@ -8,7 +8,7 @@ const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
 interface PageHeaderProps {
   wrapperClass?: string;
   backHref?: string;
-  backLabel?: string;
+  backLabel?: string | null;
   backLabelClass?: string;
 }
 
@@ -18,6 +18,10 @@ export default function PageHeader({
   backLabel = "back",
   backLabelClass,
 }: PageHeaderProps) {
+  if (!backLabel || backLabel.toLowerCase() === "home") {
+    return null;
+  }
+
   return (
     <motion.div
       className={`vs-page-back ${wrapperClass ?? ""}`.trim()}

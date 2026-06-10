@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/layout/PageHeader";
 import PortfolioTabs from "@/components/portfolio/PortfolioTabs";
 import { getAllProjectSlugs, getProjectBySlug } from "@/lib/portfolio";
-import GridLines from "@/components/layout/GridLines";
 
 export const metadata: Metadata = {
   title: "Наши проекты | Voitov Studio",
@@ -25,11 +23,5 @@ export default function PortfolioPage() {
     }))
     .sort((a, b) => a.tabIndex - b.tabIndex);
 
-  return (
-    <>
-      <PageHeader wrapperClass="nav-bar w-clearfix" backLabelClass="text-block-6" backLabel="back" />
-      <GridLines />
-      <PortfolioTabs projects={projects} />
-    </>
-  );
+  return <PortfolioTabs projects={projects} />;
 }

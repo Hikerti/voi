@@ -5,6 +5,7 @@ import SiteForm from "@/components/forms/SiteForm";
 import PageHeader from "@/components/layout/PageHeader";
 import GridLines from "@/components/layout/GridLines";
 import { SERVICES, getServiceBySlug } from "@/lib/site-data";
+import { getCmsServiceBySlug, getCmsServices } from "@/lib/cms-api";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -16,7 +17,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: ServicePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  const service = (await getCmsServiceBySlug(slug)) || getServiceBySlug(slug);
 
   if (!service) return {};
 
@@ -33,12 +34,13 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
 
 export default async function ServicePage({ params }: ServicePageProps) {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  const service = await getCmsServiceBySlug(slug);
 
   if (!service) notFound();
 
+  const allServices = await getCmsServices();
   const related = service.related
-    .map((relatedSlug) => getServiceBySlug(relatedSlug))
+    .map((relatedSlug) => allServices.find((item) => item.slug === relatedSlug) || getServiceBySlug(relatedSlug))
     .filter(Boolean);
 
   return (

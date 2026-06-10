@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getProjectBySlug, getAllProjectSlugs } from "@/lib/portfolio";
-import PageHeader from "@/components/layout/PageHeader";
 import SiteForm from "@/components/forms/SiteForm";
 import AnimatedLink from "@/components/ui/AnimatedLink";
 
@@ -41,13 +40,6 @@ export default async function ProjectDetailPage({
         <div className="grid-child-3-w" />
         <div className="grid-child-4-w" />
       </div>
-
-      <PageHeader
-        wrapperClass="nav-bar w-clearfix"
-        backHref="/portfolio"
-        backLabel="Back project"
-        backLabelClass="raboti-back"
-      />
 
       {/* Hero image */}
       <div className="case-hero-hider">

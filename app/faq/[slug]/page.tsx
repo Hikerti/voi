@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import PageHeader from "@/components/layout/PageHeader";
-import GridLines from "@/components/layout/GridLines";
 import { SITE } from "@/lib/constants";
 import { FAQ_ITEMS, getFaqBySlug } from "@/lib/site-data";
+import { getCmsFaqBySlug } from "@/lib/cms-api";
 
 interface FaqDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -15,7 +14,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: FaqDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const item = getFaqBySlug(slug);
+  const item = (await getCmsFaqBySlug(slug)) || getFaqBySlug(slug);
   if (!item) return {};
   return {
     title: `${item.question} | ${SITE.name}`,
@@ -25,20 +24,21 @@ export async function generateMetadata({ params }: FaqDetailPageProps): Promise<
 
 export default async function FaqDetailPage({ params }: FaqDetailPageProps) {
   const { slug } = await params;
-  const item = getFaqBySlug(slug);
+  const item = (await getCmsFaqBySlug(slug)) || getFaqBySlug(slug);
   if (!item) notFound();
 
   return (
-    <>
-      <PageHeader backHref="/faq" backLabel="faq" />
-      <GridLines />
-      <main className="vs-page-shell">
-        <section className="vs-page-hero">
-          <p className="vs-kicker">faq</p>
+      <main className="faq-detail-page">
+        <section className="faq-detail-page__hero">
           <h1>{item.question}</h1>
+          <div className="faq-detail-page__topics" aria-hidden="true">
+            <span className="faq-topic faq-topic--brief">бриф</span>
+            <span className="faq-topic faq-topic--design">дизайн</span>
+            <span className="faq-topic faq-topic--seo">seo</span>
+            <span className="faq-topic faq-topic--launch">запуск</span>
+          </div>
           <p>{item.answer}</p>
         </section>
       </main>
-    </>
   );
 }
