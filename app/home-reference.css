@@ -448,6 +448,17 @@
   transform: translate(-50%, -50%) scale(1) !important;
 }
 
+/* Keep the hero artwork below the fixed header on production viewports. */
+.home-ref .home-ref__scene {
+  top: clamp(54%, 56vh, 58%) !important;
+}
+
+@media (max-width: 760px) {
+  .home-ref .home-ref__scene {
+    top: 52% !important;
+  }
+}
+
 /* Production-safe hero layers: CSS backgrounds keep both halves visible on Linux deploys. */
 .home-ref .home-ref__shape,
 .home-ref .home-ref__asset {

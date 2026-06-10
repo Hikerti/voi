@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function ONasPage() {
   return (
     <>
-      <PageHeader />
+      <PageHeader backLabel={null} />
       <div>
         <GridLines />
         <ONasSection />
