@@ -159,36 +159,31 @@ export default async function ProjectDetailPage({
       )}
 
       {/* Prev / Next navigation */}
-      <div className="columns-9 w-row">
-        <div className="naz-next w-col w-col-6">
-          {project.prevSlug ? (
-            <AnimatedLink
-              href={`/portfolio/${project.prevSlug}`}
-              className="next-project w-inline-block"
-            >
-              <h1 className="heading-79">Предыдущая работа</h1>
-            </AnimatedLink>
-          ) : (
-            <div className="next-project w-inline-block" style={{ opacity: 0.3 }}>
-              <h1 className="heading-79">Предыдущая работа</h1>
-            </div>
-          )}
-        </div>
-        <div className="go-next w-col w-col-6">
-          {project.nextSlug ? (
-            <AnimatedLink
-              href={`/portfolio/${project.nextSlug}`}
-              className="next-project w-inline-block"
-            >
-              <h1 className="heading-80">Следующая работа</h1>
-            </AnimatedLink>
-          ) : (
-            <div className="next-project w-inline-block" style={{ opacity: 0.3 }}>
-              <h1 className="heading-80">Следующая работа</h1>
-            </div>
-          )}
-        </div>
-      </div>
+      <nav className="project-nav" aria-label="Навигация по работам">
+        {project.prevSlug ? (
+          <AnimatedLink href={`/portfolio/${project.prevSlug}`} className="project-nav__link project-nav__link--prev">
+            <span>←</span>
+            <strong>Предыдущая работа</strong>
+          </AnimatedLink>
+        ) : (
+          <div className="project-nav__link project-nav__link--disabled">
+            <span>←</span>
+            <strong>Предыдущая работа</strong>
+          </div>
+        )}
+
+        {project.nextSlug ? (
+          <AnimatedLink href={`/portfolio/${project.nextSlug}`} className="project-nav__link project-nav__link--next">
+            <strong>Следующая работа</strong>
+            <span>→</span>
+          </AnimatedLink>
+        ) : (
+          <div className="project-nav__link project-nav__link--disabled project-nav__link--next">
+            <strong>Следующая работа</strong>
+            <span>→</span>
+          </div>
+        )}
+      </nav>
 
       <section className="vs-final-cta">
         <div>
