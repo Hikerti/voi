@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteForm from "@/components/forms/SiteForm";
-import PageHeader from "@/components/layout/PageHeader";
 import GridLines from "@/components/layout/GridLines";
 import { SERVICES, getServiceBySlug } from "@/lib/site-data";
 import { getCmsServiceBySlug, getCmsServices } from "@/lib/cms-api";
@@ -45,7 +44,6 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   return (
     <>
-      <PageHeader backHref="/services" backLabel="services" />
       <GridLines />
       <main className="vs-page-shell vs-page-shell--dark">
         <section className="vs-detail-hero">
