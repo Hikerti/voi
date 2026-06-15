@@ -13,7 +13,7 @@ export default function SiteHeader() {
   return (
     <header className="vs-site-header">
       <Link href="/" className="vs-site-header__brand" aria-label={`${SITE.name} — главная`}>
-        <img src="/images/voitov-logo.svg" alt="Voitov Studio" width="126" height="35" />
+        <img src="/logo.png" alt="Voitov Studio" width="150" height="42" />
       </Link>
       <nav className="vs-site-header__nav" aria-label="Основная навигация">
         {NAV_LINKS.filter((item) => item.href !== "/").slice(0, 5).map((item) => (
