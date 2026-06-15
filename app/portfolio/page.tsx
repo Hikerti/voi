@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import PortfolioTabs from "@/components/portfolio/PortfolioTabs";
 import { getAllProjectSlugs, getProjectBySlug } from "@/lib/portfolio";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Наши проекты | Voitov Studio",
-  description: "Портфолио Voitov Studio — проекты, которыми мы гордимся",
-  openGraph: {
-    title: "Наши проекты | Voitov Studio",
-    description: "Портфолио Voitov Studio — проекты, которыми мы гордимся",
-  },
-};
+export const metadata: Metadata = createPageMetadata({
+  title: "Портфолио и кейсы",
+  description: "Портфолио Voitov Studio: сайты, дизайн и цифровые проекты для бизнеса.",
+  path: "/portfolio",
+  keywords: ["портфолио веб-студии", "кейсы разработки сайтов", "примеры сайтов"],
+});
 
 export default function PortfolioPage() {
   const projects = getAllProjectSlugs()
