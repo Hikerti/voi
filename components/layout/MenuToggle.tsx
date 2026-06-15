@@ -33,6 +33,7 @@ export default function MenuToggle({ isOpen, onToggle }: MenuToggleProps) {
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.94 }}
     >
+      <img className="vs-burger__logo" src="/logo_2.png" alt="" aria-hidden="true" />
       <span className="vs-burger__rings" aria-hidden="true" />
       <span className="vs-burger__lines" aria-hidden="true">
         <motion.span
