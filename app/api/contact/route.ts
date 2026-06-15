@@ -37,6 +37,7 @@ function cleanOptional(value?: string) {
 
 function validatePayload(body: ContactPayload) {
   const source = body.source?.toLowerCase() ?? "";
+  const isReview = source.includes("review");
   const needsPhone = source.includes("callback") || source.includes("general");
 
   if (body.phone && countDigits(body.phone) < 10) {
@@ -51,7 +52,7 @@ function validatePayload(body: ContactPayload) {
     return "Некорректный email";
   }
 
-  if (!body.phone && !body.email) {
+  if (!isReview && !body.phone && !body.email) {
     return "Укажите телефон или email";
   }
 
@@ -112,10 +113,7 @@ export async function POST(req: NextRequest) {
 
     if (!storedLead.ok) {
       console.error("Lead store error:", storedLead.error);
-      return NextResponse.json(
-        { error: "Не получилось сохранить заявку" },
-        { status: 502 },
-      );
+      return NextResponse.json({ error: "Не получилось сохранить заявку" }, { status: 502 });
     }
 
     const to = process.env.CONTACT_EMAIL_TO;
