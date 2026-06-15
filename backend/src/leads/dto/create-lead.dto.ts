@@ -18,9 +18,10 @@ export class CreateLeadDto {
   name?: string;
 
   @Transform(trimString)
+  @IsOptional()
   @IsString()
   @MaxLength(64)
-  phone!: string;
+  phone?: string;
 
   @Transform(trimString)
   @IsOptional()
