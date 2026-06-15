@@ -12,11 +12,12 @@
 }
 
 /* The breadcrumb remains a global navigation element, but is visually placed
-   inside the first page section with the same inner offsets as its content. */
+   inside the first page section. Its left edge now follows the page/header edge
+   without an additional inner offset. */
 .route-frame:has(> .vs-page-shell) > .breadcrumbs {
   top: calc(var(--review-page-top) + var(--review-section-inset));
   padding-right: var(--review-section-inset) !important;
-  padding-left: var(--review-section-inset) !important;
+  padding-left: 0 !important;
 }
 
 .route-frame > .vs-page-shell > section:first-of-type {
@@ -46,6 +47,17 @@
   box-sizing: border-box;
 }
 
+/* The transparent source image has visual whitespace on the left. Shift only
+   the footer logo so its visible lettering starts on the same line as the text. */
+.site-footer__brand > a:first-child {
+  display: inline-flex;
+  margin-left: -20px;
+}
+
+.site-footer__brand > a:first-child img {
+  display: block;
+}
+
 /* The footer content stays aligned with the header, while the separator itself
    spans the full viewport width. */
 .site-footer__divider {
@@ -58,6 +70,108 @@
 .site-footer__bottom {
   margin-top: 0 !important;
   border-top: 0 !important;
+}
+
+@media (max-width: 760px) {
+  /* Keep the search and menu controls visually grouped without reducing their
+     touch target below 40px. */
+  .vs-site-header__actions {
+    gap: 0 !important;
+  }
+
+  .site-search-link,
+  .vs-burger {
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+  }
+
+  .site-search-link {
+    justify-content: center !important;
+  }
+
+  /* Replace the legacy browser square markers with a predictable two-column
+     row so every point is vertically centered against its menu label. */
+  .menu2 {
+    align-items: stretch !important;
+  }
+
+  .menu2 nav {
+    width: 100%;
+  }
+
+  .list-3 {
+    display: grid !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 18px !important;
+    list-style: none !important;
+    box-sizing: border-box;
+  }
+
+  .list-3 > li {
+    display: grid !important;
+    grid-template-columns: 6px minmax(0, 1fr);
+    column-gap: 12px;
+    align-items: center;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .list-3 > li::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    justify-self: center;
+    background: rgba(255, 255, 255, 0.32);
+  }
+
+  .list-3 .menu-link {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10px 0 !important;
+    line-height: 1.25 !important;
+    box-sizing: border-box;
+  }
+
+  .menu2 .paragraph-300 {
+    width: auto !important;
+    margin: 34px 18px 0 36px !important;
+  }
+
+  /* Mobile portfolio cards use a real media aspect ratio instead of allowing
+     the background block to stretch to 72svh and leave a large empty area. */
+  .work-v2__mobile-gallery {
+    align-items: flex-start;
+  }
+
+  .work-v2__card {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .work-v2__card-link {
+    display: flex !important;
+    min-height: 0 !important;
+    flex-direction: column !important;
+  }
+
+  .work-v2__card .work-v2__image {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex: 0 0 auto !important;
+    aspect-ratio: 16 / 10;
+    background-position: center !important;
+    background-size: contain !important;
+  }
+
+  .work-v2__card .work-v2__caption {
+    display: flex !important;
+    min-height: 150px;
+    align-items: flex-end;
+  }
 }
 
 @media (max-width: 700px) {

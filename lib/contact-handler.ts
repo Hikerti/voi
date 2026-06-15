@@ -16,6 +16,12 @@ type StoredLeadResult = {
   ok: boolean;
   id?: number;
   error?: string;
+  status?: number;
+};
+
+type EmailResult = {
+  ok: boolean;
+  error?: string;
 };
 
 function countDigits(value: string) {
@@ -66,14 +72,28 @@ function backendCandidates() {
   addBackendVariants(candidates, "http://localhost:4000/api");
   addBackendVariants(candidates, "http://backend:4000/api");
 
-  return Array.from(new Set(candidates));
+  return Array.from(candidates);
 }
 
-async function storeLead(body: ContactPayload): Promise<StoredLeadResult> {
+function readBackendError(raw: string) {
+  const trimmed = raw.trim();
+  if (!trimmed) return "Backend request failed";
+
+  try {
+    const parsed = JSON.parse(trimmed) as { message?: string | string[]; error?: string };
+    if (Array.isArray(parsed.message)) return parsed.message.join(". ");
+    return parsed.message || parsed.error || trimmed;
+  } catch {
+    return trimmed;
+  }
+}
+
+async function storeLead(body: ContactPayload, requestOrigin?: string): Promise<StoredLeadResult> {
   const path = backendLeadPath(body.source);
   let lastError = "Backend unavailable";
+  let lastStatus: number | undefined;
 
-  for (const baseUrl of backendCandidates()) {
+  for (const baseUrl of backendCandidates(requestOrigin)) {
     try {
       const response = await fetch(`${baseUrl}${path}`, {
         method: "POST",
@@ -90,31 +110,44 @@ async function storeLead(body: ContactPayload): Promise<StoredLeadResult> {
           consent: body.consent,
         }),
         cache: "no-store",
+        signal: AbortSignal.timeout(6000),
       });
+
+      const responseText = await response.text();
 
       if (response.status === 404) {
         lastError = `Lead endpoint not found at ${baseUrl}`;
+        lastStatus = response.status;
         continue;
       }
 
       if (!response.ok) {
-        lastError = await response.text();
+        const error = readBackendError(responseText);
+
+        // Validation and anti-spam responses are authoritative. Trying another
+        // address or silently emailing the same rejected payload would bypass them.
+        if (response.status >= 400 && response.status < 500) {
+          return { ok: false, error, status: response.status };
+        }
+
+        lastError = error;
+        lastStatus = response.status;
         continue;
       }
 
-      const data = (await response.json()) as { id?: number };
+      const data = responseText ? (JSON.parse(responseText) as { id?: number }) : {};
       return { ok: true, id: data.id };
     } catch (error) {
       lastError = error instanceof Error ? error.message : "Backend unavailable";
     }
   }
 
-  return { ok: false, error: lastError };
+  return { ok: false, error: lastError, status: lastStatus };
 }
 
-async function sendEmail(body: ContactPayload, leadId?: number) {
+async function sendEmail(body: ContactPayload, leadId?: number): Promise<EmailResult> {
   const to = process.env.CONTACT_EMAIL_TO;
-  const from = process.env.CONTACT_EMAIL_FROM ?? "site@voitov.studio";
+  const from = process.env.CONTACT_EMAIL_FROM ?? "Voitov Studio <onboarding@resend.dev>";
   const resendApiKey = process.env.RESEND_API_KEY;
 
   if (!resendApiKey || !to) return false;
@@ -141,8 +174,15 @@ async function sendEmail(body: ContactPayload, leadId?: number) {
         Authorization: `Bearer ${resendApiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ from, to, subject, text }),
+      body: JSON.stringify({
+        from,
+        to,
+        subject,
+        text,
+        ...(body.email ? { reply_to: body.email } : {}),
+      }),
       cache: "no-store",
+      signal: AbortSignal.timeout(8000),
     });
 
     if (!response.ok) {
