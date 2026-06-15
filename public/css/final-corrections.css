@@ -18,7 +18,7 @@
   --asset-half-width: min(11.5vw, 175px);
   --asset-top: 3%;
   --closed-offset: 12px;
-  --open-gap: -2px;
+  --open-gap: 0px;
 }
 
 .home-ref .home-ref__scene--wrench {
@@ -27,7 +27,7 @@
   --asset-half-width: min(8vw, 128px);
   --asset-top: 5%;
   --closed-offset: 10px;
-  --open-gap: -2px;
+  --open-gap: 0px;
 }
 
 .home-ref .home-ref__scene--phone {
@@ -36,7 +36,7 @@
   --asset-half-width: min(10.5vw, 160px);
   --asset-top: 2%;
   --closed-offset: 10px;
-  --open-gap: -2px;
+  --open-gap: 0px;
 }
 
 .home-ref .home-ref__scene--paper {
@@ -45,7 +45,7 @@
   --asset-half-width: min(17vw, 280px);
   --asset-top: 24%;
   --closed-offset: 12px;
-  --open-gap: -2px;
+  --open-gap: 0px;
 }
 
 .home-ref .home-ref__asset {
@@ -233,4 +233,62 @@
   .shapkavniz {
     padding: 32px 20px 28px !important;
   }
+}
+
+/* Бегун: левая половина больше правой */
+/* Бегун: левая половина */
+.home-ref[data-active="0"]
+.home-ref__scene--runner
+.home-ref__asset--left {
+  transform-origin: right center !important;
+  transform: translate3d(0, 15.8%, 0) scale(1.51) !important;
+}
+
+.home-ref[data-active="0"]
+.home-ref__scene--runner
+.home-ref__asset--right {
+  transform-origin: left center !important;
+  transform: translate3d(0px, 0, 0) scale(1) !important;
+}
+
+
+/* Ключ: левая половина меньше правой */
+.home-ref[data-active="1"]
+.home-ref__scene--wrench
+.home-ref__asset--left {
+  transform-origin: right center !important;
+  transform: translate3d(0, 1.4%, 0) scale(0.97) !important;
+}
+
+.home-ref[data-active="1"]
+.home-ref__scene--wrench
+.home-ref__asset--right {
+  transform-origin: left center !important;
+  transform: translate3d(0px, 0, 0) scale(1) !important;
+}
+
+/* 3-й рисунок — телефон: убрать наложение половин */
+.home-ref[data-active="2"]
+.home-ref__scene--phone
+.home-ref__asset--left {
+  transform: translate3d(0, 0, 0) !important;
+}
+
+.home-ref[data-active="2"]
+.home-ref__scene--phone
+.home-ref__asset--right {
+  transform: translate3d(0, 0, 0) !important;
+}
+
+/* 4-й рисунок — газеты: убрать наложение половин */
+.home-ref[data-active="3"]
+.home-ref__scene--paper
+.home-ref__asset--left {
+  transform: translate3d(0, 0, 0) !important;
+}
+
+.home-ref[data-active="3"]
+.home-ref__scene--paper
+.home-ref__asset--right {
+  transform: translate3d(0, 0, 0) !important;
 }
