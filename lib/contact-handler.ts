@@ -63,7 +63,7 @@ function addBackendVariants(candidates: string[], value?: string) {
   candidates.push(configured.endsWith("/api") ? configured.slice(0, -4) : `${configured}/api`);
 }
 
-function backendCandidates() {
+function backendCandidates(requestOrigin?: string) {
   const candidates: string[] = [];
 
   addBackendVariants(candidates, process.env.CMS_API_URL);
@@ -72,7 +72,10 @@ function backendCandidates() {
   addBackendVariants(candidates, "http://localhost:4000/api");
   addBackendVariants(candidates, "http://backend:4000/api");
 
-  return Array.from(candidates);
+  const normalizedOrigin = requestOrigin?.trim().replace(/\/+$/, "");
+  if (normalizedOrigin) candidates.push(`${normalizedOrigin}/api`);
+
+  return Array.from(new Set(candidates));
 }
 
 function readBackendError(raw: string) {
@@ -124,8 +127,6 @@ async function storeLead(body: ContactPayload, requestOrigin?: string): Promise<
       if (!response.ok) {
         const error = readBackendError(responseText);
 
-        // Validation and anti-spam responses are authoritative. Trying another
-        // address or silently emailing the same rejected payload would bypass them.
         if (response.status >= 400 && response.status < 500) {
           return { ok: false, error, status: response.status };
         }
@@ -150,7 +151,9 @@ async function sendEmail(body: ContactPayload, leadId?: number): Promise<EmailRe
   const from = process.env.CONTACT_EMAIL_FROM ?? "Voitov Studio <onboarding@resend.dev>";
   const resendApiKey = process.env.RESEND_API_KEY;
 
-  if (!resendApiKey || !to) return false;
+  if (!resendApiKey || !to) {
+    return { ok: false, error: "Email transport is not configured" };
+  }
 
   const subject = `Новая заявка с сайта${body.source ? `: ${body.source}` : ""}`;
   const text = [
@@ -186,14 +189,16 @@ async function sendEmail(body: ContactPayload, leadId?: number): Promise<EmailRe
     });
 
     if (!response.ok) {
-      console.error("Email send error:", await response.text());
-      return false;
+      const error = await response.text();
+      console.error("Email send error:", error);
+      return { ok: false, error };
     }
 
-    return true;
+    return { ok: true };
   } catch (error) {
+    const message = error instanceof Error ? error.message : "Email transport error";
     console.error("Email transport error:", error);
-    return false;
+    return { ok: false, error: message };
   }
 }
 
@@ -206,19 +211,33 @@ export async function handleContactPost(request: NextRequest) {
       return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    const storedLead = await storeLead(body);
-    const emailSent = await sendEmail(body, storedLead.id);
+    const storedLead = await storeLead(body, request.nextUrl.origin);
 
-    if (storedLead.ok) {
-      return NextResponse.json({ ok: true, leadId: storedLead.id, emailSent });
+    if (
+      !storedLead.ok &&
+      storedLead.status !== undefined &&
+      storedLead.status >= 400 &&
+      storedLead.status < 500
+    ) {
+      return NextResponse.json(
+        { error: storedLead.error || "Проверьте заполненные поля." },
+        { status: storedLead.status },
+      );
     }
 
-    if (emailSent) {
+    const emailResult = await sendEmail(body, storedLead.id);
+
+    if (storedLead.ok) {
+      return NextResponse.json({ ok: true, leadId: storedLead.id, emailSent: emailResult.ok });
+    }
+
+    if (emailResult.ok) {
       console.error("Lead store error; delivered by email:", storedLead.error);
       return NextResponse.json({ ok: true, delivery: "email" });
     }
 
     console.error("Lead store error:", storedLead.error);
+    console.error("Email delivery error:", emailResult.error);
     return NextResponse.json(
       { error: "Не удалось отправить заявку. Повторите попытку позже или позвоните нам." },
       { status: 502 },
