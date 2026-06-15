@@ -1,0 +1,35 @@
+/* Small follow-up overrides kept separate to avoid touching legacy Webflow styles. */
+
+.footer-logo-link {
+  display: inline-flex !important;
+  align-items: center;
+  color: #fff;
+}
+
+.footer-logo-link img {
+  display: block;
+  width: clamp(132px, 12vw, 190px);
+  height: auto;
+  object-fit: contain;
+  filter: none !important;
+}
+
+.case-hero-hider {
+  overflow: hidden !important;
+}
+
+.case-hero-raboti {
+  display: block !important;
+  width: 100%;
+  min-height: clamp(460px, 68vw, 1080px);
+  background-color: #08080a !important;
+  background-position: center top !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+}
+
+@media (max-width: 760px) {
+  .case-hero-raboti {
+    min-height: clamp(360px, 128vw, 760px);
+  }
+}

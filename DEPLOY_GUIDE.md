@@ -1,6 +1,6 @@
 # Deploy Guide: Voitov Studio
 
-Инструкция для демо/production-развертывания на VPS. Для первого показа можно поднять frontend и backend через PM2. Для полноценного production позже лучше вынести базу в PostgreSQL и добавить backup.
+Инструкция для production-развёртывания frontend и backend на VPS через PM2, Nginx и Certbot.
 
 ## Требования
 
@@ -9,7 +9,7 @@
 - npm 10+
 - Nginx
 - PM2
-- SSL через Certbot
+- Certbot
 
 ## 1. Подготовка проекта
 
@@ -23,43 +23,51 @@ npm install
 
 ## 2. Frontend env
 
-Создать `.env.local` в корне:
+Создать `/path/to/voitov-studio/.env.local`:
 
 ```env
+NEXT_PUBLIC_SITE_URL=https://voitov.ru
 CMS_API_URL=http://127.0.0.1:4000/api
-NEXT_PUBLIC_CMS_API_URL=http://127.0.0.1:4000/api
-CONTACT_EMAIL_TO=hello@voitov.studio
-CONTACT_EMAIL_FROM="Voitov Studio <site@voitov.studio>"
-RESEND_API_KEY=
-NEXT_PUBLIC_GA_ID=
-NEXT_PUBLIC_YANDEX_METRIKA_ID=
+NEXT_PUBLIC_CMS_API_URL=https://voitov.ru/api
+CONTACT_EMAIL_TO=<email-для-заявок>
+CONTACT_EMAIL_FROM="Voitov Studio <site@voitov.ru>"
+RESEND_API_KEY=<секретный-ключ-resend>
+NEXT_PUBLIC_GA_ID=G-PLYNZME6SN
+NEXT_PUBLIC_YANDEX_METRIKA_ID=109826670
 ```
+
+`RESEND_API_KEY` хранить только на сервере. Не добавлять реальный ключ в Git, `.env.example`, скриншоты или логи.
+
+После изменения любой переменной `NEXT_PUBLIC_*` frontend нужно пересобрать, потому что эти значения встраиваются во время `npm run build`.
 
 ## 3. Backend env
 
-Создать `backend/.env`:
+Создать `/path/to/voitov-studio/backend/.env`:
 
 ```env
 DATABASE_URL="file:../.tmp/dev.db"
 PORT=4000
-CORS_ORIGIN="https://voitov.studio,https://www.voitov.studio,http://localhost:3000"
+CORS_ORIGIN="https://voitov.ru,https://www.voitov.ru,http://localhost:3000,http://127.0.0.1:3000"
 ```
 
-Для production с PostgreSQL позже заменить `DATABASE_URL` на PostgreSQL-строку и обновить provider в Prisma.
+Для production с PostgreSQL заменить `DATABASE_URL` на PostgreSQL-строку и применить Prisma-миграции. Изменения схемы базы должны оформляться миграциями, а не только `db:push`.
 
 ## 4. Подготовить базу
 
+Локальная демо-база:
+
 ```bash
-cd backend
+cd /path/to/voitov-studio/backend
 npm run prisma:generate
 npm run db:push
 npm run db:seed
 ```
 
-Проверить данные:
+Production после появления миграций:
 
 ```bash
-npm run prisma:studio
+cd /path/to/voitov-studio/backend
+npx prisma migrate deploy
 ```
 
 ## 5. Сборка
@@ -67,7 +75,8 @@ npm run prisma:studio
 ```bash
 cd /path/to/voitov-studio
 npm run build
-cd backend
+
+cd /path/to/voitov-studio/backend
 npm run build
 ```
 
@@ -84,20 +93,22 @@ pm2 save
 pm2 startup
 ```
 
+После изменения env или новой сборки:
+
+```bash
+pm2 restart voitov-frontend --update-env
+pm2 restart voitov-backend --update-env
+```
+
 ## 7. Nginx
 
-Пример для домена без `www`, где `www` редиректится на основной домен:
+Создать `/etc/nginx/sites-available/voitov.ru`:
 
 ```nginx
 server {
     listen 80;
-    server_name www.voitov.studio;
-    return 301 https://voitov.studio$request_uri;
-}
-
-server {
-    listen 80;
-    server_name voitov.studio;
+    listen [::]:80;
+    server_name voitov.ru www.voitov.ru;
 
     location /api/ {
         proxy_pass http://127.0.0.1:4000/api/;
@@ -114,34 +125,50 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
     }
 }
 ```
 
-Проверка и перезагрузка:
+Активировать конфигурацию:
 
 ```bash
+sudo ln -s /etc/nginx/sites-available/voitov.ru /etc/nginx/sites-enabled/voitov.ru
 sudo nginx -t
 sudo systemctl reload nginx
 ```
 
 ## 8. SSL
 
+Перед выпуском сертификата A/AAAA-записи домена должны вести на VPS, а порты 80 и 443 должны быть открыты.
+
 ```bash
+sudo apt update
 sudo apt install certbot python3-certbot-nginx -y
-sudo certbot --nginx -d voitov.studio -d www.voitov.studio
+sudo certbot --nginx -d voitov.ru -d www.voitov.ru --redirect
 ```
+
+Проверить автопродление:
+
+```bash
+sudo certbot renew --dry-run
+systemctl status certbot.timer
+```
+
+После выпуска сертификата в Nginx оставить `voitov.ru` основным доменом, а `www.voitov.ru` перенаправлять на него. Certbot обычно добавляет HTTPS-блоки автоматически.
 
 ## 9. Проверка после релиза
 
-- Главная открывается.
-- `/services`, `/portfolio`, `/reviews`, `/faq`, `/news`, `/blog`, `/contacts`, `/zayavka` открываются.
-- `/sitemap.xml` и `/robots.txt` доступны.
-- `www` редиректится на домен без `www`.
-- Форма заявки сохраняет запись в `LeadRequest`.
-- Email-уведомления работают, если заполнен `RESEND_API_KEY`.
-- Яндекс.Метрика и Google Analytics появляются только после заполнения env.
+- Главная и внутренние страницы открываются по HTTPS.
+- `http://voitov.ru` и `https://www.voitov.ru` перенаправляются на `https://voitov.ru`.
+- `/sitemap.xml` и `/robots.txt` содержат production-домен.
+- Форма создаёт запись `LeadRequest` и отправляет письмо через Resend.
+- В исходном коде страницы присутствуют Google Analytics и Яндекс.Метрика.
+- В консоли браузера нет CORS-ошибок.
+- Canonical главной указывает на `https://voitov.ru`.
 
 ## 10. Полезные команды
 
@@ -149,6 +176,6 @@ sudo certbot --nginx -d voitov.studio -d www.voitov.studio
 pm2 status
 pm2 logs voitov-frontend
 pm2 logs voitov-backend
-pm2 restart voitov-frontend
-pm2 restart voitov-backend
+sudo nginx -t
+sudo journalctl -u nginx -n 100 --no-pager
 ```

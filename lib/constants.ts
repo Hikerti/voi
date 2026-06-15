@@ -3,7 +3,7 @@ export const SITE = {
   tagline: "Нешаблонные сайты с вау-эффектом",
   description:
     "Креативная веб-студия: лендинги, сайты услуг, айдентика и цифровые воронки для бизнеса, который хочет выглядеть сильнее конкурентов.",
-  baseUrl: "https://voitov.studio",
+  baseUrl: "https://voitov.ru",
   phone: "+7 (995) 903-91-61",
   phoneHref: "tel:+79959039161",
   email: "hello@voitov.studio",

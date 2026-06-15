@@ -6,6 +6,8 @@ import "./page-hotfixes.css";
 import "./lead-page-fixes.css";
 import "./site-polish.css";
 import "./home-reference.css";
+import "./client-revision.css";
+import "./client-revision-patch.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
@@ -22,6 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE.baseUrl),
   openGraph: {
     type: "website",
+    url: SITE.baseUrl,
     siteName: SITE.name,
     title: SITE.name,
     description: SITE.description,

@@ -19,6 +19,7 @@ import {
 export const metadata: Metadata = {
   title: "Voitov Studio | Нешаблонные сайты с вау-эффектом",
   description: "Voitov Studio делает креативные сайты, лендинги и визуальные системы, которые помогают бизнесу выглядеть сильнее конкурентов.",
+  alternates: { canonical: "https://voitov.ru" },
   openGraph: {
     title: "Voitov Studio | Нешаблонные сайты с вау-эффектом",
     description: "Креативная веб-студия с нешаблонным дизайном, анимациями и фокусом на заявки.",
