@@ -16,6 +16,8 @@ import "./styles/seo-content.css";
 import "./styles/layout.css";
 import "./styles/forms.css";
 import "./styles/content-pages.css";
+import "./styles/header.css";
+import "./styles/accessibility.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
