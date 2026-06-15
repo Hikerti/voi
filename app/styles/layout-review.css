@@ -157,7 +157,7 @@
 .vs-final-cta,
 .decision-cta {
   width: min(calc(100% - 32px), var(--review-layout-width)) !important;
-  max-width: var(--review-layout-width) !important;
+  /*max-width: var(--review-layout-width) !important;*/
   margin: clamp(54px, 7vw, 92px) auto !important;
   padding: clamp(30px, 4vw, 54px) !important;
   border: 1px solid rgba(255, 255, 255, 0.13);
