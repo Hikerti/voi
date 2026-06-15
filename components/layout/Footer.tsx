@@ -5,6 +5,7 @@ export default function Footer() {
   return (
     <>
       <link rel="stylesheet" href="/css/final-corrections.css" />
+      <link rel="stylesheet" href="/css/home-news-burger-fix.css" />
       <div className="shapkavniz">
         <div className="shapka-para">
           <div className="w-row">
