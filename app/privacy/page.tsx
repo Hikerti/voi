@@ -12,11 +12,11 @@ export default function PrivacyPage() {
   return (
     <>
       <PageHeader backLabel="home" />
-      <main className="vs-page-shell privacy-page">
+      <main className="vs-page-shell vs-page-shell--dark privacy-page">
         <article className="vs-article rich-content privacy-page__article">
           <p className="vs-kicker">privacy</p>
-          <h1>Политика конфиденциальности</h1>
-          <p>
+          <h1 className="privacy-page__title">Политика конфиденциальности</h1>
+          <p className="privacy-page__intro">
             Это временный текст для этапа разработки. Юридическую редакцию необходимо
             заменить после получения реквизитов и утверждённой политики заказчика.
           </p>
