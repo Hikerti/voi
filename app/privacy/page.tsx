@@ -12,8 +12,8 @@ export default function PrivacyPage() {
   return (
     <>
       <PageHeader backLabel="home" />
-      <main className="vs-page-shell">
-        <article className="vs-article rich-content">
+      <main className="vs-page-shell privacy-page">
+        <article className="vs-article rich-content privacy-page__article">
           <p className="vs-kicker">privacy</p>
           <h1>Политика конфиденциальности</h1>
           <p>
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
             заменить после получения реквизитов и утверждённой политики заказчика.
           </p>
 
-          <div className="vs-article__body">
+          <div className="vs-article__body privacy-page__body">
             <h2>Какие данные обрабатываются</h2>
             <p>
               В зависимости от формы пользователь может передать имя, телефон, email,
