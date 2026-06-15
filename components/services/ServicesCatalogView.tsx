@@ -28,7 +28,6 @@ export default function ServicesCatalogView({ services = SERVICES }: ServicesCat
     <main className="vs-page-shell vs-page-shell--dark services-page">
       <section className="vs-page-hero" aria-labelledby="services-title">
         <div>
-          <p className="vs-kicker">услуги</p>
           <h1 id="services-title">Каталог услуг Voitov Studio</h1>
           <p>
             Сайты, айдентика, SEO-структура и поддержка после запуска. В каждой карточке
