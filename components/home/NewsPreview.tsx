@@ -24,9 +24,6 @@ export default function NewsPreview({ items = [] }: NewsPreviewProps) {
       <div className="news-preview__inner">
         <div className="news-preview__head">
           <h2 className="news-preview__title">Наши&nbsp;Статьи</h2>
-          <AnimatedLink href="/blog" className="news-preview__all">
-            <ShuffleText tag="span">Все статьи</ShuffleText>
-          </AnimatedLink>
         </div>
 
         {items.length > 0 ? (

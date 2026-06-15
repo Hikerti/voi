@@ -64,10 +64,6 @@ export default async function ArticleDetailPage({
   return (
     <main className="article-page">
       <StructuredData data={articleJsonLd} />
-      <AnimatedLink href="/blog" className="article-back">
-        <span aria-hidden="true">←</span>
-        Все статьи
-      </AnimatedLink>
 
       <article className="article-page__inner">
         <header className="article-page__header">
