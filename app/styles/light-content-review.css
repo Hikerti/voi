@@ -3,8 +3,14 @@
 body:has(.blog-page) .breadcrumbs,
 body:has(.article-page) .breadcrumbs,
 body:has(.privacy-page) .breadcrumbs {
-  background: #fff;
+  background: transparent !important;
   color: rgba(9, 9, 9, 0.62);
+}
+
+body:has(.blog-page) .breadcrumbs a:hover,
+body:has(.article-page) .breadcrumbs a:hover,
+body:has(.privacy-page) .breadcrumbs a:hover {
+  color: #667a00 !important;
 }
 
 body:has(.blog-page) .breadcrumbs [aria-current="page"],

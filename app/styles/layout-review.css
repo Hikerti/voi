@@ -1,34 +1,53 @@
-/* Cross-page layout review overrides. */
+/* Cross-page spacing, width and form review. */
 
 :root {
   --review-layout-width: 1280px;
   --review-layout-gutter: 16px;
+  --review-layout-side: max(
+    var(--review-layout-gutter),
+    calc((100vw - var(--review-layout-width)) / 2)
+  );
   --content-width: var(--review-layout-width);
+  --vs-content: var(--review-layout-width);
 }
 
-.breadcrumbs {
+.route-frame {
   position: relative;
-  z-index: 24;
-  width: 100% !important;
+  min-width: 0;
+}
+
+/* Breadcrumbs are overlaid inside the first page section instead of creating
+   a separate horizontal block between the header and the page. */
+.breadcrumbs {
+  position: absolute !important;
+  top: 108px;
+  left: 50%;
+  z-index: 70;
+  width: min(calc(100% - 32px), var(--review-layout-width)) !important;
   margin: 0 !important;
-  padding: 108px 0 32px !important;
-  background: #070708;
+  padding: 0 !important;
+  background: transparent !important;
   color: rgba(255, 255, 255, 0.72);
   box-sizing: border-box;
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .breadcrumbs ol {
-  width: min(calc(100% - 32px), var(--review-layout-width)) !important;
-  margin: 0 auto !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
   gap: 10px !important;
   color: inherit !important;
-  font-size: 16px !important;
+  font-size: clamp(15px, 1.05vw, 17px) !important;
   line-height: 1.45;
   letter-spacing: 0.01em !important;
+  pointer-events: auto;
 }
 
 .breadcrumbs li {
   gap: 10px !important;
+  min-width: 0;
 }
 
 .breadcrumbs li:not(:last-child)::after {
@@ -45,16 +64,81 @@
   color: var(--content-accent) !important;
 }
 
-.services-page,
-.reviews-page,
-.faq-page,
-.contacts-page {
-  padding-top: 32px !important;
+.breadcrumbs [aria-current="page"] {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.blog-page,
-.article-page {
-  padding-top: 48px !important;
+/* The page itself now owns the space above its content. */
+.route-frame > .vs-page-shell,
+.route-frame > .blog-page,
+.route-frame > .article-page,
+.route-frame > .search-page,
+.route-frame > .lead-page,
+.route-frame > .work-v2 {
+  padding-top: clamp(156px, 12vw, 184px) !important;
+}
+
+body:has(.case-hero-raboti) .case-hero-hider {
+  padding-top: clamp(156px, 12vw, 188px) !important;
+}
+
+/* One shared content width. Full-bleed sections retain their background, while
+   their content starts and ends on the same lines as the header. */
+.vs-site-header,
+.work-v2__hero,
+.work-v2__desktop,
+.lead-page__hero,
+.lead-page__layout,
+.blog-page__inner,
+.article-page__inner,
+.article-page .related-content,
+.search-page,
+.studio2__inner,
+.news-preview__inner,
+.site-footer__grid,
+.site-footer__bottom,
+.project-nav,
+.vs-final-cta,
+.decision-cta,
+.seo-copy,
+body:has(.case-hero-raboti) .block-strip,
+body:has(.case-hero-raboti) .div-block-71 {
+  width: min(calc(100% - 32px), var(--review-layout-width)) !important;
+  max-width: var(--review-layout-width) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  box-sizing: border-box;
+}
+
+.vs-page-shell {
+  padding-right: var(--review-layout-gutter) !important;
+  padding-left: var(--review-layout-gutter) !important;
+}
+
+.vs-page-shell > :not(script) {
+  width: min(100%, var(--review-layout-width));
+  max-width: var(--review-layout-width);
+  margin-right: auto;
+  margin-left: auto;
+  box-sizing: border-box;
+}
+
+.vs-services-band,
+.vs-prices,
+.vs-stages,
+.vs-reviews-preview,
+.vs-faq-preview {
+  padding-right: var(--review-layout-side) !important;
+  padding-left: var(--review-layout-side) !important;
+  box-sizing: border-box;
+}
+
+.work-v2__hero,
+.work-v2__desktop,
+.lead-page__hero,
+.lead-page__layout {
+  max-width: var(--review-layout-width) !important;
 }
 
 .services-page .vs-page-hero {
@@ -89,9 +173,6 @@
 
 .vs-services-band .vs-section-head {
   grid-template-columns: minmax(0, 1fr) !important;
-  width: min(calc(100% - 32px), var(--review-layout-width));
-  margin-right: auto !important;
-  margin-left: auto !important;
 }
 
 .vs-services-band .vs-section-head > p {
@@ -105,9 +186,6 @@
 }
 
 .vs-services-band .vs-service-strip {
-  width: min(calc(100% - 32px), var(--review-layout-width));
-  margin-right: auto;
-  margin-left: auto;
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   gap: 14px !important;
 }
@@ -130,15 +208,13 @@
 }
 
 .seo-copy {
-  width: min(calc(100% - 32px), var(--review-layout-width)) !important;
-  max-width: var(--review-layout-width) !important;
-  margin: clamp(54px, 7vw, 88px) auto !important;
+  margin-top: clamp(54px, 7vw, 88px) !important;
+  margin-bottom: clamp(54px, 7vw, 88px) !important;
   padding: clamp(30px, 4vw, 54px) !important;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 18px;
   background: #0d0d11 !important;
   color: #fff !important;
-  box-sizing: border-box;
 }
 
 .seo-copy h2 {
@@ -156,13 +232,11 @@
 
 .vs-final-cta,
 .decision-cta {
-  width: min(calc(100% - 32px), var(--review-layout-width)) !important;
-  /*max-width: var(--review-layout-width) !important;*/
-  margin: clamp(54px, 7vw, 92px) auto !important;
+  margin-top: clamp(54px, 7vw, 92px) !important;
+  margin-bottom: clamp(54px, 7vw, 92px) !important;
   padding: clamp(30px, 4vw, 54px) !important;
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 18px;
-  box-sizing: border-box;
 }
 
 .vs-final-cta {
@@ -249,16 +323,8 @@
   width: 100%;
   min-height: 0 !important;
   overflow: visible !important;
-  padding: clamp(42px, 5vw, 68px) 16px 24px !important;
+  padding: clamp(42px, 5vw, 68px) var(--review-layout-gutter) 24px !important;
   box-sizing: border-box;
-}
-
-.site-footer__grid,
-.site-footer__bottom {
-  width: min(calc(100% - 32px), var(--review-layout-width)) !important;
-  max-width: var(--review-layout-width) !important;
-  margin-right: auto !important;
-  margin-left: auto !important;
 }
 
 .site-footer__grid {
@@ -293,13 +359,33 @@
 }
 
 @media (max-width: 700px) {
+  :root {
+    --review-layout-gutter: 14px;
+  }
+
   .breadcrumbs {
-    padding-top: 88px !important;
-    padding-bottom: 22px !important;
+    top: 88px;
+    width: calc(100% - 28px) !important;
   }
 
   .breadcrumbs ol {
+    flex-wrap: nowrap;
+    overflow: hidden;
     font-size: 14px !important;
+    white-space: nowrap;
+  }
+
+  .route-frame > .vs-page-shell,
+  .route-frame > .blog-page,
+  .route-frame > .article-page,
+  .route-frame > .search-page,
+  .route-frame > .lead-page,
+  .route-frame > .work-v2 {
+    padding-top: 128px !important;
+  }
+
+  body:has(.case-hero-raboti) .case-hero-hider {
+    padding-top: 128px !important;
   }
 
   .vs-services-band .vs-service-strip,
@@ -317,6 +403,7 @@
   .vs-final-cta,
   .decision-cta,
   .seo-copy {
+    width: calc(100% - 28px) !important;
     padding: 24px 20px !important;
     border-radius: 14px;
   }

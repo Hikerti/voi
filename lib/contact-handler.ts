@@ -83,6 +83,7 @@ async function storeLead(body: ContactPayload): Promise<StoredLeadResult> {
           company: cleanOptional(body.company),
           consent: body.consent,
         }),
+        cache: "no-store",
       });
 
       if (response.status === 404) {
@@ -123,18 +124,27 @@ async function sendEmail(body: ContactPayload, leadId?: number) {
     body.message ? `Сообщение: ${body.message}` : null,
     body.source ? `Источник: ${body.source}` : null,
     body.pageUrl ? `Страница: ${body.pageUrl}` : null,
-  ].filter(Boolean).join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${resendApiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ from, to, subject, text }),
-  });
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ from, to, subject, text }),
+      cache: "no-store",
+    });
 
-  if (!response.ok) console.error("Email send error:", await response.text());
+    if (!response.ok) {
+      console.error("Email send error:", await response.text());
+    }
+  } catch (error) {
+    console.error("Email transport error:", error);
+  }
 }
 
 export async function handleContactPost(request: NextRequest) {
