@@ -2,6 +2,7 @@
 @import "./light-content-review.css";
 @import "./layout-alignment-fix.css";
 @import "./dark-utility-theme.css";
+@import "./dark-utility-patch.css";
 
 /* Reusable accessibility helpers. */
 
