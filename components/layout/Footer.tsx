@@ -1,7 +1,16 @@
 import Link from "next/link";
 import { FOOTER_NAV, SITE } from "@/lib/constants";
 
+const SOCIAL_LINKS = [
+  { label: "Telegram", href: SITE.telegram },
+  { label: "WhatsApp", href: SITE.whatsapp },
+  { label: "VK", href: SITE.vk },
+  { label: "MAX", href: SITE.max },
+].filter((item): item is { label: string; href: string } => Boolean(item.href));
+
 export default function Footer() {
+  const hasRequisites = Boolean(SITE.inn || SITE.ogrn);
+
   return (
     <footer className="site-footer">
       <div className="site-footer__grid">
@@ -31,23 +40,28 @@ export default function Footer() {
           <h2>Контакты</h2>
           <address>
             <a href={SITE.phoneHref}>{SITE.phone}</a>
-            <a href={SITE.secondaryPhoneHref}>{SITE.secondaryPhone}</a>
+            {SITE.secondaryPhone && SITE.secondaryPhoneHref && (
+              <a href={SITE.secondaryPhoneHref}>{SITE.secondaryPhone}</a>
+            )}
             <a href={SITE.emailHref}>{SITE.email}</a>
             <span>{SITE.workHours}</span>
             <span>{SITE.address}</span>
           </address>
-          <div className="site-footer__socials" aria-label="Социальные сети и мессенджеры">
-            <a href={SITE.telegram} target="_blank" rel="noopener noreferrer">Telegram</a>
-            <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>
-            <a href={SITE.vk} target="_blank" rel="noopener noreferrer">VK</a>
-            <a href={SITE.max} target="_blank" rel="noopener noreferrer">MAX</a>
-          </div>
+          {SOCIAL_LINKS.length > 0 && (
+            <div className="site-footer__socials" aria-label="Социальные сети и мессенджеры">
+              {SOCIAL_LINKS.map((item) => (
+                <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer">
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
       <div className="site-footer__bottom">
         <p>© {new Date().getFullYear()} {SITE.name}. Все права защищены.</p>
-        <p>{SITE.inn} · {SITE.ogrn}</p>
+        {hasRequisites && <p>{[SITE.inn, SITE.ogrn].filter(Boolean).join(" · ")}</p>}
         <p>Информация на сайте не является публичной офертой.</p>
       </div>
     </footer>
