@@ -22,10 +22,20 @@ type PageMetadataInput = {
   noIndex?: boolean;
 };
 
+function hasFileExtension(path: string) {
+  const lastSegment = path.split("/").pop() || "";
+  return lastSegment.includes(".");
+}
+
 export function absoluteUrl(path = "/") {
-  if (/^https?:\/\//.test(path)) return path;
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+
   const normalized = path.startsWith("/") ? path : `/${path}`;
-  return `${SITE.baseUrl}${normalized === "/" ? "" : normalized}`;
+  const withTrailingSlash = normalized === "/" || hasFileExtension(normalized)
+    ? normalized
+    : `${normalized.replace(/\/$/, "")}/`;
+
+  return `${SITE.baseUrl}${withTrailingSlash === "/" ? "" : withTrailingSlash}`;
 }
 
 export function createPageMetadata({
@@ -33,7 +43,7 @@ export function createPageMetadata({
   description,
   path = "/",
   keywords = [],
-  image = "/images/og-cover.svg",
+  image = "/images/blog/seo-thumb.jpg",
   type = "website",
   noIndex = false,
 }: PageMetadataInput): Metadata {
@@ -77,6 +87,14 @@ export function createPageMetadata({
   };
 }
 
+const socialLinks = [
+  SITE.telegram,
+  SITE.whatsapp,
+  SITE.instagram,
+  SITE.facebook,
+  SITE.vk,
+].filter((value): value is string => Boolean(value));
+
 export const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -84,7 +102,7 @@ export const ORGANIZATION_JSON_LD = {
   name: SITE.name,
   url: SITE.baseUrl,
   logo: absoluteUrl("/logo.png"),
-  image: absoluteUrl("/images/og-cover.svg"),
+  image: absoluteUrl("/images/blog/seo-thumb.jpg"),
   description: SITE.description,
   telephone: SITE.phone,
   email: SITE.email,
@@ -92,7 +110,7 @@ export const ORGANIZATION_JSON_LD = {
     "@type": "City",
     name: "Москва",
   },
-  sameAs: [SITE.telegram, SITE.whatsapp, SITE.instagram, SITE.facebook].filter(Boolean),
+  sameAs: socialLinks,
 };
 
 export const WEBSITE_JSON_LD = {
