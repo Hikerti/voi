@@ -60,6 +60,8 @@ export class LeadsService {
   }
 
   private assertRequiredContact(kind: LeadKind, dto: CreateLeadDto) {
+    if (kind === LeadKind.REVIEW) return;
+
     if (kind === LeadKind.CALLBACK && !dto.phone) {
       throw new BadRequestException('Phone is required for callback requests');
     }
@@ -86,15 +88,10 @@ export class LeadsService {
       throw new BadRequestException('Invalid form submission');
     }
 
-    if (!dto.startedAt) {
-      return;
-    }
+    if (!dto.startedAt) return;
 
     const startedAt = new Date(dto.startedAt).getTime();
-
-    if (Number.isNaN(startedAt)) {
-      return;
-    }
+    if (Number.isNaN(startedAt)) return;
 
     if (Date.now() - startedAt < 2500) {
       throw new BadRequestException('Form was submitted too quickly');
