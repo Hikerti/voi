@@ -5,6 +5,9 @@
 @import "./dark-utility-patch.css";
 @import "./navigation-pages-polish.css";
 @import "./navigation-pages-polish-fix.css";
+@import "./article-detail-hotfix.css";
+@import "./faq-page-hotfix.css";
+@import "./home-trust-hotfix.css";
 
 /* Reusable accessibility helpers. */
 
