@@ -93,7 +93,7 @@ const socialLinks = [
   SITE.instagram,
   SITE.facebook,
   SITE.vk,
-].filter((value): value is string => Boolean(value));
+].flatMap((value) => (value ? [value] : []));
 
 export const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
