@@ -35,8 +35,15 @@ export default function SiteHeader() {
       <div className="vs-site-header__actions">
         <form className="site-search site-search--header" action="/search" role="search">
           <label htmlFor="site-search-header">Поиск по сайту</label>
-          <input id="site-search-header" name="q" type="search" placeholder="Поиск" minLength={2} required />
-          <button type="submit">Найти</button>
+          <input
+            id="site-search-header"
+            name="q"
+            type="search"
+            placeholder="Поиск — нажмите Enter"
+            minLength={2}
+            enterKeyHint="search"
+            required
+          />
         </form>
         <Link className="site-search-link" href="/search" aria-label="Открыть поиск по сайту">
           Поиск
