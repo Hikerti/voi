@@ -33,7 +33,7 @@ export function createPageMetadata({
   description,
   path = "/",
   keywords = [],
-  image = "/images/og-cover.jpg",
+  image = "/images/og-cover.svg",
   type = "website",
   noIndex = false,
 }: PageMetadataInput): Metadata {
@@ -84,7 +84,7 @@ export const ORGANIZATION_JSON_LD = {
   name: SITE.name,
   url: SITE.baseUrl,
   logo: absoluteUrl("/logo.png"),
-  image: absoluteUrl("/images/og-cover.jpg"),
+  image: absoluteUrl("/images/og-cover.svg"),
   description: SITE.description,
   telephone: SITE.phone,
   email: SITE.email,
