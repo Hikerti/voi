@@ -25,7 +25,6 @@ export default function HomeTrustSections({
       <section className="vs-stages">
         <div className="vs-stages__hero">
           <div>
-            <p className="vs-kicker">процесс</p>
             <h2>От идеи до сайта, который не стыдно показывать</h2>
           </div>
           <div className="vs-stages__signal" aria-hidden="true">
@@ -48,7 +47,6 @@ export default function HomeTrustSections({
 
       <section className="vs-reviews-preview">
         <div className="vs-section-head">
-          <p>отзывы</p>
           <h2>Клиенты приходят за сайтом, который выглядит сильнее рынка</h2>
           <h3 className="vs-section-head__label">Все отзывы</h3>
         </div>
@@ -64,7 +62,6 @@ export default function HomeTrustSections({
 
       <section className="vs-faq-preview">
         <div>
-          <p className="vs-kicker">faq</p>
           <h2>Коротко о том, что обычно спрашивают до старта</h2>
         </div>
         <div className="vs-faq-list">
