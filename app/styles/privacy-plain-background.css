@@ -1,0 +1,37 @@
+/* Privacy page: content sits directly on the global site background. */
+body:has(.privacy-page) .route-frame,
+body:has(.privacy-page) .route-frame > .privacy-page,
+body:has(.privacy-page) .privacy-page,
+body:has(.privacy-page) .privacy-page__article,
+body:has(.privacy-page) .privacy-page__body,
+body:has(.privacy-page) .rich-content {
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.privacy-page) .route-frame::before,
+body:has(.privacy-page) .route-frame::after,
+body:has(.privacy-page) .privacy-page::before,
+body:has(.privacy-page) .privacy-page::after,
+body:has(.privacy-page) .privacy-page__article::before,
+body:has(.privacy-page) .privacy-page__article::after,
+body:has(.privacy-page) .privacy-page__body::before,
+body:has(.privacy-page) .privacy-page__body::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.privacy-page) .route-frame > .privacy-page {
+  overflow: visible !important;
+}
+
+body:has(.privacy-page) .privacy-page__body {
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
