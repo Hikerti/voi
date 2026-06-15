@@ -59,6 +59,8 @@ export default function Footer() {
         </div>
       </div>
 
+      <div className="site-footer__divider" aria-hidden="true" />
+
       <div className="site-footer__bottom">
         <p>© {new Date().getFullYear()} {SITE.name}. Все права защищены.</p>
         {hasRequisites && <p>{[SITE.inn, SITE.ogrn].filter(Boolean).join(" · ")}</p>}
