@@ -1,0 +1,69 @@
+/* Final alignment pass for shared page sections, breadcrumbs and footer divider. */
+
+:root {
+  --review-page-top: clamp(108px, 8vw, 124px);
+  --review-section-inset: clamp(24px, 2.6vw, 34px);
+  --review-breadcrumb-space: clamp(76px, 6vw, 92px);
+}
+
+/* Keep the first content block directly below the fixed header. */
+.route-frame > .vs-page-shell {
+  padding-top: var(--review-page-top) !important;
+}
+
+/* The breadcrumb remains a global navigation element, but is visually placed
+   inside the first page section with the same inner offsets as its content. */
+.route-frame:has(> .vs-page-shell) > .breadcrumbs {
+  top: calc(var(--review-page-top) + var(--review-section-inset));
+  padding-right: var(--review-section-inset) !important;
+  padding-left: var(--review-section-inset) !important;
+}
+
+.route-frame > .vs-page-shell > section:first-of-type {
+  padding-top: var(--review-breadcrumb-space) !important;
+}
+
+/* Several earlier polish rules use a 1480px !important max-width. Override
+   them here so every page section follows the same 1280px line as the header. */
+.route-frame > .vs-page-shell > :not(script),
+.vs-page-hero,
+.vs-detail-hero,
+.vs-two-col,
+.vs-catalog-grid,
+.vs-related,
+.reviews-page__hero,
+.reviews-page__form,
+.vs-review-grid--page,
+.faq-page__hero,
+.faq-accordion,
+.faq-page__form,
+.contacts-page__hero,
+.contacts-page__layout {
+  width: min(100%, var(--review-layout-width)) !important;
+  max-width: var(--review-layout-width) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  box-sizing: border-box;
+}
+
+/* The footer content stays aligned with the header, while the separator itself
+   spans the full viewport width. */
+.site-footer__divider {
+  width: calc(100% + (2 * var(--review-layout-gutter)));
+  margin: clamp(30px, 4vw, 48px) calc(-1 * var(--review-layout-gutter)) 0;
+  border-top: 1px solid var(--content-line);
+  pointer-events: none;
+}
+
+.site-footer__bottom {
+  margin-top: 0 !important;
+  border-top: 0 !important;
+}
+
+@media (max-width: 700px) {
+  :root {
+    --review-page-top: 94px;
+    --review-section-inset: 18px;
+    --review-breadcrumb-space: 70px;
+  }
+}
