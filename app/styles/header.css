@@ -1,5 +1,26 @@
 /* Responsive header-only rules. */
 
+.vs-site-header__nav a,
+.vs-site-header__nav span {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+}
+
+.vs-site-header__nav span[aria-current="page"] {
+  color: var(--content-accent);
+  cursor: default;
+}
+
+.vs-site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .site-search-link {
   display: none;
   color: #fff;
