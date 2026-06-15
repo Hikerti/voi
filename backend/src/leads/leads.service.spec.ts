@@ -1,6 +1,12 @@
 import { LeadKind, LeadStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateLeadDto } from './dto/create-lead.dto';
 import { LeadsService } from './leads.service';
+
+type LeadCase = {
+  kind: LeadKind;
+  dto: CreateLeadDto;
+};
 
 describe('LeadsService', () => {
   const createLead = jest.fn();
@@ -14,12 +20,7 @@ describe('LeadsService', () => {
 
   const service = new LeadsService(prisma);
   const startedAt = new Date(Date.now() - 5_000).toISOString();
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it.each([
+  const cases: LeadCase[] = [
     {
       kind: LeadKind.CONTACT,
       dto: { phone: '+7 (999) 111-22-33', consent: true, startedAt },
@@ -36,7 +37,13 @@ describe('LeadsService', () => {
       kind: LeadKind.QUESTION,
       dto: { name: 'Роман', email: 'roman@example.com', message: 'Когда можно начать?', consent: true, startedAt },
     },
-  ])('stores $kind form submissions', async ({ kind, dto }) => {
+  ];
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it.each(cases)('stores $kind form submissions', async ({ kind, dto }) => {
     createLead.mockResolvedValue({
       id: 42,
       kind,
