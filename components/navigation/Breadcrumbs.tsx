@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SITE } from "@/lib/constants";
+import { FAQ_ITEMS, NEWS_ITEMS, SERVICES } from "@/lib/site-data";
 
-const LABELS: Record<string, string> = {
+const SECTION_LABELS: Record<string, string> = {
   services: "Услуги",
   portfolio: "Работы",
   reviews: "Отзывы",
@@ -16,10 +17,48 @@ const LABELS: Record<string, string> = {
   privacy: "Политика конфиденциальности",
   zayavka: "Оставить заявку",
   search: "Поиск",
+  strategy: "Стратегия",
+  design: "Дизайн",
+  digital: "Digital",
+  marketing: "Маркетинг",
 };
 
+const CONTENT_LABELS: Record<string, string> = {
+  "izumrudnaya-dolina": "ЖК «Изумрудная долина»",
+  lesofaktura: "Лесофактура",
+  "premium-olivko": "Premium Olivko",
+  "magic-people": "Magic People",
+  "all-dates-box": "All Dates Box",
+  "effektivnost-klyuchevykh-slov": "Эффективность ключевых слов",
+  "seo-prodvizhenie-3-shaga": "SEO-продвижение: 3 шага",
+  "vybor-domena-dlya-sayta": "Выбор домена для сайта",
+};
+
+const DATA_LABELS: Record<string, string> = Object.fromEntries([
+  ...SERVICES.map((item) => [item.slug, item.title]),
+  ...FAQ_ITEMS.map((item) => [item.slug, item.question]),
+  ...NEWS_ITEMS.map((item) => [item.slug, item.title]),
+]);
+
+function decodeSegment(segment: string) {
+  try {
+    return decodeURIComponent(segment);
+  } catch {
+    return segment;
+  }
+}
+
 function humanize(segment: string) {
-  return LABELS[segment] || decodeURIComponent(segment).replace(/-/g, " ");
+  const decoded = decodeSegment(segment);
+  const knownLabel = SECTION_LABELS[decoded] || DATA_LABELS[decoded] || CONTENT_LABELS[decoded];
+
+  if (knownLabel) return knownLabel;
+
+  return decoded
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/^./, (letter) => letter.toUpperCase());
 }
 
 export default function Breadcrumbs() {
