@@ -19,11 +19,13 @@ interface SiteFormProps {
 
 const SUCCESS_MESSAGES: Record<FormVariant, string> = {
   general: "Спасибо, заявка отправлена. Мы свяжемся с вами в течение 24 часов.",
-  contact: "Ваш вопрос отправлен. Ответ мы пришлём по почте.",
+  contact: "Сообщение отправлено. Ответим по указанным контактам.",
   callback: "Заявка на обратный звонок отправлена. Мы свяжемся с вами в рабочее время.",
   review: "Ваш отзыв отправлен и появится после проверки.",
   question: "Ваш вопрос отправлен. Ответ мы пришлём по почте.",
 };
+
+const FALLBACK_ERROR = "Не удалось отправить форму. Повторите попытку позже или позвоните нам.";
 
 function countDigits(value: string) {
   return value.replace(/\D/g, "").length;
@@ -50,6 +52,7 @@ export default function SiteForm({
   const emailRequired = variant === "contact" || variant === "question";
   const messageRequired = variant === "contact" || variant === "review" || variant === "question";
   const messageLabel = variant === "review" ? "Отзыв" : variant === "question" ? "Вопрос" : "Сообщение";
+  const validationMessages = Array.from(new Set(Object.values(errors).filter(Boolean)));
 
   function validate(formData: FormData) {
     const nextErrors: FieldErrors = {};
@@ -70,14 +73,15 @@ export default function SiteForm({
     return nextErrors;
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
     const formData = new FormData(form);
     const nextErrors = validate(formData);
 
     if (Object.keys(nextErrors).length > 0) {
       setErrors(nextErrors);
+      setServerError("");
       setStatus("idle");
       return;
     }
@@ -87,7 +91,7 @@ export default function SiteForm({
     setStatus("loading");
 
     try {
-      const res = await fetch("/api/contact", {
+      const response = await fetch("/submit-lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -103,8 +107,11 @@ export default function SiteForm({
         }),
       });
 
-      const data = (await res.json().catch(() => null)) as { error?: string } | null;
-      if (!res.ok) throw new Error(data?.error || "Request failed");
+      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      if (!response.ok) {
+        const message = data?.error?.trim();
+        throw new Error(message && message.toLowerCase() !== "not found" ? message : FALLBACK_ERROR);
+      }
 
       form.reset();
       startedAtRef.current = new Date().toISOString();
@@ -112,7 +119,7 @@ export default function SiteForm({
       trackGoal("lead_form_submit", { source, variant });
     } catch (error) {
       setStatus("error");
-      setServerError(error instanceof Error ? error.message : "Не получилось отправить форму.");
+      setServerError(error instanceof Error && error.message ? error.message : FALLBACK_ERROR);
     }
   }
 
@@ -124,6 +131,15 @@ export default function SiteForm({
     >
       <fieldset disabled={status === "loading"}>
         <legend>{title}</legend>
+
+        {validationMessages.length > 0 && (
+          <div className="vs-form__error-summary" role="alert">
+            <strong>Проверьте форму</strong>
+            <ul>
+              {validationMessages.map((message) => <li key={message}>{message}</li>)}
+            </ul>
+          </div>
+        )}
 
         <div className="vs-form__honeypot" aria-hidden="true">
           <label htmlFor={`${source}-company`}>Компания</label>
@@ -200,8 +216,10 @@ export default function SiteForm({
         </label>
         {errors.consent && <small className="vs-form__field-error">{errors.consent}</small>}
 
-        {status === "success" && <p className="vs-form__success" role="status">{SUCCESS_MESSAGES[variant]}</p>}
-        {status === "error" && <p className="vs-form__error" role="alert">{serverError}</p>}
+        <div className="vs-form__status" aria-live="polite">
+          {status === "success" && <p className="vs-form__success">{SUCCESS_MESSAGES[variant]}</p>}
+          {status === "error" && <p className="vs-form__error" role="alert">{serverError}</p>}
+        </div>
 
         <button type="submit">
           {status === "loading" ? "Отправляем..." : submitLabel}
