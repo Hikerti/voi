@@ -8,6 +8,7 @@ import "./site-polish.css";
 import "./home-reference.css";
 import "./client-revision.css";
 import "./client-revision-patch.css";
+import "./visual-polish.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
