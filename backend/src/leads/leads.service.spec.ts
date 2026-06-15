@@ -23,19 +23,36 @@ describe('LeadsService', () => {
   const cases: LeadCase[] = [
     {
       kind: LeadKind.CONTACT,
-      dto: { phone: '+7 (999) 111-22-33', consent: true, startedAt },
+      dto: { phone: '+10000000000', consent: true, startedAt },
     },
     {
       kind: LeadKind.CALLBACK,
-      dto: { name: 'Роман', phone: '+7 (999) 111-22-33', consent: true, startedAt },
+      dto: {
+        name: 'Tester',
+        phone: '+10000000000',
+        consent: true,
+        startedAt,
+      },
     },
     {
       kind: LeadKind.REVIEW,
-      dto: { name: 'Роман', email: 'roman@example.com', message: 'Отличная работа', consent: true, startedAt },
+      dto: {
+        name: 'Tester',
+        email: 'test@example.invalid',
+        message: 'Review message',
+        consent: true,
+        startedAt,
+      },
     },
     {
       kind: LeadKind.QUESTION,
-      dto: { name: 'Роман', email: 'roman@example.com', message: 'Когда можно начать?', consent: true, startedAt },
+      dto: {
+        name: 'Tester',
+        email: 'test@example.invalid',
+        message: 'Question message',
+        consent: true,
+        startedAt,
+      },
     },
   ];
 
@@ -74,7 +91,7 @@ describe('LeadsService', () => {
       service.create(
         LeadKind.CONTACT,
         {
-          phone: '+7 (999) 111-22-33',
+          phone: '+10000000000',
           company: 'spam',
           consent: true,
           startedAt,
