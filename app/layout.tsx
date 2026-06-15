@@ -11,29 +11,66 @@ import "./client-revision-patch.css";
 import "./visual-polish.css";
 import "./route-polish.css";
 import "./light-blocks-hero-fix.css";
+import "./styles/home-page.css";
+import "./styles/seo-content.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
 import ScrollRevealLayer from "@/components/layout/ScrollRevealLayer";
 import AnalyticsEvents from "@/components/analytics/AnalyticsEvents";
 import ProjectHeroSizer from "@/components/portfolio/ProjectHeroSizer";
+import Breadcrumbs from "@/components/navigation/Breadcrumbs";
+import DecisionCta from "@/components/layout/DecisionCta";
+import StructuredData from "@/components/seo/StructuredData";
 import { SITE } from "@/lib/constants";
+import { DEFAULT_KEYWORDS, ORGANIZATION_JSON_LD, WEBSITE_JSON_LD } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: {
-    default: SITE.name,
+    default: `Разработка сайтов и веб-дизайн | ${SITE.name}`,
     template: "%s",
   },
   description: SITE.description,
+  keywords: DEFAULT_KEYWORDS,
   metadataBase: new URL(SITE.baseUrl),
+  alternates: { canonical: SITE.baseUrl },
+  applicationName: SITE.name,
+  creator: SITE.name,
+  publisher: SITE.name,
+  category: "web development",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
+    locale: "ru_RU",
     url: SITE.baseUrl,
     siteName: SITE.name,
-    title: SITE.name,
+    title: `Разработка сайтов и веб-дизайн | ${SITE.name}`,
     description: SITE.description,
+    images: [
+      {
+        url: "/images/og-cover.svg",
+        width: 1200,
+        height: 630,
+        alt: `${SITE.name} — разработка сайтов и веб-дизайн`,
+      },
+    ],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    title: `Разработка сайтов и веб-дизайн | ${SITE.name}`,
+    description: SITE.description,
+    images: ["/images/og-cover.svg"],
+  },
   icons: {
     icon: "/images/favicon-vs.svg",
     shortcut: "/images/favicon-vs.svg",
@@ -49,7 +86,6 @@ export default function RootLayout({
   return (
     <html lang="ru" className="w-mod-js">
       <head>
-        {/* Webflow CSS — served as static files so url('../images/...') resolves correctly */}
         <link rel="stylesheet" href="/css/normalize.css" />
         <link rel="stylesheet" href="/css/webflow.css" />
         <link rel="stylesheet" href="/css/creativenest.webflow.css" />
@@ -64,13 +100,16 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&family=Great+Vibes&family=Varela&family=Forum&family=Iceland&family=Jura:wght@300..700&family=Russo+One&display=swap"
           rel="stylesheet"
         />
+        <StructuredData data={[ORGANIZATION_JSON_LD, WEBSITE_JSON_LD]} />
       </head>
       <body className="body">
         <MenuProvider>
           <AnalyticsEvents />
           <ProjectHeroSizer />
           <SiteHeader />
+          <Breadcrumbs />
           {children}
+          <DecisionCta />
           <Footer />
           <ScrollRevealLayer />
         </MenuProvider>
