@@ -1,0 +1,106 @@
+/* Last-resort visual reset for the remaining legacy backgrounds. */
+
+/* FAQ rows: no card fill and no grey animated area. */
+body:has(.faq-page) .faq-page,
+body:has(.faq-page) .faq-accordion,
+body:has(.faq-page) .faq-accordion__item,
+body:has(.faq-page) .faq-accordion__item:hover,
+body:has(.faq-page) .faq-accordion__item.is-open,
+body:has(.faq-page) .faq-accordion__item button,
+body:has(.faq-page) .faq-accordion__answer,
+body:has(.faq-page) .faq-accordion__answer p {
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+body:has(.faq-page) .faq-accordion,
+body:has(.faq-page) .faq-accordion__item,
+body:has(.faq-page) .faq-accordion__answer {
+  min-height: 0 !important;
+}
+
+body:has(.faq-page) .faq-accordion__item {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 0 !important;
+}
+
+body:has(.faq-page) .faq-accordion__item:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body:has(.faq-page) :is(
+  .faq-page,
+  .faq-accordion,
+  .faq-accordion__item,
+  .faq-accordion__answer
+)::before,
+body:has(.faq-page) :is(
+  .faq-page,
+  .faq-accordion,
+  .faq-accordion__item,
+  .faq-accordion__answer
+)::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+}
+
+/* Individual FAQ page: content directly on the site gradient. */
+body:has(.faq-detail-page) .faq-detail-page,
+body:has(.faq-detail-page) .faq-detail-page__hero {
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+body:has(.faq-detail-page) .faq-detail-page__hero {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* Article continuation and CTA sit directly on the global background. */
+body:has(.article-page) .article-page,
+body:has(.article-page) .related-content,
+body:has(.article-page) .decision-cta,
+body:has(.faq-detail-page) .decision-cta {
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+body:has(.article-page) .related-content {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+body:has(.article-page) .decision-cta,
+body:has(.faq-detail-page) .decision-cta {
+  margin-top: 20px !important;
+  border-radius: 0 !important;
+}
+
+/* Privacy text always remains readable, including WebKit text fill rules. */
+body:has(.privacy-page) .privacy-page,
+body:has(.privacy-page) .privacy-page__article {
+  color: #f5f5ef !important;
+  background: transparent !important;
+}
+
+body:has(.privacy-page) .privacy-page__title,
+body:has(.privacy-page) .privacy-page__body h2,
+body:has(.privacy-page) .privacy-page__body h3 {
+  color: #f5f5ef !important;
+  -webkit-text-fill-color: #f5f5ef !important;
+  opacity: 1 !important;
+}
+
+body:has(.privacy-page) .privacy-page__intro,
+body:has(.privacy-page) .privacy-page__body p,
+body:has(.privacy-page) .privacy-page__body li {
+  color: rgba(245, 245, 239, 0.74) !important;
+  -webkit-text-fill-color: rgba(245, 245, 239, 0.74) !important;
+  opacity: 1 !important;
+}
