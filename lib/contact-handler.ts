@@ -16,6 +16,12 @@ type StoredLeadResult = {
   ok: boolean;
   id?: number;
   error?: string;
+  status?: number;
+};
+
+type EmailResult = {
+  ok: boolean;
+  error?: string;
 };
 
 function countDigits(value: string) {
@@ -49,25 +55,50 @@ function validatePayload(body: ContactPayload) {
   return null;
 }
 
-function backendCandidates() {
-  const configured = (
-    process.env.CMS_API_URL ||
-    process.env.NEXT_PUBLIC_CMS_API_URL ||
-    "http://127.0.0.1:4000/api"
-  ).replace(/\/+$/, "");
+function addApiVariants(target: Set<string>, value?: string) {
+  const normalized = value?.trim().replace(/\/+$/, "");
+  if (!normalized) return;
 
-  const candidates = configured.endsWith("/api")
-    ? [configured, configured.slice(0, -4)]
-    : [configured, `${configured}/api`];
-
-  return Array.from(new Set(candidates));
+  target.add(normalized);
+  if (normalized.endsWith("/api")) {
+    target.add(normalized.slice(0, -4));
+  } else {
+    target.add(`${normalized}/api`);
+  }
 }
 
-async function storeLead(body: ContactPayload): Promise<StoredLeadResult> {
+function backendCandidates(requestOrigin?: string) {
+  const candidates = new Set<string>();
+
+  // The server-local address is intentionally always included. A missing or stale
+  // public CMS URL must not break forms when Nest is running on the same VPS.
+  addApiVariants(candidates, process.env.CMS_API_URL);
+  addApiVariants(candidates, "http://127.0.0.1:4000/api");
+  addApiVariants(candidates, process.env.NEXT_PUBLIC_CMS_API_URL);
+  addApiVariants(candidates, requestOrigin ? `${requestOrigin}/api` : undefined);
+
+  return Array.from(candidates);
+}
+
+function readBackendError(raw: string) {
+  const trimmed = raw.trim();
+  if (!trimmed) return "Backend request failed";
+
+  try {
+    const parsed = JSON.parse(trimmed) as { message?: string | string[]; error?: string };
+    if (Array.isArray(parsed.message)) return parsed.message.join(". ");
+    return parsed.message || parsed.error || trimmed;
+  } catch {
+    return trimmed;
+  }
+}
+
+async function storeLead(body: ContactPayload, requestOrigin?: string): Promise<StoredLeadResult> {
   const path = backendLeadPath(body.source);
   let lastError = "Backend unavailable";
+  let lastStatus: number | undefined;
 
-  for (const baseUrl of backendCandidates()) {
+  for (const baseUrl of backendCandidates(requestOrigin)) {
     try {
       const response = await fetch(`${baseUrl}${path}`, {
         method: "POST",
@@ -84,34 +115,49 @@ async function storeLead(body: ContactPayload): Promise<StoredLeadResult> {
           consent: body.consent,
         }),
         cache: "no-store",
+        signal: AbortSignal.timeout(6000),
       });
+
+      const responseText = await response.text();
 
       if (response.status === 404) {
         lastError = `Lead endpoint not found at ${baseUrl}`;
+        lastStatus = response.status;
         continue;
       }
 
       if (!response.ok) {
-        lastError = await response.text();
+        const error = readBackendError(responseText);
+
+        // Validation and anti-spam responses are authoritative. Trying another
+        // address or silently emailing the same rejected payload would bypass them.
+        if (response.status >= 400 && response.status < 500) {
+          return { ok: false, error, status: response.status };
+        }
+
+        lastError = error;
+        lastStatus = response.status;
         continue;
       }
 
-      const data = (await response.json()) as { id?: number };
+      const data = responseText ? (JSON.parse(responseText) as { id?: number }) : {};
       return { ok: true, id: data.id };
     } catch (error) {
       lastError = error instanceof Error ? error.message : "Backend unavailable";
     }
   }
 
-  return { ok: false, error: lastError };
+  return { ok: false, error: lastError, status: lastStatus };
 }
 
-async function sendEmail(body: ContactPayload, leadId?: number) {
+async function sendEmail(body: ContactPayload, leadId?: number): Promise<EmailResult> {
   const to = process.env.CONTACT_EMAIL_TO;
-  const from = process.env.CONTACT_EMAIL_FROM ?? "site@voitov.studio";
+  const from = process.env.CONTACT_EMAIL_FROM ?? "Voitov Studio <onboarding@resend.dev>";
   const resendApiKey = process.env.RESEND_API_KEY;
 
-  if (!resendApiKey || !to) return;
+  if (!resendApiKey || !to) {
+    return { ok: false, error: "Email delivery is not configured" };
+  }
 
   const subject = `Новая заявка с сайта${body.source ? `: ${body.source}` : ""}`;
   const text = [
@@ -135,15 +181,27 @@ async function sendEmail(body: ContactPayload, leadId?: number) {
         Authorization: `Bearer ${resendApiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ from, to, subject, text }),
+      body: JSON.stringify({
+        from,
+        to,
+        subject,
+        text,
+        ...(body.email ? { reply_to: body.email } : {}),
+      }),
       cache: "no-store",
+      signal: AbortSignal.timeout(8000),
     });
 
     if (!response.ok) {
-      console.error("Email send error:", await response.text());
+      return { ok: false, error: await response.text() };
     }
+
+    return { ok: true };
   } catch (error) {
-    console.error("Email transport error:", error);
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "Email transport unavailable",
+    };
   }
 }
 
@@ -156,17 +214,40 @@ export async function handleContactPost(request: NextRequest) {
       return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    const storedLead = await storeLead(body);
+    const storedLead = await storeLead(body, request.nextUrl.origin);
+
+    if (!storedLead.ok && storedLead.status && storedLead.status >= 400 && storedLead.status < 500) {
+      console.warn("Lead rejected by backend:", storedLead.error);
+      return NextResponse.json(
+        { error: "Не удалось отправить заявку. Проверьте заполнение формы и повторите попытку." },
+        { status: storedLead.status },
+      );
+    }
+
+    const emailResult = await sendEmail(body, storedLead.id);
+
     if (!storedLead.ok) {
       console.error("Lead store error:", storedLead.error);
+    }
+    if (!emailResult.ok) {
+      console.error("Email send error:", emailResult.error);
+    }
+
+    // A temporary failure of one delivery channel must not discard a valid lead.
+    // The request is successful when it was either stored in the CMS or delivered by email.
+    if (!storedLead.ok && !emailResult.ok) {
       return NextResponse.json(
         { error: "Не удалось отправить заявку. Повторите попытку позже или позвоните нам." },
         { status: 502 },
       );
     }
 
-    await sendEmail(body, storedLead.id);
-    return NextResponse.json({ ok: true, leadId: storedLead.id });
+    return NextResponse.json({
+      ok: true,
+      leadId: storedLead.id,
+      stored: storedLead.ok,
+      emailed: emailResult.ok,
+    });
   } catch (error) {
     console.error("Contact form error:", error);
     return NextResponse.json(
