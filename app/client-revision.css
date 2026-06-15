@@ -1,0 +1,399 @@
+/* Client revision — dark home, mobile swipe and unified media presentation. */
+
+:root {
+  --vs-bg: #050507;
+  --vs-surface: #0d0d11;
+  --vs-surface-soft: #15151b;
+  --vs-text: #f7f7f3;
+  --vs-muted: rgba(247, 247, 243, 0.62);
+  --vs-line: rgba(255, 255, 255, 0.12);
+  --vs-lime: #d8ff55;
+  --vs-purple: #9d55ff;
+  --vs-content: 1480px;
+  --vs-gutter: clamp(20px, 4.8vw, 78px);
+  --vs-radius: 14px;
+}
+
+html {
+  background: var(--vs-bg);
+}
+
+body {
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header and new brand assets. */
+.vs-site-header {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(12, 12, 15, 0.84) !important;
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.24) !important;
+  backdrop-filter: blur(18px) saturate(130%);
+}
+
+.vs-site-header__brand img {
+  width: clamp(96px, 8vw, 148px) !important;
+  height: auto !important;
+  object-fit: contain;
+  filter: none !important;
+}
+
+.vs-burger {
+  overflow: hidden;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.055) !important;
+}
+
+.vs-burger__logo {
+  position: absolute;
+  inset: 7px;
+  width: calc(100% - 14px);
+  height: calc(100% - 14px);
+  object-fit: contain;
+  opacity: 0.28;
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.vs-burger:hover .vs-burger__logo,
+.vs-burger.is-open .vs-burger__logo {
+  opacity: 0.48;
+  transform: scale(1.08) rotate(8deg);
+}
+
+.vs-burger__rings {
+  opacity: 0.35;
+}
+
+/* Dark first screen. */
+.home-ref {
+  min-height: 100svh !important;
+  background: var(--vs-bg) !important;
+  color: var(--vs-text) !important;
+  touch-action: pan-y;
+  outline: none;
+}
+
+.home-ref::before,
+.home-ref::after,
+.home-ref__doodles,
+.home-ref__doodle {
+  display: none !important;
+}
+
+.home-ref__grid {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px) 0 0 / 25vw 100%,
+    linear-gradient(0deg, rgba(255, 255, 255, 0.032) 0 1px, transparent 1px) 0 0 / 100% 25vh !important;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.82), transparent 96%);
+}
+
+.home-ref__glow {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: min(84vw, 1120px);
+  aspect-ratio: 1.25 / 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 47%, rgba(216, 255, 85, 0.2), transparent 28%),
+    radial-gradient(circle at 42% 54%, rgba(157, 85, 255, 0.26), transparent 48%),
+    radial-gradient(circle at 64% 42%, rgba(65, 137, 255, 0.14), transparent 42%);
+  filter: blur(38px);
+  opacity: 0.9;
+  transform: translate3d(
+    calc(-50% + (var(--mx, 0) * 24px)),
+    calc(-50% + (var(--my, 0) * 18px)),
+    0
+  );
+  transition: transform 0.35s ease-out;
+  pointer-events: none;
+}
+
+.home-ref__scenes {
+  z-index: 4;
+}
+
+.home-ref .home-ref__scene {
+  top: clamp(51%, 53vh, 55%) !important;
+  width: min(58vw, 820px) !important;
+}
+
+.home-ref .home-ref__scene--runner,
+.home-ref .home-ref__scene--wrench,
+.home-ref .home-ref__scene--phone,
+.home-ref .home-ref__scene--paper {
+  --open-gap: -1px;
+}
+
+.home-ref__split {
+  display: none !important;
+}
+
+.home-ref__asset {
+  filter: grayscale(1) contrast(1.08) brightness(1.04) drop-shadow(0 28px 46px rgba(0, 0, 0, 0.34)) !important;
+}
+
+.home-ref .home-ref__shape {
+  filter: saturate(1.05) drop-shadow(0 24px 70px rgba(0, 0, 0, 0.24));
+}
+
+.home-ref .home-ref__logo {
+  color: #fff !important;
+  mix-blend-mode: normal !important;
+  text-shadow: 0 8px 38px rgba(0, 0, 0, 0.55);
+}
+
+.home-ref__code,
+.home-ref__subline,
+.home-ref__hint {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.home-ref__nav {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 5, 7, 0.56);
+  backdrop-filter: blur(18px);
+}
+
+.home-ref__nav a {
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  background: rgba(255, 255, 255, 0.025) !important;
+  color: rgba(255, 255, 255, 0.68) !important;
+}
+
+.home-ref__nav a span {
+  color: rgba(255, 255, 255, 0.38) !important;
+}
+
+.home-ref__nav a:hover,
+.home-ref__nav a.is-active,
+.home-ref[data-active="0"] .home-ref__nav a:nth-child(1),
+.home-ref[data-active="1"] .home-ref__nav a:nth-child(2),
+.home-ref[data-active="2"] .home-ref__nav a:nth-child(3),
+.home-ref[data-active="3"] .home-ref__nav a:nth-child(4) {
+  background: rgba(255, 255, 255, 0.085) !important;
+  color: #fff !important;
+  box-shadow: inset 0 3px 0 var(--vs-lime), 0 -20px 50px rgba(216, 255, 85, 0.045) !important;
+  transform: none !important;
+}
+
+.home-ref__nav a:hover span,
+.home-ref__nav a.is-active span,
+.home-ref[data-active="0"] .home-ref__nav a:nth-child(1) span,
+.home-ref[data-active="1"] .home-ref__nav a:nth-child(2) span,
+.home-ref[data-active="2"] .home-ref__nav a:nth-child(3) span,
+.home-ref[data-active="3"] .home-ref__nav a:nth-child(4) span {
+  color: var(--vs-lime) !important;
+  transform: none !important;
+}
+
+.home-ref__mobile-hint,
+.home-ref__status {
+  display: none;
+}
+
+.home-ref__status {
+  margin: 0;
+}
+
+/* Portfolio previews show the whole work instead of cropping it. */
+.studio2__slider-media,
+.studio2__card,
+.work-v2__feature,
+.work-v2__card {
+  background: #0b0b0e !important;
+}
+
+.studio2__card-img {
+  object-fit: contain !important;
+  object-position: center top !important;
+}
+
+.studio2__slider-media .studio2__card {
+  min-height: clamp(520px, 62vw, 880px);
+}
+
+.studio2__grid .studio2__card {
+  min-height: clamp(360px, 42vw, 620px);
+}
+
+.work-v2__image {
+  background-color: #0b0b0e !important;
+  background-position: center top !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+}
+
+.work-v2__feature-link {
+  min-height: clamp(560px, 68vw, 980px);
+}
+
+.work-v2__card-link {
+  min-height: 620px;
+}
+
+/* Project detail media should preserve its natural proportions. */
+.case-hero-hider {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  background: #08080a;
+}
+
+.case-hero-raboti {
+  display: none !important;
+}
+
+.case-hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center top;
+}
+
+.div-block-71 {
+  overflow: visible !important;
+}
+
+.div-block-71 img,
+.wrapper-b-raboti img,
+.rich-text-block-3 img {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+  object-position: center top !important;
+}
+
+/* Shared layout rhythm for the pages touched by this revision. */
+.studio2__inner,
+.work-v2__hero,
+.work-v2__desktop,
+.wrapper-b-raboti > *,
+.project-nav,
+.vs-final-cta {
+  width: min(100%, var(--vs-content));
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+@media (max-width: 760px) {
+  .vs-site-header__brand img {
+    width: 102px !important;
+  }
+
+  .home-ref {
+    min-height: 100svh !important;
+  }
+
+  .home-ref__hotspots,
+  .home-ref__nav,
+  .home-ref__hint {
+    display: none !important;
+  }
+
+  .home-ref__glow {
+    top: 47%;
+    width: 128vw;
+    filter: blur(26px);
+  }
+
+  .home-ref .home-ref__scene {
+    top: 49% !important;
+    width: 104vw !important;
+  }
+
+  .home-ref .home-ref__scene--runner,
+  .home-ref .home-ref__scene--wrench,
+  .home-ref .home-ref__scene--phone {
+    --shape-width: min(82vw, 390px);
+    --asset-height: min(104vw, 560px);
+    --asset-half-width: min(29vw, 178px);
+    --asset-top: -10%;
+    --open-gap: -1.5px;
+  }
+
+  .home-ref .home-ref__scene--paper {
+    --shape-width: min(82vw, 390px);
+    --asset-height: min(50vw, 270px);
+    --asset-half-width: min(43vw, 230px);
+    --asset-top: 21%;
+    --open-gap: -1.5px;
+  }
+
+  .home-ref .home-ref__logo {
+    top: 53%;
+    font-size: clamp(52px, 18vw, 86px) !important;
+  }
+
+  .home-ref__code {
+    top: 37% !important;
+    left: 4% !important;
+    font-size: 11px;
+  }
+
+  .home-ref__subline {
+    right: 4% !important;
+    bottom: 32% !important;
+    font-size: 10px;
+  }
+
+  .home-ref__mobile-hint {
+    position: absolute;
+    z-index: 20;
+    right: 0;
+    bottom: 56px;
+    left: 0;
+    display: block;
+    color: rgba(255, 255, 255, 0.44);
+    font-family: Jura, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-align: center;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  .home-ref__status {
+    position: absolute;
+    z-index: 20;
+    right: 20px;
+    bottom: 22px;
+    left: 20px;
+    display: block;
+    color: #fff;
+    font-family: "Russo One", sans-serif;
+    font-size: 15px;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .studio2__slider-media .studio2__card,
+  .studio2__grid .studio2__card {
+    min-height: 72svh;
+  }
+
+  .work-v2__feature-link,
+  .work-v2__card-link {
+    min-height: 72svh;
+  }
+
+  .work-v2__mobile-gallery {
+    scroll-snap-type: x mandatory;
+  }
+
+  .work-v2__card {
+    scroll-snap-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-ref__glow,
+  .vs-burger__logo {
+    transition: none !important;
+  }
+}
