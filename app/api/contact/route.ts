@@ -2,12 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 interface ContactPayload {
   name?: string;
-  phone: string;
+  phone?: string;
   email?: string;
   message?: string;
   source?: string;
   pageUrl?: string;
   startedAt?: string;
+  company?: string;
+  consent?: boolean;
 }
 
 interface StoredLeadResult {
@@ -33,6 +35,33 @@ function cleanOptional(value?: string) {
   return trimmed ? trimmed : undefined;
 }
 
+function validatePayload(body: ContactPayload) {
+  const source = body.source?.toLowerCase() ?? "";
+  const needsPhone = source.includes("callback") || source.includes("general");
+
+  if (body.phone && countDigits(body.phone) < 10) {
+    return "Укажите телефон, минимум 10 цифр";
+  }
+
+  if (needsPhone && countDigits(body.phone ?? "") < 10) {
+    return "Телефон обязателен для обратного звонка";
+  }
+
+  if (body.email && !body.email.includes("@")) {
+    return "Некорректный email";
+  }
+
+  if (!body.phone && !body.email) {
+    return "Укажите телефон или email";
+  }
+
+  if (!body.consent) {
+    return "Необходимо согласие на обработку персональных данных";
+  }
+
+  return null;
+}
+
 async function storeLead(body: ContactPayload): Promise<StoredLeadResult> {
   const baseUrl =
     process.env.CMS_API_URL ||
@@ -45,12 +74,14 @@ async function storeLead(body: ContactPayload): Promise<StoredLeadResult> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: cleanOptional(body.name),
-        phone: body.phone,
+        phone: cleanOptional(body.phone),
         email: cleanOptional(body.email),
         message: cleanOptional(body.message),
         source: cleanOptional(body.source),
         pageUrl: cleanOptional(body.pageUrl),
         startedAt: body.startedAt,
+        company: cleanOptional(body.company),
+        consent: body.consent,
       }),
     });
 
@@ -71,13 +102,10 @@ async function storeLead(body: ContactPayload): Promise<StoredLeadResult> {
 export async function POST(req: NextRequest) {
   try {
     const body: ContactPayload = await req.json();
+    const validationError = validatePayload(body);
 
-    if (countDigits(body.phone ?? "") < 10) {
-      return NextResponse.json({ error: "Укажите телефон, минимум 10 цифр" }, { status: 400 });
-    }
-
-    if (body.email && !body.email.includes("@")) {
-      return NextResponse.json({ error: "Некорректный email" }, { status: 400 });
+    if (validationError) {
+      return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
     const storedLead = await storeLead(body);
@@ -98,10 +126,11 @@ export async function POST(req: NextRequest) {
       "Новая заявка с сайта Voitov Studio",
       "",
       body.name ? `Имя: ${body.name}` : null,
-      `Телефон: ${body.phone}`,
+      body.phone ? `Телефон: ${body.phone}` : null,
       body.email ? `Email: ${body.email}` : null,
       body.message ? `Сообщение: ${body.message}` : null,
       body.source ? `Источник: ${body.source}` : null,
+      body.pageUrl ? `Страница: ${body.pageUrl}` : null,
     ]
       .filter(Boolean)
       .join("\n");
