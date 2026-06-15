@@ -8,9 +8,8 @@ export default function Footer() {
         <div className="w-row">
           <div className="column-14 w-clearfix w-col w-col-4">
             <div className="footer-logo-wrap">
-              <Link href="/" className="footer-logo-link">
-                <span className="footer-logo-line1">Voitov</span>
-                <span className="footer-logo-line2">Studio</span>
+              <Link href="/" className="footer-logo-link" aria-label={`${SITE.name} — главная`}>
+                <img src="/logo.png" alt="Voitov Studio" width="180" height="50" />
               </Link>
               <p className="footer-logo-tag">{SITE.tagline}</p>
             </div>
