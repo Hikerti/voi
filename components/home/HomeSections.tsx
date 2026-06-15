@@ -23,7 +23,6 @@ export default function HomeSections({ services = SERVICES }: HomeSectionsProps)
         <div className="vs-section-head">
           <p>услуги</p>
           <h2 id="home-services-title">Сайт должен выглядеть так, чтобы его хотелось заказать</h2>
-          <Link href="/services" className="vs-section-head__label">Все услуги</Link>
         </div>
         <div className="vs-service-strip">
           {previewServices.map((service) => (
