@@ -57,22 +57,15 @@ function Scene({ item }: { item: HeroItem }) {
     <div className={`home-ref__scene home-ref__scene--${item.visual}`} aria-hidden="true">
       <span className="home-ref__code">590105</span>
       <span className="home-ref__shape" style={assetStyle(item.shape)} />
-
-      <div className="home-ref__asset-pair">
-        <img
-          src={item.left}
-          alt=""
-          className="home-ref__asset-image home-ref__asset-image--left"
-          draggable={false}
-        />
-        <img
-          src={item.right}
-          alt=""
-          className="home-ref__asset-image home-ref__asset-image--right"
-          draggable={false}
-        />
-      </div>
-
+      <span
+        className="home-ref__asset home-ref__asset--left"
+        style={assetStyle(item.left)}
+      />
+      <span
+        className="home-ref__asset home-ref__asset--right"
+        style={assetStyle(item.right)}
+      />
+      <span className="home-ref__split" />
       <strong className="home-ref__logo">VOITOV STUDIO</strong>
       <span className="home-ref__subline">creative club</span>
     </div>
