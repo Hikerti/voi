@@ -1,6 +1,13 @@
 "use client";
 
-import { type CSSProperties, type PointerEvent, useState } from "react";
+import {
+  type CSSProperties,
+  type KeyboardEvent,
+  type PointerEvent,
+  type TouchEvent,
+  useRef,
+  useState,
+} from "react";
 
 const HERO_ITEMS = [
   {
@@ -39,6 +46,7 @@ const HERO_ITEMS = [
 
 type HeroItem = (typeof HERO_ITEMS)[number];
 type AssetStyle = CSSProperties & { "--asset-url": string };
+type PointerVars = CSSProperties & { "--mx": string; "--my": string };
 
 function assetStyle(src: string): AssetStyle {
   return { "--asset-url": `url("${src}")` };
@@ -49,7 +57,6 @@ function Scene({ item }: { item: HeroItem }) {
     <div className={`home-ref__scene home-ref__scene--${item.visual}`} aria-hidden="true">
       <span className="home-ref__code">590105</span>
       <span className="home-ref__shape" style={assetStyle(item.shape)} />
-      <span className="home-ref__split" aria-hidden="true" />
       <span className="home-ref__asset home-ref__asset--left" style={assetStyle(item.left)} />
       <span className="home-ref__asset home-ref__asset--right" style={assetStyle(item.right)} />
       <strong className="home-ref__logo">VOITOV STUDIO</strong>
@@ -58,19 +65,21 @@ function Scene({ item }: { item: HeroItem }) {
   );
 }
 
-type PointerVars = CSSProperties & {
-  "--mx": string;
-  "--my": string;
-};
-
 export default function HeroExperience() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [pointerVars, setPointerVars] = useState<PointerVars>({
     "--mx": "0",
     "--my": "0",
   });
+  const touchStartX = useRef<number | null>(null);
+
+  function selectRelative(direction: 1 | -1) {
+    setActiveIndex((current) => (current + direction + HERO_ITEMS.length) % HERO_ITEMS.length);
+  }
 
   function handlePointerMove(event: PointerEvent<HTMLElement>) {
+    if (event.pointerType === "touch") return;
+
     const rect = event.currentTarget.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width - 0.5;
     const y = (event.clientY - rect.top) / rect.height - 0.5;
@@ -81,16 +90,47 @@ export default function HeroExperience() {
     });
   }
 
+  function handleTouchStart(event: TouchEvent<HTMLElement>) {
+    touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+  }
+
+  function handleTouchEnd(event: TouchEvent<HTMLElement>) {
+    const startX = touchStartX.current;
+    const endX = event.changedTouches[0]?.clientX;
+    touchStartX.current = null;
+
+    if (startX == null || endX == null) return;
+
+    const delta = endX - startX;
+    if (Math.abs(delta) < 44) return;
+
+    selectRelative(delta < 0 ? 1 : -1);
+  }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLElement>) {
+    if (event.key === "ArrowRight") selectRelative(1);
+    if (event.key === "ArrowLeft") selectRelative(-1);
+  }
+
   return (
     <section
       className="home-ref"
       aria-label="Главный экран Voitov Studio"
+      aria-roledescription="слайдер"
       data-active={activeIndex}
       onPointerMove={handlePointerMove}
       onPointerLeave={() => setPointerVars({ "--mx": "0", "--my": "0" })}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={() => {
+        touchStartX.current = null;
+      }}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
       style={pointerVars}
     >
       <div className="home-ref__grid" aria-hidden="true" />
+      <div className="home-ref__glow" aria-hidden="true" />
 
       <div className="home-ref__hotspots" aria-label="Разделы первого экрана">
         {HERO_ITEMS.map((item, index) => (
@@ -102,13 +142,6 @@ export default function HeroExperience() {
             onFocus={() => setActiveIndex(index)}
           />
         ))}
-      </div>
-
-      <div className="home-ref__doodles" aria-hidden="true">
-        <span className="home-ref__doodle home-ref__doodle--circle" />
-        <span className="home-ref__doodle home-ref__doodle--arrow">↗</span>
-        <span className="home-ref__doodle home-ref__doodle--star">✦</span>
-        <span className="home-ref__doodle home-ref__doodle--line" />
       </div>
 
       <div className="home-ref__scenes">
@@ -135,6 +168,12 @@ export default function HeroExperience() {
       <div className="home-ref__hint" aria-hidden="true">
         Наведите на четверть экрана
       </div>
+      <div className="home-ref__mobile-hint" aria-hidden="true">
+        Листайте пальцем
+      </div>
+      <p className="home-ref__status" aria-live="polite">
+        {activeIndex + 1} из {HERO_ITEMS.length}: {HERO_ITEMS[activeIndex].label}
+      </p>
     </section>
   );
 }
