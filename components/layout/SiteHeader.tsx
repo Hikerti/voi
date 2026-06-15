@@ -39,7 +39,7 @@ export default function SiteHeader() {
             id="site-search-header"
             name="q"
             type="search"
-            placeholder="Поиск — нажмите Enter"
+            placeholder="Поиск"
             minLength={2}
             enterKeyHint="search"
             required
