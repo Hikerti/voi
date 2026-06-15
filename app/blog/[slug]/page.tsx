@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getArticleBySlug, getAllArticleSlugs } from "@/lib/blog";
 import AnimatedLink from "@/components/ui/AnimatedLink";
+import StructuredData from "@/components/seo/StructuredData";
+import { absoluteUrl, createPageMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
   return getAllArticleSlugs().map((slug) => ({ slug }));
@@ -17,14 +20,14 @@ export async function generateMetadata({
   const article = getArticleBySlug(slug);
   if (!article) return {};
 
-  return {
-    title: `${article.title} | Voitov Studio`,
-    description: article.subtitle,
-    openGraph: {
-      title: `${article.title} | Voitov Studio`,
-      description: article.subtitle,
-    },
-  };
+  return createPageMetadata({
+    title: article.title,
+    description: article.subtitle || `Статья ${article.title}`,
+    path: `/blog/${article.slug}`,
+    keywords: [article.title, "разработка сайтов", "SEO"],
+    image: article.thumbnail || "/images/og-cover.svg",
+    type: "article",
+  });
 }
 
 export default async function ArticleDetailPage({
@@ -36,8 +39,31 @@ export default async function ArticleDetailPage({
   const article = getArticleBySlug(slug);
   if (!article) notFound();
 
+  const related = getAllArticleSlugs()
+    .filter((articleSlug) => articleSlug !== slug)
+    .map((articleSlug) => getArticleBySlug(articleSlug))
+    .filter(Boolean)
+    .slice(0, 4);
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.subtitle,
+    datePublished: article.date,
+    image: article.thumbnail ? absoluteUrl(article.thumbnail) : absoluteUrl("/images/og-cover.svg"),
+    mainEntityOfPage: absoluteUrl(`/blog/${article.slug}`),
+    author: { "@type": "Organization", name: "Voitov Studio" },
+    publisher: {
+      "@type": "Organization",
+      name: "Voitov Studio",
+      logo: { "@type": "ImageObject", url: absoluteUrl("/logo.png") },
+    },
+  };
+
   return (
     <main className="article-page">
+      <StructuredData data={articleJsonLd} />
       <AnimatedLink href="/blog" className="article-back">
         <span aria-hidden="true">←</span>
         Все статьи
@@ -51,15 +77,30 @@ export default async function ArticleDetailPage({
         </header>
 
         {article.thumbnail && (
-          <div className="article-page__media">
-            <img src={article.thumbnail} alt="" />
-          </div>
+          <figure className="article-page__media">
+            <img src={article.thumbnail} alt={`Иллюстрация к статье «${article.title}»`} />
+          </figure>
         )}
 
-        <div className="article-page__body">
+        <div className="article-page__body rich-content">
           <MDXRemote source={article.content} />
         </div>
       </article>
+
+      <aside className="related-content" aria-labelledby="related-articles-title">
+        <p className="section-kicker">продолжить чтение</p>
+        <h2 id="related-articles-title">Другие статьи</h2>
+        <ul>
+          {related.map((item) => (
+            <li key={item!.slug}>
+              <Link href={`/blog/${item!.slug}`}>
+                <span>{item!.date}</span>
+                <h3>{item!.title}</h3>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </aside>
     </main>
   );
 }
