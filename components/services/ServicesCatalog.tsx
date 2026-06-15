@@ -40,18 +40,13 @@ export default function ServicesCatalog({ services = SERVICES }: ServicesCatalog
       <nav className="service-category-nav" aria-label="Категории услуг">
         <a href="#service-list">Все услуги</a>
         {categories.map(([slug, label]) => (
-          <a key={slug} href={`#category-${slug}`}>{label}</a>
+          <Link key={slug} href={`/services/${slug}`}>{label}</Link>
         ))}
       </nav>
 
       <section id="service-list" className="vs-catalog-grid" aria-label="Список услуг">
         {services.map((service) => (
-          <Link
-            href={`/services/${service.slug}`}
-            className="vs-catalog-card"
-            id={`category-${service.category}`}
-            key={service.slug}
-          >
+          <Link href={`/services/${service.slug}`} className="vs-catalog-card" key={service.slug}>
             <div className="vs-catalog-card__media">
               <Image
                 src={service.image}
