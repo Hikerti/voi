@@ -19,13 +19,13 @@ export default function SiteHeader() {
       <nav className="vs-site-header__nav" aria-label="Основная навигация">
         {NAV_LINKS.filter((item) => item.href !== "/").slice(0, 5).map((item) => {
           const isCurrent = pathname === item.href || pathname.startsWith(`${item.href}/`);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={isCurrent ? "is-active" : ""}
-              aria-current={isCurrent ? "page" : undefined}
-            >
+
+          return isCurrent ? (
+            <span key={item.href} className="is-active" aria-current="page">
+              {item.label}
+            </span>
+          ) : (
+            <Link key={item.href} href={item.href}>
               {item.label}
             </Link>
           );
