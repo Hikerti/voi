@@ -1,0 +1,273 @@
+/* Restore the original light content blocks and align split hero artwork. */
+
+/* The first screen still owns the viewport, but the artwork no longer receives
+   the large extra top offset introduced by the previous route override. */
+.home-ref {
+  --home-header-clearance: 76px;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  padding-top: 0 !important;
+}
+
+.home-ref__scenes,
+.home-ref__hotspots {
+  top: 0 !important;
+}
+
+.home-ref .home-ref__scene {
+  top: 49.5% !important;
+  width: min(54vw, 760px) !important;
+}
+
+.home-ref__hint {
+  top: 96px !important;
+}
+
+/* Old background spans are no longer rendered. Actual img elements preserve
+   each exported half's intrinsic aspect ratio, which prevents stretching. */
+.home-ref__asset-pair {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.home-ref__asset-image {
+  position: absolute;
+  display: block;
+  max-width: none;
+  height: auto;
+  opacity: 0;
+  user-select: none;
+  filter: grayscale(1) contrast(1.08) brightness(1.04) drop-shadow(0 28px 46px rgba(0, 0, 0, 0.34));
+  transition: opacity 0.45s ease;
+}
+
+.home-ref[data-active="0"] .home-ref__scene--runner .home-ref__asset-image,
+.home-ref[data-active="1"] .home-ref__scene--wrench .home-ref__asset-image,
+.home-ref[data-active="2"] .home-ref__scene--phone .home-ref__asset-image,
+.home-ref[data-active="3"] .home-ref__scene--paper .home-ref__asset-image {
+  opacity: 0.98;
+}
+
+/* Runner: reproduce the original Webflow proportions (150px / 110px) and
+   its right-half vertical offset instead of forcing both crops to one box. */
+.home-ref__scene--runner .home-ref__asset-image--left {
+  top: 50%;
+  right: calc(50% - 4px);
+  width: clamp(128px, 9.4vw, 150px);
+  transform: translateY(-50%);
+}
+
+.home-ref__scene--runner .home-ref__asset-image--right {
+  top: calc(50% - clamp(62px, 5.65vw, 90px));
+  left: calc(50% - 4px);
+  width: clamp(94px, 6.9vw, 110px);
+  transform: translateY(-50%);
+}
+
+/* Wrench: both exports retain almost the same natural scale. A small overlap
+   closes the transparent seam, while the original right-half lift keeps the
+   handle and adjustable head on one straight axis. */
+.home-ref__scene--wrench .home-ref__asset-image--left {
+  top: 50%;
+  right: calc(50% - 5px);
+  width: clamp(62px, 4.4vw, 70px);
+  transform: translateY(-50%);
+}
+
+.home-ref__scene--wrench .home-ref__asset-image--right {
+  top: calc(50% - clamp(34px, 3vw, 48px));
+  left: calc(50% - 5px);
+  width: clamp(61px, 4.35vw, 70px);
+  transform: translateY(-50%);
+}
+
+.home-ref__scene--phone .home-ref__asset-image--left {
+  top: calc(50% - 30px);
+  right: calc(50% - 3px);
+  width: clamp(102px, 7.5vw, 120px);
+  transform: translateY(-50%);
+}
+
+.home-ref__scene--phone .home-ref__asset-image--right {
+  top: 50%;
+  left: calc(50% - 3px);
+  width: clamp(102px, 7.5vw, 120px);
+  transform: translateY(-50%);
+}
+
+.home-ref__scene--paper .home-ref__asset-image--left {
+  top: calc(50% - 30px);
+  right: calc(50% - 4px);
+  width: clamp(190px, 15vw, 240px);
+  transform: translateY(-50%);
+}
+
+.home-ref__scene--paper .home-ref__asset-image--right {
+  top: calc(50% - 20px);
+  left: calc(50% - 4px);
+  width: clamp(190px, 15vw, 240px);
+  transform: translateY(-50%);
+}
+
+/* Bring back the light sections that existed before the blanket dark override. */
+.news-preview,
+.blog-page {
+  background: #ebebeb !important;
+  color: #1b1b1b !important;
+}
+
+.studio2 {
+  background: #fff !important;
+  color: #1b1b1b !important;
+}
+
+.news-preview__title,
+.news-preview__all,
+.news-card,
+.news-card__title,
+.blog-page__title,
+.blog-card,
+.blog-card__title,
+.blog-card__excerpt {
+  color: #1b1b1b !important;
+}
+
+.news-card__date,
+.news-preview__empty,
+.blog-page__count,
+.blog-card__date,
+.blog-page__empty {
+  color: #777 !important;
+}
+
+.news-card__image,
+.news-card__image-placeholder,
+.blog-card__image,
+.blog-card__image-placeholder,
+.studio2__card-placeholder {
+  background: #d0d0d0 !important;
+}
+
+.news-preview__all,
+.blog-page__head,
+.blog-card-featured-wrap {
+  border-color: rgba(27, 25, 25, 0.15) !important;
+}
+
+.blog-card__arrow-line {
+  background: #1b1b1b !important;
+}
+
+.vs-page-shell:not(.vs-page-shell--dark),
+.vs-prices,
+.vs-stages,
+.vs-faq-preview {
+  background: #f4f1ec !important;
+  color: #111 !important;
+}
+
+.vs-page-shell:not(.vs-page-shell--dark) h1,
+.vs-page-shell:not(.vs-page-shell--dark) h2,
+.vs-page-shell:not(.vs-page-shell--dark) h3,
+.vs-prices h2,
+.vs-stages h2,
+.vs-faq-preview h2 {
+  color: #111 !important;
+}
+
+.vs-page-shell:not(.vs-page-shell--dark) p,
+.vs-price-card p,
+.vs-faq-preview .vs-faq-row p {
+  color: #6b655f !important;
+}
+
+.vs-price-card,
+.vs-faq-row,
+.vs-page-shell:not(.vs-page-shell--dark) .vs-form {
+  background: #fff !important;
+  color: #111 !important;
+  border-color: rgba(17, 17, 17, 0.14) !important;
+}
+
+.vs-page-shell:not(.vs-page-shell--dark) .vs-form input,
+.vs-page-shell:not(.vs-page-shell--dark) .vs-form textarea {
+  background: #f7f5f1 !important;
+  color: #111 !important;
+  border-color: rgba(17, 17, 17, 0.14) !important;
+}
+
+.vs-stage-list,
+.vs-stage {
+  border-color: rgba(17, 17, 17, 0.14) !important;
+}
+
+/* Case-study page stays on a dark canvas, while its information blocks return
+   to the original light treatment requested by the client. */
+body:has(.case-hero-raboti) .block-strip {
+  background: #f4f1ec !important;
+  color: #111 !important;
+  border-color: rgba(17, 17, 17, 0.14) !important;
+}
+
+body:has(.case-hero-raboti) .c-section-r,
+body:has(.case-hero-raboti) .c-section-p {
+  background: #fff !important;
+  color: #111 !important;
+  border-color: rgba(17, 17, 17, 0.14) !important;
+}
+
+body:has(.case-hero-raboti) .project-title,
+body:has(.case-hero-raboti) .case-b,
+body:has(.case-hero-raboti) .heading-82,
+body:has(.case-hero-raboti) .w-richtext h1,
+body:has(.case-hero-raboti) .w-richtext h2,
+body:has(.case-hero-raboti) .w-richtext h3 {
+  color: #111 !important;
+}
+
+body:has(.case-hero-raboti) .w-richtext,
+body:has(.case-hero-raboti) .w-richtext p,
+body:has(.case-hero-raboti) .services-block,
+body:has(.case-hero-raboti) .services-block p,
+body:has(.case-hero-raboti) .c-code {
+  color: #625d57 !important;
+}
+
+body:has(.case-hero-raboti) .case-info-row {
+  border-color: rgba(17, 17, 17, 0.14) !important;
+}
+
+@media (max-width: 760px) {
+  .home-ref {
+    --home-header-clearance: 68px;
+  }
+
+  .home-ref .home-ref__scene {
+    top: 48.5% !important;
+    width: 96vw !important;
+  }
+
+  .home-ref__hint {
+    top: 82px !important;
+  }
+
+  .home-ref__scene--runner .home-ref__asset-image--left {
+    width: 126px;
+  }
+
+  .home-ref__scene--runner .home-ref__asset-image--right {
+    top: calc(50% - 64px);
+    width: 92px;
+  }
+
+  .home-ref__scene--wrench .home-ref__asset-image--left,
+  .home-ref__scene--wrench .home-ref__asset-image--right {
+    width: 60px;
+  }
+
+  .home-ref__scene--wrench .home-ref__asset-image--right {
+    top: calc(50% - 38px);
+  }
+}
