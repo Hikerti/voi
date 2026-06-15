@@ -49,16 +49,22 @@ function validatePayload(body: ContactPayload) {
   return null;
 }
 
-function backendCandidates() {
-  const configured = (
-    process.env.CMS_API_URL ||
-    process.env.NEXT_PUBLIC_CMS_API_URL ||
-    "http://127.0.0.1:4000/api"
-  ).replace(/\/+$/, "");
+function addBackendVariants(candidates: string[], value?: string) {
+  const configured = value?.trim().replace(/\/+$/, "");
+  if (!configured) return;
 
-  const candidates = configured.endsWith("/api")
-    ? [configured, configured.slice(0, -4)]
-    : [configured, `${configured}/api`];
+  candidates.push(configured);
+  candidates.push(configured.endsWith("/api") ? configured.slice(0, -4) : `${configured}/api`);
+}
+
+function backendCandidates() {
+  const candidates: string[] = [];
+
+  addBackendVariants(candidates, process.env.CMS_API_URL);
+  addBackendVariants(candidates, process.env.NEXT_PUBLIC_CMS_API_URL);
+  addBackendVariants(candidates, "http://127.0.0.1:4000/api");
+  addBackendVariants(candidates, "http://localhost:4000/api");
+  addBackendVariants(candidates, "http://backend:4000/api");
 
   return Array.from(new Set(candidates));
 }
@@ -111,7 +117,7 @@ async function sendEmail(body: ContactPayload, leadId?: number) {
   const from = process.env.CONTACT_EMAIL_FROM ?? "site@voitov.studio";
   const resendApiKey = process.env.RESEND_API_KEY;
 
-  if (!resendApiKey || !to) return;
+  if (!resendApiKey || !to) return false;
 
   const subject = `Новая заявка с сайта${body.source ? `: ${body.source}` : ""}`;
   const text = [
@@ -141,9 +147,13 @@ async function sendEmail(body: ContactPayload, leadId?: number) {
 
     if (!response.ok) {
       console.error("Email send error:", await response.text());
+      return false;
     }
+
+    return true;
   } catch (error) {
     console.error("Email transport error:", error);
+    return false;
   }
 }
 
@@ -157,16 +167,22 @@ export async function handleContactPost(request: NextRequest) {
     }
 
     const storedLead = await storeLead(body);
-    if (!storedLead.ok) {
-      console.error("Lead store error:", storedLead.error);
-      return NextResponse.json(
-        { error: "Не удалось отправить заявку. Повторите попытку позже или позвоните нам." },
-        { status: 502 },
-      );
+    const emailSent = await sendEmail(body, storedLead.id);
+
+    if (storedLead.ok) {
+      return NextResponse.json({ ok: true, leadId: storedLead.id, emailSent });
     }
 
-    await sendEmail(body, storedLead.id);
-    return NextResponse.json({ ok: true, leadId: storedLead.id });
+    if (emailSent) {
+      console.error("Lead store error; delivered by email:", storedLead.error);
+      return NextResponse.json({ ok: true, delivery: "email" });
+    }
+
+    console.error("Lead store error:", storedLead.error);
+    return NextResponse.json(
+      { error: "Не удалось отправить заявку. Повторите попытку позже или позвоните нам." },
+      { status: 502 },
+    );
   } catch (error) {
     console.error("Contact form error:", error);
     return NextResponse.json(
