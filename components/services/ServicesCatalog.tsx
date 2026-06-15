@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SERVICES, type ServiceItem } from "@/lib/site-data";
 
@@ -14,39 +15,77 @@ interface ServicesCatalogProps {
 }
 
 export default function ServicesCatalog({ services = SERVICES }: ServicesCatalogProps) {
-  return (
-    <section className="vs-page-shell vs-page-shell--dark">
-      <div className="vs-page-hero">
-        <p className="vs-kicker">услуги</p>
-        <h1>Каталог услуг Voitov Studio</h1>
-        <p>
-          Сайты, айдентика, SEO-структура и поддержка после запуска. Услуги
-          собраны так, чтобы быстро понять формат работы, бюджет и следующий шаг.
-        </p>
-        <div className="vs-services-infographic" aria-hidden="true">
-          <div className="vs-services-infographic__orbit">
-            <span className="vs-services-infographic__node is-format">Формат</span>
-            <span className="vs-services-infographic__node is-budget">Бюджет</span>
-            <span className="vs-services-infographic__node is-time">Сроки</span>
-            <span className="vs-services-infographic__node is-launch">Запуск</span>
-          </div>
-          <div className="vs-services-infographic__caption">
-            <strong>4 точки выбора</strong>
-            <span>по ним быстро понятно, какая услуга подходит проекту</span>
-          </div>
-        </div>
-      </div>
+  const categories = Array.from(
+    new Map(
+      services.map((service) => [
+        service.category,
+        service.categoryLabel || CATEGORY_LABELS[service.category] || service.category,
+      ]),
+    ),
+  );
 
-      <div className="vs-catalog-grid">
+  return (
+    <main className="vs-page-shell vs-page-shell--dark services-page">
+      <section className="vs-page-hero" aria-labelledby="services-title">
+        <div>
+          <p className="vs-kicker">услуги</p>
+          <h1 id="services-title">Каталог услуг Voitov Studio</h1>
+          <p>
+            Сайты, айдентика, SEO-структура и поддержка после запуска. Карточки
+            собраны по единому принципу: изображение, формат, цена и краткое описание.
+          </p>
+        </div>
+      </section>
+
+      <nav className="service-category-nav" aria-label="Категории услуг">
+        <a href="#service-list">Все услуги</a>
+        {categories.map(([slug, label]) => (
+          <a key={slug} href={`#category-${slug}`}>{label}</a>
+        ))}
+      </nav>
+
+      <section id="service-list" className="vs-catalog-grid" aria-label="Список услуг">
         {services.map((service) => (
-          <Link href={`/services/${service.slug}`} className="vs-catalog-card" key={service.slug}>
-            <span>{service.categoryLabel || CATEGORY_LABELS[service.category] || service.category}</span>
-            <h2>{service.title}</h2>
-            <strong>{service.price}</strong>
-            <p>{service.summary}</p>
+          <Link
+            href={`/services/${service.slug}`}
+            className="vs-catalog-card"
+            id={`category-${service.category}`}
+            key={service.slug}
+          >
+            <div className="vs-catalog-card__media">
+              <Image
+                src={service.image}
+                alt={`${service.title} — услуга Voitov Studio`}
+                fill
+                sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+              />
+            </div>
+            <div className="vs-catalog-card__body">
+              <span>{service.categoryLabel || CATEGORY_LABELS[service.category] || service.category}</span>
+              <h2>{service.title}</h2>
+              <strong><small>Цена </small>{service.price}</strong>
+              <p>{service.summary}</p>
+            </div>
           </Link>
         ))}
-      </div>
-    </section>
+      </section>
+
+      <section className="seo-copy rich-content" aria-labelledby="services-seo-title">
+        <p className="seo-copy__eyebrow">подбор формата</p>
+        <h2 id="services-seo-title">Услуги по разработке и развитию сайта</h2>
+        <div className="seo-copy__columns">
+          <p>
+            Подбираем формат под задачу: посадочная страница для рекламы,
+            корпоративный сайт с каталогом услуг, визуальная система бренда или
+            SEO-подготовка существующего проекта.
+          </p>
+          <p>
+            Финальные описания, цены и семантические запросы будут заменены после
+            получения утверждённых материалов заказчика. Текущие данные используются
+            как структурный пример для вёрстки и CMS.
+          </p>
+        </div>
+      </section>
+    </main>
   );
 }
