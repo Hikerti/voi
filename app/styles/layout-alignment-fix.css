@@ -49,8 +49,8 @@
 /* The footer content stays aligned with the header, while the separator itself
    spans the full viewport width. */
 .site-footer__divider {
-  width: calc(100% + (2 * var(--review-layout-gutter)));
-  margin: clamp(30px, 4vw, 48px) calc(-1 * var(--review-layout-gutter)) 0;
+  width: calc(100% + var(--review-layout-gutter) + var(--review-layout-gutter));
+  margin: clamp(30px, 4vw, 48px) calc(0px - var(--review-layout-gutter)) 0;
   border-top: 1px solid var(--content-line);
   pointer-events: none;
 }
