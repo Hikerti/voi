@@ -108,8 +108,10 @@ export default function RootLayout({
           <AnalyticsEvents />
           <ProjectHeroSizer />
           <SiteHeader />
-          <Breadcrumbs />
-          {children}
+          <div className="route-frame">
+            <Breadcrumbs />
+            {children}
+          </div>
           <DecisionCta />
           <Footer />
           <ScrollRevealLayer />
