@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import BlogSection from "@/components/blog/BlogSection";
 import { getAllArticleSlugs, getArticleBySlug } from "@/lib/blog";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Наши статьи | Voitov Studio",
-  description: "Блог Voitov Studio: статьи о веб-разработке, дизайне, SEO и запуске сайтов.",
-  openGraph: {
-    title: "Наши статьи | Voitov Studio",
-    description: "Блог Voitov Studio: статьи о веб-разработке, дизайне, SEO и запуске сайтов.",
-  },
-};
+export const metadata: Metadata = createPageMetadata({
+  title: "Статьи о разработке сайтов и SEO",
+  description: "Статьи Voitov Studio о веб-разработке, дизайне, SEO, доменах и запуске сайтов.",
+  path: "/blog",
+  keywords: ["статьи о разработке сайтов", "блог о SEO", "веб-дизайн статьи"],
+});
 
 export default function BlogPage() {
   const items = getAllArticleSlugs()

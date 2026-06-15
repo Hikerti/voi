@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SITE } from "@/lib/constants";
+import StructuredData from "@/components/seo/StructuredData";
 import { FAQ_ITEMS, getFaqBySlug } from "@/lib/site-data";
 import { getCmsFaqBySlug } from "@/lib/cms-api";
+import { absoluteUrl, createPageMetadata } from "@/lib/seo";
 
 interface FaqDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -16,10 +17,13 @@ export async function generateMetadata({ params }: FaqDetailPageProps): Promise<
   const { slug } = await params;
   const item = (await getCmsFaqBySlug(slug)) || getFaqBySlug(slug);
   if (!item) return {};
-  return {
-    title: `${item.question} | ${SITE.name}`,
+
+  return createPageMetadata({
+    title: item.question,
     description: item.answer,
-  };
+    path: `/faq/${item.slug}`,
+    keywords: [item.question, "вопросы о разработке сайта"],
+  });
 }
 
 export default async function FaqDetailPage({ params }: FaqDetailPageProps) {
@@ -27,18 +31,30 @@ export default async function FaqDetailPage({ params }: FaqDetailPageProps) {
   const item = (await getCmsFaqBySlug(slug)) || getFaqBySlug(slug);
   if (!item) notFound();
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+          url: absoluteUrl(`/faq/${item.slug}`),
+        },
+      },
+    ],
+  };
+
   return (
-      <main className="faq-detail-page">
-        <section className="faq-detail-page__hero">
-          <h1>{item.question}</h1>
-          <div className="faq-detail-page__topics" aria-hidden="true">
-            <span className="faq-topic faq-topic--brief">бриф</span>
-            <span className="faq-topic faq-topic--design">дизайн</span>
-            <span className="faq-topic faq-topic--seo">seo</span>
-            <span className="faq-topic faq-topic--launch">запуск</span>
-          </div>
-          <p>{item.answer}</p>
-        </section>
-      </main>
+    <main className="faq-detail-page">
+      <StructuredData data={faqJsonLd} />
+      <article className="faq-detail-page__hero rich-content">
+        <p className="section-kicker">вопрос и ответ</p>
+        <h1>{item.question}</h1>
+        <p>{item.answer}</p>
+      </article>
+    </main>
   );
 }

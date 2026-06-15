@@ -19,11 +19,11 @@ export default function HomeSections({ services = SERVICES }: HomeSectionsProps)
 
   return (
     <>
-      <section className="vs-services-band">
+      <section className="vs-services-band" aria-labelledby="home-services-title">
         <div className="vs-section-head">
           <p>услуги</p>
-          <h2>Сайт должен выглядеть так, чтобы его хотелось заказать</h2>
-          <h3 className="vs-section-head__label">Все услуги</h3>
+          <h2 id="home-services-title">Сайт должен выглядеть так, чтобы его хотелось заказать</h2>
+          <Link href="/services" className="vs-section-head__label">Все услуги</Link>
         </div>
         <div className="vs-service-strip">
           {previewServices.map((service) => (
@@ -36,10 +36,10 @@ export default function HomeSections({ services = SERVICES }: HomeSectionsProps)
         </div>
       </section>
 
-      <section className="vs-prices">
+      <section className="vs-prices" aria-labelledby="home-prices-title">
         <div>
           <p className="vs-kicker">цены</p>
-          <h2>Понятные стартовые пакеты без ощущения конструктора</h2>
+          <h2 id="home-prices-title">Понятные стартовые пакеты без ощущения конструктора</h2>
         </div>
         <div className="vs-price-grid">
           {services.slice(0, 3).map((service) => {

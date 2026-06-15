@@ -4,6 +4,8 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { getProjectBySlug, getAllProjectSlugs } from "@/lib/portfolio";
 import SiteForm from "@/components/forms/SiteForm";
 import AnimatedLink from "@/components/ui/AnimatedLink";
+import StructuredData from "@/components/seo/StructuredData";
+import { absoluteUrl, createPageMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
   return getAllProjectSlugs().map((slug) => ({ slug }));
@@ -17,10 +19,14 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) return {};
-  return {
-    title: `${project.title} | Voitov Studio`,
-    openGraph: { title: `${project.title} | Voitov Studio` },
-  };
+
+  return createPageMetadata({
+    title: project.title,
+    description: project.brief || project.company || `Кейс ${project.title} от Voitov Studio.`,
+    path: `/portfolio/${project.slug}`,
+    keywords: [project.title, "кейс разработки сайта", "портфолио веб-студии"],
+    image: project.coverImage || project.heroImage || "/images/og-cover.svg",
+  });
 }
 
 export default async function ProjectDetailPage({
@@ -32,49 +38,56 @@ export default async function ProjectDetailPage({
   const project = getProjectBySlug(slug);
   if (!project) notFound();
 
+  const projectJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    description: project.brief || project.company,
+    url: absoluteUrl(`/portfolio/${project.slug}`),
+    image: project.coverImage || project.heroImage ? absoluteUrl(project.coverImage || project.heroImage!) : undefined,
+    creator: { "@type": "Organization", name: "Voitov Studio" },
+  };
+
   return (
-    <>
-      <div className="grid-parent-case">
+    <main className="project-detail-page">
+      <StructuredData data={projectJsonLd} />
+      <div className="grid-parent-case" aria-hidden="true">
         <div className="grid-child-1-w" />
         <div className="grid-child-2-w" />
         <div className="grid-child-3-w" />
         <div className="grid-child-4-w" />
       </div>
 
-      {/* Hero image */}
-      <div className="case-hero-hider">
-        <div
-          className="case-hero-raboti"
-          style={
-            project.heroImage
-              ? { backgroundImage: `url(${project.heroImage})` }
-              : undefined
-          }
-        />
-      </div>
+      {project.heroImage && (
+        <figure className="case-hero-hider">
+          <div
+            className="case-hero-raboti"
+            style={{ backgroundImage: `url(${project.heroImage})` }}
+            role="img"
+            aria-label={`${project.title} — презентация проекта`}
+          />
+        </figure>
+      )}
 
-      {/* Title bar */}
-      <div className="block-strip c-4">
+      <header className="block-strip c-4">
         <div className="title-holder">
-          <h2 className="project-title">{project.title}</h2>
+          <p className="section-kicker">кейс</p>
+          <h1 className="project-title">{project.title}</h1>
         </div>
-      </div>
+      </header>
 
-      {/* Section 1 — О компании + Вкратце */}
       <div className="wrapper-b-raboti">
-        <div className="c-section-r">
+        <section className="c-section-r rich-content" aria-labelledby="project-about-title">
           {project.company && (
             <>
-              <h3 className="case-b push-down">О компании</h3>
-              <div className="w-richtext">
-                <p>{project.company}</p>
-              </div>
+              <h2 id="project-about-title" className="case-b push-down">О компании</h2>
+              <p>{project.company}</p>
             </>
           )}
 
           {(project.brief || project.briefDetails) && (
             <>
-              <h3 className="case-b push-down">Вкратце</h3>
+              <h2 className="case-b push-down">Задача и решение</h2>
               <div className="case-info-row w-row">
                 <div className="no-pad w-col w-col-4">
                   <div className="services-block w-richtext">
@@ -90,83 +103,86 @@ export default async function ProjectDetailPage({
             </>
           )}
 
-          {/* Main MDX content */}
           {project.content.trim() && (
-            <div className="rich-text-block-3 w-richtext">
+            <div className="rich-text-block-3 w-richtext rich-content">
               <MDXRemote source={project.content} />
             </div>
           )}
-        </div>
+        </section>
       </div>
 
-      {/* Gallery images */}
       {project.gallery && project.gallery.length > 0 && (
-        <div className="div-block-71">
-          {project.gallery.map((src, i) => (
-            <img key={i} src={src} alt="" className={`image-${53 + i}`} />
+        <section className="div-block-71" aria-label="Галерея проекта">
+          {project.gallery.map((src, index) => (
+            <img
+              key={`${src}-${index}`}
+              src={src}
+              alt={`${project.title} — экран ${index + 1}`}
+              className={`image-${53 + index}`}
+              loading="lazy"
+            />
           ))}
-        </div>
+        </section>
       )}
 
-      {/* Colors + Fonts section */}
       {(project.colors || project.fontImage1 || project.fontImage2) && (
         <div className="wrapper-b-raboti">
           {project.colors && project.colors.length > 0 && (
-            <div className="c-section-p">
+            <section className="c-section-p" aria-labelledby="project-colors-title">
               <div className="info-row w-row">
                 <div className="pad-side w-col w-col-4">
-                  <h3 className="case-b push-down">Colours</h3>
+                  <h2 id="project-colors-title" className="case-b push-down">Цветовая система</h2>
                 </div>
                 <div className="w-col w-col-8" />
               </div>
               <div className="w-row">
-                {project.colors.map((c, i) => (
-                  <div key={i} className="no-pad w-col w-col-4">
+                {project.colors.map((color, index) => (
+                  <div key={`${color.hex}-${index}`} className="no-pad w-col w-col-4">
                     <div
-                      className={`c-block-${13 + i}`}
-                      style={{ backgroundColor: c.hex }}
+                      className={`c-block-${13 + index}`}
+                      style={{ backgroundColor: color.hex }}
+                      aria-label={`Цвет ${color.code}`}
                     />
-                    <div className="c-code">{c.code}</div>
+                    <div className="c-code">{color.code}</div>
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
           )}
 
           {(project.fontImage1 || project.fontImage2) && (
-            <div className="c-section-p">
+            <section className="c-section-p" aria-labelledby="project-fonts-title">
               <div className="columns-10 w-row">
                 <div className="column-22 w-col w-col-4">
-                  <h1 className="heading-82">Шрифты на сайте</h1>
+                  <h2 id="project-fonts-title" className="heading-82">Шрифты на сайте</h2>
                 </div>
                 <div className="w-col w-col-8" />
               </div>
               <div className="w-row">
                 <div className="no-pad w-col w-col-6">
                   {project.fontImage1 && (
-                    <img src={project.fontImage1} alt="" className="image-46" />
+                    <img src={project.fontImage1} alt={`${project.title} — основной шрифт`} className="image-46" loading="lazy" />
                   )}
                 </div>
                 <div className="no-pad w-col w-col-6">
                   {project.fontImage2 && (
-                    <img src={project.fontImage2} alt="" className="image-45" />
+                    <img src={project.fontImage2} alt={`${project.title} — дополнительный шрифт`} className="image-45" loading="lazy" />
                   )}
                 </div>
               </div>
-            </div>
+            </section>
           )}
         </div>
       )}
 
-      {/* Prev / Next navigation */}
       <nav className="project-nav" aria-label="Навигация по работам">
         {project.prevSlug ? (
           <AnimatedLink href={`/portfolio/${project.prevSlug}`} className="project-nav__link project-nav__link--prev">
-            <span>←</span>
+            <span aria-hidden="true">←</span>
             <strong>Предыдущая работа</strong>
           </AnimatedLink>
         ) : (
-          <div className="project-nav__link project-nav__link--disabled">
+          <div className="project-nav__link project-nav__link--disabled" aria-hidden="true">
             <span>←</span>
             <strong>Предыдущая работа</strong>
           </div>
@@ -175,23 +191,23 @@ export default async function ProjectDetailPage({
         {project.nextSlug ? (
           <AnimatedLink href={`/portfolio/${project.nextSlug}`} className="project-nav__link project-nav__link--next">
             <strong>Следующая работа</strong>
-            <span>→</span>
+            <span aria-hidden="true">→</span>
           </AnimatedLink>
         ) : (
-          <div className="project-nav__link project-nav__link--disabled project-nav__link--next">
+          <div className="project-nav__link project-nav__link--disabled project-nav__link--next" aria-hidden="true">
             <strong>Следующая работа</strong>
             <span>→</span>
           </div>
         )}
       </nav>
 
-      <section className="vs-final-cta">
+      <section className="vs-final-cta" aria-labelledby="project-cta-title">
         <div>
           <p className="vs-kicker">проект</p>
-          <h2>Хотите сайт с таким же уровнем подачи? Обсудим задачу и первый прототип.</h2>
+          <h2 id="project-cta-title">Хотите сайт с таким же уровнем подачи?</h2>
         </div>
-        <SiteForm source={`portfolio-${project.slug}`} compact />
+        <SiteForm source={`portfolio-${project.slug}`} compact variant="general" />
       </section>
-    </>
+    </main>
   );
 }

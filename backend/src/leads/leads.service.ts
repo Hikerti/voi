@@ -9,6 +9,7 @@ export class LeadsService {
 
   async create(kind: LeadKind, dto: CreateLeadDto, meta: LeadMeta) {
     this.assertHumanSubmission(dto);
+    this.assertRequiredContact(kind, dto);
     const normalizedPhone = this.normalizePhone(dto.phone);
 
     const lead = await this.prisma.leadRequest.create({
@@ -30,7 +31,9 @@ export class LeadsService {
       kind: lead.kind,
       status: lead.status,
       message:
-        'Спасибо, заявка отправлена. Мы свяжемся с вами в течение 24 часов.',
+        kind === LeadKind.REVIEW
+          ? 'Спасибо, отзыв отправлен и появится после проверки.'
+          : 'Спасибо, заявка отправлена. Мы свяжемся с вами в течение 24 часов.',
     };
   }
 
@@ -56,7 +59,21 @@ export class LeadsService {
     });
   }
 
-  private normalizePhone(phone: string) {
+  private assertRequiredContact(kind: LeadKind, dto: CreateLeadDto) {
+    if (kind === LeadKind.REVIEW) return;
+
+    if (kind === LeadKind.CALLBACK && !dto.phone) {
+      throw new BadRequestException('Phone is required for callback requests');
+    }
+
+    if (!dto.phone && !dto.email) {
+      throw new BadRequestException('Phone or email is required');
+    }
+  }
+
+  private normalizePhone(phone?: string) {
+    if (!phone) return null;
+
     const digits = phone.replace(/\D/g, '');
 
     if (digits.length < 10) {
@@ -71,15 +88,10 @@ export class LeadsService {
       throw new BadRequestException('Invalid form submission');
     }
 
-    if (!dto.startedAt) {
-      return;
-    }
+    if (!dto.startedAt) return;
 
     const startedAt = new Date(dto.startedAt).getTime();
-
-    if (Number.isNaN(startedAt)) {
-      return;
-    }
+    if (Number.isNaN(startedAt)) return;
 
     if (Date.now() - startedAt < 2500) {
       throw new BadRequestException('Form was submitted too quickly');

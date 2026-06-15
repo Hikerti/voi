@@ -1,16 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { trackGoal } from "@/lib/analytics";
 import { SITE } from "@/lib/constants";
+
+type FormVariant = "general" | "contact" | "callback" | "review" | "question";
+type FieldName = "name" | "phone" | "email" | "message" | "consent";
+type FieldErrors = Partial<Record<FieldName, string>>;
 
 interface SiteFormProps {
   title?: string;
   submitLabel?: string;
   source: string;
   compact?: boolean;
+  variant?: FormVariant;
 }
+
+const SUCCESS_MESSAGES: Record<FormVariant, string> = {
+  general: "Спасибо, заявка отправлена. Мы свяжемся с вами в течение 24 часов.",
+  contact: "Ваш вопрос отправлен. Ответ мы пришлём по почте.",
+  callback: "Заявка на обратный звонок отправлена. Мы свяжемся с вами в рабочее время.",
+  review: "Ваш отзыв отправлен и появится после проверки.",
+  question: "Ваш вопрос отправлен. Ответ мы пришлём по почте.",
+};
 
 function countDigits(value: string) {
   return value.replace(/\D/g, "").length;
@@ -21,73 +34,179 @@ export default function SiteForm({
   submitLabel = "Отправить",
   source,
   compact = false,
+  variant = "general",
 }: SiteFormProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [serverError, setServerError] = useState("");
+  const startedAtRef = useRef(new Date().toISOString());
+
+  const showName = !compact || variant !== "general";
+  const showPhone = variant === "general" || variant === "callback" || variant === "contact";
+  const showEmail = variant === "contact" || variant === "review" || variant === "question" || (!compact && variant === "general");
+  const showMessage = !compact && variant !== "callback";
+  const nameRequired = variant !== "general";
+  const phoneRequired = variant === "general" || variant === "callback";
+  const emailRequired = variant === "contact" || variant === "question";
+  const messageRequired = variant === "contact" || variant === "review" || variant === "question";
+  const messageLabel = variant === "review" ? "Отзыв" : variant === "question" ? "Вопрос" : "Сообщение";
+
+  function validate(formData: FormData) {
+    const nextErrors: FieldErrors = {};
+    const name = String(formData.get("name") ?? "").trim();
+    const phone = String(formData.get("phone") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const message = String(formData.get("message") ?? "").trim();
+    const consent = formData.get("consent") === "on";
+
+    if (nameRequired && name.length < 2) nextErrors.name = "Укажите имя.";
+    if (phoneRequired && countDigits(phone) < 10) nextErrors.phone = "Укажите телефон, минимум 10 цифр.";
+    if (phone && countDigits(phone) < 10) nextErrors.phone = "Проверьте номер телефона.";
+    if (emailRequired && !email.includes("@")) nextErrors.email = "Укажите корректный email.";
+    if (email && !email.includes("@")) nextErrors.email = "Проверьте email: нужен символ @.";
+    if (messageRequired && message.length < 5) nextErrors.message = `Заполните поле «${messageLabel}».`;
+    if (!consent) nextErrors.consent = "Подтвердите согласие на обработку данных.";
+
+    return nextErrors;
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const phone = String(formData.get("phone") ?? "");
-    const email = String(formData.get("email") ?? "");
+    const nextErrors = validate(formData);
 
-    if (countDigits(phone) < 10) {
-      setError("Укажите телефон, минимум 10 цифр.");
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      setStatus("idle");
       return;
     }
 
-    if (email && !email.includes("@")) {
-      setError("Проверьте email: нужен символ @.");
-      return;
-    }
-
-    setError("");
+    setErrors({});
+    setServerError("");
     setStatus("loading");
 
     try {
-      const startedAt = new Date(Date.now() - 3000).toISOString();
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.get("name"),
-          phone,
-          email,
+          phone: formData.get("phone"),
+          email: formData.get("email"),
           message: formData.get("message"),
-          source,
+          company: formData.get("company"),
+          consent: formData.get("consent") === "on",
+          source: `${variant}-${source}`,
           pageUrl: window.location.href,
-          startedAt,
+          startedAt: startedAtRef.current,
         }),
       });
-      if (!res.ok) throw new Error("Request failed");
+
+      const data = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (!res.ok) throw new Error(data?.error || "Request failed");
+
       form.reset();
+      startedAtRef.current = new Date().toISOString();
       setStatus("success");
-      trackGoal("lead_form_submit", { source });
-    } catch {
+      trackGoal("lead_form_submit", { source, variant });
+    } catch (error) {
       setStatus("error");
+      setServerError(error instanceof Error ? error.message : "Не получилось отправить форму.");
     }
   }
 
   return (
-    <form className={`vs-form ${compact ? "vs-form--compact" : ""}`} onSubmit={handleSubmit}>
-      <h3>{title}</h3>
-      <input name="phone" type="tel" placeholder="Телефон *" required />
-      <input name="name" type="text" placeholder="Имя" />
-      <input name="email" type="email" placeholder="Email" />
-      {!compact && <textarea name="message" placeholder="Сообщение" rows={4} />}
-      <p className="vs-form__policy">
-        Нажимая кнопку, вы соглашаетесь с{" "}
-        <Link href={SITE.privacy}>политикой конфиденциальности</Link>.
-      </p>
-      {error && <p className="vs-form__error">{error}</p>}
-      {status === "success" && (
-        <p className="vs-form__success">Спасибо, заявка отправлена. Мы свяжемся с вами в течение 24 часов.</p>
-      )}
-      {status === "error" && <p className="vs-form__error">Не получилось отправить заявку. Попробуйте ещё раз.</p>}
-      <button type="submit" disabled={status === "loading"}>
-        {status === "loading" ? "Отправляем..." : submitLabel}
-      </button>
+    <form
+      className={`vs-form vs-form--${variant} ${compact ? "vs-form--compact" : ""}`}
+      onSubmit={handleSubmit}
+      noValidate
+    >
+      <fieldset disabled={status === "loading"}>
+        <legend>{title}</legend>
+
+        <div className="vs-form__honeypot" aria-hidden="true">
+          <label htmlFor={`${source}-company`}>Компания</label>
+          <input id={`${source}-company`} name="company" type="text" tabIndex={-1} autoComplete="off" />
+        </div>
+
+        {showName && (
+          <label className="vs-form__field">
+            <span>Имя{nameRequired ? " *" : ""}</span>
+            <input
+              name="name"
+              type="text"
+              autoComplete="name"
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? `${source}-name-error` : undefined}
+              required={nameRequired}
+            />
+            {errors.name && <small id={`${source}-name-error`}>{errors.name}</small>}
+          </label>
+        )}
+
+        {showPhone && (
+          <label className="vs-form__field">
+            <span>Телефон{phoneRequired ? " *" : ""}</span>
+            <input
+              name="phone"
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
+              aria-invalid={Boolean(errors.phone)}
+              aria-describedby={errors.phone ? `${source}-phone-error` : undefined}
+              required={phoneRequired}
+            />
+            {errors.phone && <small id={`${source}-phone-error`}>{errors.phone}</small>}
+          </label>
+        )}
+
+        {showEmail && (
+          <label className="vs-form__field">
+            <span>Email{emailRequired ? " *" : ""}</span>
+            <input
+              name="email"
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? `${source}-email-error` : undefined}
+              required={emailRequired}
+            />
+            {errors.email && <small id={`${source}-email-error`}>{errors.email}</small>}
+          </label>
+        )}
+
+        {showMessage && (
+          <label className="vs-form__field">
+            <span>{messageLabel}{messageRequired ? " *" : ""}</span>
+            <textarea
+              name="message"
+              rows={5}
+              aria-invalid={Boolean(errors.message)}
+              aria-describedby={errors.message ? `${source}-message-error` : undefined}
+              required={messageRequired}
+            />
+            {errors.message && <small id={`${source}-message-error`}>{errors.message}</small>}
+          </label>
+        )}
+
+        <label className="vs-form__consent">
+          <input name="consent" type="checkbox" aria-invalid={Boolean(errors.consent)} required />
+          <span>
+            Нажимая кнопку «{submitLabel}», я даю согласие на обработку персональных данных и принимаю{" "}
+            <Link href={SITE.privacy}>политику конфиденциальности</Link>.
+          </span>
+        </label>
+        {errors.consent && <small className="vs-form__field-error">{errors.consent}</small>}
+
+        {status === "success" && <p className="vs-form__success" role="status">{SUCCESS_MESSAGES[variant]}</p>}
+        {status === "error" && <p className="vs-form__error" role="alert">{serverError}</p>}
+
+        <button type="submit">
+          {status === "loading" ? "Отправляем..." : submitLabel}
+        </button>
+      </fieldset>
     </form>
   );
 }

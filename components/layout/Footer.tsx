@@ -1,77 +1,69 @@
 import Link from "next/link";
-import { SITE, FOOTER_NAV } from "@/lib/constants";
+import { FOOTER_NAV, SITE } from "@/lib/constants";
+
+const SOCIAL_LINKS = [
+  { label: "Telegram", href: SITE.telegram },
+  { label: "WhatsApp", href: SITE.whatsapp },
+  { label: "VK", href: SITE.vk },
+  { label: "MAX", href: SITE.max },
+].filter((item): item is { label: string; href: string } => Boolean(item.href));
 
 export default function Footer() {
+  const hasRequisites = Boolean(SITE.inn || SITE.ogrn);
+
   return (
-    <>
-      <link rel="stylesheet" href="/css/final-corrections.css" />
-      <link rel="stylesheet" href="/css/home-news-burger-fix.css" />
-      <div className="shapkavniz">
-        <div className="shapka-para">
-          <div className="w-row">
-            <div className="column-14 w-clearfix w-col w-col-4">
-              <div className="footer-logo-wrap">
-                <Link href="/" className="footer-logo-link" aria-label={`${SITE.name} — главная`}>
-                  <img src="/logo.png" alt="Voitov Studio" width="180" height="50" />
-                </Link>
-                <p className="footer-logo-tag">{SITE.tagline}</p>
-              </div>
-              <div className="div-block-26 w-clearfix">
-                <a
-                  href={SITE.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-block-8 w-inline-block"
-                />
-                <a
-                  href={SITE.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-block-9 w-inline-block"
-                />
-              </div>
-            </div>
-
-            <div className="column-13 w-col w-col-8">
-              <ul role="list" className="list-4">
-                {FOOTER_NAV.map((item) => (
-                  <li key={item.href} className="list-item-3">
-                    <Link href={item.href} className="link-4">
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="div-block-60 w-clearfix">
-                <a href={SITE.phoneHref} className="link-7">
-                  {SITE.phone}
-                </a>
-                <a href={SITE.emailHref} className="link-8">
-                  {SITE.email}
-                </a>
-              </div>
-
-              <div className="div-block-74 w-clearfix">
-                <a
-                  href={SITE.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-block-23 w-inline-block"
-                  aria-label="WhatsApp"
-                />
-                <a
-                  href={SITE.telegram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-block-24 w-inline-block"
-                  aria-label="Telegram"
-                />
-              </div>
-            </div>
+    <footer className="site-footer">
+      <div className="site-footer__grid">
+        <div className="site-footer__brand">
+          <Link href="/" aria-label={`${SITE.name} — главная`}>
+            <img src="/logo.png" alt="Voitov Studio" width="180" height="50" />
+          </Link>
+          <p>{SITE.tagline}</p>
+          <div className="site-footer__actions">
+            <Link className="button button--accent" href="/zayavka">Напишите нам</Link>
+            <Link className="button button--ghost" href="/zayavka?type=callback">Обратный звонок</Link>
           </div>
         </div>
+
+        <nav className="site-footer__nav" aria-label="Навигация в подвале">
+          <h2>Разделы</h2>
+          <ul>
+            {FOOTER_NAV.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href}>{item.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="site-footer__contacts">
+          <h2>Контакты</h2>
+          <address>
+            <a href={SITE.phoneHref}>{SITE.phone}</a>
+            {SITE.secondaryPhone && SITE.secondaryPhoneHref && (
+              <a href={SITE.secondaryPhoneHref}>{SITE.secondaryPhone}</a>
+            )}
+            <a href={SITE.emailHref}>{SITE.email}</a>
+            <span>{SITE.workHours}</span>
+            <span>{SITE.address}</span>
+          </address>
+          {SOCIAL_LINKS.length > 0 && (
+            <div className="site-footer__socials" aria-label="Социальные сети и мессенджеры">
+              {SOCIAL_LINKS.map((item) => (
+                <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer">
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </>
+
+      <div className="site-footer__bottom">
+        <p>© {new Date().getFullYear()} {SITE.name}. Все права защищены.</p>
+        {hasRequisites && <p>{[SITE.inn, SITE.ogrn].filter(Boolean).join(" · ")}</p>}
+        <p>Информация на сайте не является публичной офертой.</p>
+      </div>
+    </footer>
   );
 }

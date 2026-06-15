@@ -233,7 +233,7 @@ model LeadRequest {
   kind        LeadKind
   status      LeadStatus @default(NEW)
   name        String?
-  phone       String
+  phone       String?
   email       String?
   message     String?
   source      String?

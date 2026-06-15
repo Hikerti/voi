@@ -1,8 +1,5 @@
-/* Final corrections requested after production review. */
+/* Home page visual system and responsive split artwork. */
 
-/* Revert the experimental natural-image hero layout. The exported halves are
-   rendered inside matched boxes again, which keeps all four compositions
-   centred and prevents individual halves from drifting apart. */
 .home-ref__asset-pair,
 .home-ref__asset-image {
   display: none !important;
@@ -18,7 +15,7 @@
   --asset-half-width: min(11.5vw, 175px);
   --asset-top: 3%;
   --closed-offset: 12px;
-  --open-gap: -2px;
+  --open-gap: 0px;
 }
 
 .home-ref .home-ref__scene--wrench {
@@ -27,7 +24,7 @@
   --asset-half-width: min(8vw, 128px);
   --asset-top: 5%;
   --closed-offset: 10px;
-  --open-gap: -2px;
+  --open-gap: 0px;
 }
 
 .home-ref .home-ref__scene--phone {
@@ -36,7 +33,7 @@
   --asset-half-width: min(10.5vw, 160px);
   --asset-top: 2%;
   --closed-offset: 10px;
-  --open-gap: -2px;
+  --open-gap: 0px;
 }
 
 .home-ref .home-ref__scene--paper {
@@ -45,7 +42,7 @@
   --asset-half-width: min(17vw, 280px);
   --asset-top: 24%;
   --closed-offset: 12px;
-  --open-gap: -2px;
+  --open-gap: 0px;
 }
 
 .home-ref .home-ref__asset {
@@ -100,7 +97,6 @@
   display: none !important;
 }
 
-/* The portfolio showcase on the home page remains a dark section. */
 .studio2 {
   background: #070708 !important;
   color: #fff !important;
@@ -117,7 +113,6 @@
   background: #111114 !important;
 }
 
-/* Sections that are intentionally light use clean white, not grey. */
 .news-preview,
 .blog-page,
 .vs-page-shell:not(.vs-page-shell--dark),
@@ -131,7 +126,7 @@
 .news-card__image-placeholder,
 .blog-card__image,
 .blog-card__image-placeholder {
-  background: #f2f2f2 !important;
+  background-color: #f2f2f2 !important;
 }
 
 .vs-price-card,
@@ -140,14 +135,11 @@
   background: #fff !important;
 }
 
-/* Reviews remain dark; the redundant "Все отзывы" label was removed in JSX. */
 .vs-reviews-preview {
   background: #070708 !important;
   color: #fff !important;
 }
 
-/* Compact footer: remove the inherited viewport height and all artificial
-   spacing around the logo block. */
 .shapkavniz {
   width: 100%;
   height: auto !important;
@@ -197,6 +189,130 @@
   margin-bottom: 0 !important;
 }
 
+/* Fine tuning for the exported split artwork. */
+.home-ref[data-active="0"] .home-ref__scene--runner .home-ref__asset--left {
+  transform-origin: right center !important;
+  transform: translate3d(0, 15.8%, 0) scale(1.51) !important;
+}
+
+.home-ref[data-active="0"] .home-ref__scene--runner .home-ref__asset--right {
+  transform-origin: left center !important;
+  transform: translate3d(0, 0, 0) scale(1) !important;
+}
+
+.home-ref[data-active="1"] .home-ref__scene--wrench .home-ref__asset--left {
+  transform-origin: right center !important;
+  transform: translate3d(0, 1.4%, 0) scale(0.97) !important;
+}
+
+.home-ref[data-active="1"] .home-ref__scene--wrench .home-ref__asset--right {
+  transform-origin: left center !important;
+  transform: translate3d(0, 0, 0) scale(1) !important;
+}
+
+.home-ref[data-active="2"] .home-ref__scene--phone .home-ref__asset,
+.home-ref[data-active="3"] .home-ref__scene--paper .home-ref__asset {
+  transform: translate3d(0, 0, 0) !important;
+}
+
+/* Dark article preview on the home page. */
+.news-preview {
+  background: #070708 !important;
+  color: #fff !important;
+}
+
+.news-preview__title {
+  color: var(--vs-lime, #d8ff55) !important;
+}
+
+.news-preview__all {
+  color: #fff !important;
+  border-bottom-color: var(--vs-lime, #d8ff55) !important;
+}
+
+.news-preview__all:hover {
+  color: var(--vs-lime, #d8ff55) !important;
+  opacity: 1 !important;
+}
+
+.news-card {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: #0d0d11 !important;
+  color: #fff !important;
+  transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.news-card:hover {
+  border-color: rgba(216, 255, 85, 0.55);
+  background-color: #131318 !important;
+  transform: translateY(-4px);
+}
+
+.news-card__image {
+  background-color: #16161b !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+.news-card__body {
+  padding: 22px 22px 26px !important;
+}
+
+.news-card__date {
+  color: rgba(255, 255, 255, 0.58) !important;
+}
+
+.news-card__title {
+  color: #fff !important;
+}
+
+.news-card:hover .news-card__title {
+  color: var(--vs-lime, #d8ff55) !important;
+  opacity: 1 !important;
+}
+
+.news-preview__empty {
+  color: rgba(255, 255, 255, 0.62) !important;
+}
+
+/* Plain three-line mobile burger. */
+.vs-burger {
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  isolation: auto !important;
+}
+
+.vs-burger::before,
+.vs-burger::after,
+.vs-burger__logo,
+.vs-burger__rings {
+  display: none !important;
+}
+
+.vs-burger__lines {
+  width: 28px !important;
+  height: 24px !important;
+}
+
+.vs-burger__line {
+  width: 28px !important;
+  height: 2px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
 @media (max-width: 760px) {
   .home-ref .home-ref__scene {
     top: 48.5% !important;
@@ -235,4 +351,8 @@
   }
 }
 
-
+@media (max-width: 600px) {
+  .news-card__body {
+    padding: 18px 18px 22px !important;
+  }
+}
