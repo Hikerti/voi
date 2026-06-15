@@ -102,48 +102,60 @@ pm2 restart voitov-backend --update-env
 
 ## 7. Nginx
 
-Создать `/etc/nginx/sites-available/voitov.ru`:
+Готовый шаблон хранится в `deploy/nginx/voitov-studio.conf`.
 
-```nginx
-server {
-    listen 80;
-    listen [::]:80;
-    server_name voitov.ru www.voitov.ru;
-
-    location /api/ {
-        proxy_pass http://127.0.0.1:4000/api/;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    location / {
-        proxy_pass http://127.0.0.1:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-```
-
-Активировать конфигурацию:
+Установить его на сервере:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/voitov.ru /etc/nginx/sites-enabled/voitov.ru
+cd /var/www/voitov-studio
+sudo cp deploy/nginx/voitov-studio.conf /etc/nginx/sites-available/voitov-studio.conf
+sudo ln -sfn /etc/nginx/sites-available/voitov-studio.conf /etc/nginx/sites-enabled/voitov-studio.conf
 sudo nginx -t
 sudo systemctl reload nginx
+```
+
+Конфигурация содержит:
+
+- frontend на `127.0.0.1:3000`;
+- backend API на `127.0.0.1:4000`;
+- Prisma Studio на `127.0.0.1:5555`, проксируемый через текущий публичный IPv4 `2.56.241.59:5555`.
+
+Не добавлять в `listen` IP-адреса, которых больше нет на сервере. Иначе даже корректный Nginx-конфиг не пройдёт `nginx -t`, а Certbot не сможет выпустить сертификат.
+
+### Исправление старой привязки к `46.173.17.61`
+
+Если на сервере уже установлен старый конфиг, сначала сделать резервную копию, удалить старый `listen` и старый IP из `server_name`:
+
+```bash
+sudo cp /etc/nginx/sites-available/voitov-studio.conf \
+  /etc/nginx/sites-available/voitov-studio.conf.bak-$(date +%F-%H%M%S)
+
+sudo sed -i \
+  -e '/listen 46\.173\.17\.61:5555;/d' \
+  -e 's/server_name 46\.173\.17\.61 2\.56\.241\.59 _;/server_name 2.56.241.59 _;/' \
+  /etc/nginx/sites-available/voitov-studio.conf
+
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+Проверить, что старый IP полностью исчез из активной конфигурации:
+
+```bash
+sudo nginx -T 2>/dev/null | grep -n "46\.173\.17\.61" || echo "Старый IP не найден"
+```
+
+`sites-enabled/voitov-studio.conf` должен быть симлинком на файл из `sites-available`. Проверка:
+
+```bash
+readlink -f /etc/nginx/sites-enabled/voitov-studio.conf
 ```
 
 ## 8. SSL
 
 Перед выпуском сертификата A/AAAA-записи домена должны вести на VPS, а порты 80 и 443 должны быть открыты.
+
+После успешного `nginx -t`:
 
 ```bash
 sudo apt update
@@ -177,5 +189,6 @@ pm2 status
 pm2 logs voitov-frontend
 pm2 logs voitov-backend
 sudo nginx -t
+sudo nginx -T
 sudo journalctl -u nginx -n 100 --no-pager
 ```
