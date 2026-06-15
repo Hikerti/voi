@@ -21,26 +21,20 @@ export default async function FaqPage() {
       <main className="vs-page-shell faq-page">
         <section className="vs-page-hero faq-page__hero">
           <div className="faq-page__copy">
-            <p className="vs-kicker">faq</p>
-            <h1>Короткие ответы перед стартом проекта</h1>
+            <p className="vs-kicker">FAQ</p>
+            <h1>Ответы перед стартом проекта</h1>
             <p>
-              Собрали вопросы, которые обычно появляются до брифа: сроки, дизайн,
-              SEO, контент, правки, запуск и дальнейшее развитие сайта.
+              Сроки, дизайн, SEO, контент, правки, запуск и дальнейшее развитие сайта —
+              без лишних формулировок и декоративных блоков.
             </p>
-          </div>
-          <div className="faq-page__map" aria-hidden="true">
-            <span className="faq-topic faq-topic--brief">бриф</span>
-            <span className="faq-topic faq-topic--design">дизайн</span>
-            <span className="faq-topic faq-topic--seo">seo</span>
-            <span className="faq-topic faq-topic--launch">запуск</span>
           </div>
         </section>
 
         <FaqAccordion items={faq} />
 
         <section className="vs-two-col faq-page__form" aria-labelledby="faq-form-title">
-          <div>
-            <p className="vs-kicker">не нашли ответ</p>
+          <div className="faq-page__form-copy">
+            <p className="vs-kicker">Не нашли ответ</p>
             <h2 id="faq-form-title">Задайте свой вопрос</h2>
             <p>Ответим по email и при необходимости добавим вопрос в этот раздел.</p>
           </div>
