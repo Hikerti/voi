@@ -3,14 +3,16 @@ import { SITE } from "@/lib/constants";
 
 export default function ContactsContent() {
   return (
-    <main className="contacts-page">
+    <main className="contacts-page contacts-page--clean">
       <section className="contacts-page__hero">
-        <p className="section-kicker">контакты</p>
-        <h1>Обсудить сайт, дизайн или развитие проекта</h1>
-        <p>
-          Напишите, позвоните или оставьте заявку. Отвечаем в рабочее время и начинаем
-          с короткого уточнения задачи, сроков и готовых материалов.
-        </p>
+        <div className="contacts-page__hero-copy">
+          <p className="section-kicker">контакты</p>
+          <h1>Обсудить сайт, дизайн или развитие проекта</h1>
+          <p>
+            Напишите, позвоните или оставьте заявку. Отвечаем в рабочее время и начинаем
+            с короткого уточнения задачи, сроков и готовых материалов.
+          </p>
+        </div>
       </section>
 
       <section className="contacts-page__layout" aria-labelledby="contacts-details-title">
@@ -34,12 +36,12 @@ export default function ContactsContent() {
           </div>
         </div>
 
+        <SiteForm source="contacts" title="Напишите нам" variant="contact" />
+
         <div className="contacts-page__map-placeholder" role="img" aria-label="Voitov Studio работает в Москве и онлайн">
           <span>{SITE.address}</span>
           <p>Работаем с проектами удалённо и проводим созвоны по предварительной договорённости.</p>
         </div>
-
-        <SiteForm source="contacts" title="Напишите нам" variant="contact" />
       </section>
     </main>
   );
