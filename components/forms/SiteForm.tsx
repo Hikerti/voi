@@ -17,6 +17,18 @@ interface SiteFormProps {
   variant?: FormVariant;
 }
 
+type LeadPayload = {
+  name: FormDataEntryValue | null;
+  phone: FormDataEntryValue | null;
+  email: FormDataEntryValue | null;
+  message: FormDataEntryValue | null;
+  company: FormDataEntryValue | null;
+  consent: boolean;
+  source: string;
+  pageUrl: string;
+  startedAt: string;
+};
+
 const SUCCESS_MESSAGES: Record<FormVariant, string> = {
   general: "Спасибо, заявка отправлена. Мы свяжемся с вами в течение 24 часов.",
   contact: "Сообщение отправлено. Ответим по указанным контактам.",
@@ -29,6 +41,50 @@ const FALLBACK_ERROR = "Не удалось отправить форму. По�
 
 function countDigits(value: string) {
   return value.replace(/\D/g, "").length;
+}
+
+function directLeadEndpoint(variant: FormVariant) {
+  if (variant === "review") return "/api/leads/review";
+  if (variant === "question") return "/api/leads/question";
+  if (variant === "callback") return "/api/leads/callback";
+  return "/api/leads/contact";
+}
+
+async function responseError(response: Response) {
+  const data = (await response.json().catch(() => null)) as
+    | { error?: string; message?: string | string[] }
+    | null;
+  const message = Array.isArray(data?.message) ? data.message.join(" ") : data?.message;
+  return data?.error?.trim() || message?.trim() || FALLBACK_ERROR;
+}
+
+async function submitLead(payload: LeadPayload, variant: FormVariant) {
+  const endpoints = ["/submit-lead", directLeadEndpoint(variant)];
+  let lastError = FALLBACK_ERROR;
+
+  for (const [index, endpoint] of endpoints.entries()) {
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) return;
+
+      lastError = await responseError(response);
+      const isValidationError = response.status >= 400 && response.status < 500 && response.status !== 404;
+      if (isValidationError || index === endpoints.length - 1) throw new Error(lastError);
+    } catch (error) {
+      lastError = error instanceof Error && error.message && error.message !== "Failed to fetch"
+        ? error.message
+        : FALLBACK_ERROR;
+
+      if (index === endpoints.length - 1) throw new Error(lastError);
+    }
+  }
+
+  throw new Error(lastError);
 }
 
 export default function SiteForm({
@@ -90,29 +146,20 @@ export default function SiteForm({
     setServerError("");
     setStatus("loading");
 
+    const payload: LeadPayload = {
+      name: formData.get("name"),
+      phone: formData.get("phone"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+      company: formData.get("company"),
+      consent: formData.get("consent") === "on",
+      source: `${variant}-${source}`,
+      pageUrl: window.location.href,
+      startedAt: startedAtRef.current,
+    };
+
     try {
-      const response = await fetch("/submit-lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.get("name"),
-          phone: formData.get("phone"),
-          email: formData.get("email"),
-          message: formData.get("message"),
-          company: formData.get("company"),
-          consent: formData.get("consent") === "on",
-          source: `${variant}-${source}`,
-          pageUrl: window.location.href,
-          startedAt: startedAtRef.current,
-        }),
-      });
-
-      const data = (await response.json().catch(() => null)) as { error?: string } | null;
-      if (!response.ok) {
-        const message = data?.error?.trim();
-        throw new Error(message && message.toLowerCase() !== "not found" ? message : FALLBACK_ERROR);
-      }
-
+      await submitLead(payload, variant);
       form.reset();
       startedAtRef.current = new Date().toISOString();
       setStatus("success");
