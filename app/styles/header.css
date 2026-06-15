@@ -1,0 +1,36 @@
+/* Responsive header-only rules. */
+
+.site-search-link {
+  display: none;
+  color: #fff;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.site-search-link:hover {
+  color: var(--content-accent);
+}
+
+@media (max-width: 1180px) {
+  .site-search-link {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-search-link {
+    width: 40px;
+    overflow: hidden;
+    color: transparent;
+    font-size: 0;
+  }
+
+  .site-search-link::before {
+    content: "⌕";
+    color: #fff;
+    font-size: 25px;
+    line-height: 1;
+  }
+}
