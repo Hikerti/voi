@@ -48,7 +48,6 @@ export default function HomeTrustSections({
       <section className="vs-reviews-preview">
         <div className="vs-section-head">
           <h2>Клиенты приходят за сайтом, который выглядит сильнее рынка</h2>
-          <h3 className="vs-section-head__label">Все отзывы</h3>
         </div>
         <div className="vs-review-grid">
           {visibleReviews.map((review) => (
