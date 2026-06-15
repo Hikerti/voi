@@ -1,0 +1,480 @@
+/* Final utility theme: one dark visual system, clean alignment and responsive fixes. */
+
+:root {
+  --utility-bg: #08090b;
+  --utility-surface: #0f1013;
+  --utility-surface-strong: #15161a;
+  --utility-text: #f4f4ef;
+  --utility-muted: rgba(244, 244, 239, 0.66);
+  --utility-line: rgba(255, 255, 255, 0.1);
+  --utility-accent: #d8ff55;
+}
+
+html,
+body,
+.body {
+  background: var(--utility-bg) !important;
+  color: var(--utility-text);
+}
+
+.route-frame,
+.vs-page-shell,
+.vs-page-shell:not(.vs-page-shell--dark),
+.blog-page,
+.article-page,
+.search-page,
+.lead-page,
+.reviews-page,
+.faq-page,
+.contacts-page,
+.news-preview,
+.studio2,
+.vs-services-band,
+.vs-prices,
+.vs-stages,
+.vs-reviews-preview,
+.vs-faq-preview,
+.work-v2,
+.faq-detail-page {
+  background: var(--utility-bg) !important;
+  color: var(--utility-text) !important;
+}
+
+.vs-services-band::before,
+.vs-services-band::after,
+.vs-prices::before,
+.vs-prices::after,
+.vs-stages::before,
+.vs-stages::after,
+.vs-faq-preview::before,
+.vs-faq-preview::after,
+.news-preview::before,
+.news-preview::after,
+.contacts-page::before,
+.contacts-page::after,
+.faq-detail-page::before,
+.faq-detail-page::after {
+  display: none !important;
+}
+
+/* Header search works through Enter; the separate submit button is intentionally absent. */
+.site-search--header {
+  gap: 0 !important;
+}
+
+.site-search--header input {
+  width: clamp(150px, 12vw, 210px) !important;
+  padding-right: 14px !important;
+  border-color: var(--utility-line) !important;
+  background: rgba(255, 255, 255, 0.045) !important;
+  color: #fff !important;
+}
+
+.site-search--header input::placeholder {
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.vs-site-header__actions {
+  gap: 8px !important;
+}
+
+.site-search-link,
+.vs-burger {
+  flex: 0 0 40px;
+  width: 40px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.site-search-link {
+  padding: 0 !important;
+}
+
+.site-search-link::before {
+  display: block;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.vs-burger__lines {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+.vs-burger__line {
+  left: 0 !important;
+  width: 22px !important;
+  height: 2px !important;
+}
+
+/* Breadcrumb starts exactly on the shared content line. */
+.route-frame:has(> .vs-page-shell) > .breadcrumbs {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Footer logo has transparent space in the source image; compensate visually. */
+.site-footer {
+  background: var(--utility-bg) !important;
+}
+
+.site-footer__brand > a {
+  display: block;
+  width: fit-content;
+  margin-left: -18px;
+}
+
+.site-footer__brand img {
+  display: block;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.site-footer__brand > p,
+.site-footer__contacts address,
+.site-footer__socials a,
+.site-footer__bottom {
+  color: var(--utility-muted) !important;
+}
+
+/* Shared dark cards. */
+.vs-service-card,
+.vs-price-card,
+.vs-stage,
+.vs-review,
+.vs-catalog-card,
+.vs-related-card,
+.news-card,
+.blog-card,
+.faq-accordion__item,
+.contacts-page__panel,
+.contacts-page__signal,
+.seo-copy,
+.decision-cta,
+.vs-final-cta {
+  border-color: transparent !important;
+  background: var(--utility-surface) !important;
+  color: var(--utility-text) !important;
+  box-shadow: none !important;
+}
+
+.vs-service-card:hover,
+.vs-price-card:hover,
+.vs-stage:hover,
+.vs-review:hover,
+.vs-catalog-card:hover,
+.vs-related-card:hover,
+.news-card:hover,
+.blog-card:hover,
+.faq-accordion__item:hover,
+.contacts-page__panel:hover {
+  border-color: transparent !important;
+  background: var(--utility-surface-strong) !important;
+  box-shadow: none !important;
+  transform: translateY(-2px) !important;
+}
+
+.vs-price-card h3,
+.vs-stage h3,
+.vs-catalog-card h2,
+.vs-related-card h3,
+.news-card__title,
+.blog-card h2,
+.news-preview__title,
+.blog-page__title,
+.blog-page__hero h1,
+.article-page__header h1,
+.search-page__header h1,
+.faq-detail-page__hero h1 {
+  color: var(--utility-text) !important;
+}
+
+.vs-price-card p,
+.vs-stage p,
+.vs-catalog-card p,
+.news-card p,
+.blog-card p,
+.article-page__header p,
+.article-page__body,
+.search-page__header > p,
+.faq-detail-page__hero p {
+  color: var(--utility-muted) !important;
+}
+
+.vs-price-card strong,
+.vs-price-card span,
+.vs-stage span,
+.news-card__date,
+.blog-card__body span {
+  color: var(--utility-accent) !important;
+}
+
+body:has(.home-ref) .vs-service-card,
+body:has(.home-ref) .vs-price-card,
+body:has(.home-ref) .vs-stage,
+body:has(.home-ref) .vs-review,
+body:has(.home-ref) .news-card,
+body:has(.home-ref) .studio2__card,
+body:has(.home-ref) .vs-faq-row,
+body:has(.home-ref) .home-ref__nav a {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Forms use one readable dark layout on every page. */
+.vs-form,
+.vs-page-shell:not(.vs-page-shell--dark) .vs-form,
+.faq-page .vs-form,
+.reviews-page .vs-form,
+.contacts-page .vs-form,
+.lead-page .vs-form {
+  width: 100% !important;
+  max-width: none !important;
+  padding: clamp(22px, 3vw, 34px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--utility-surface) !important;
+  color: var(--utility-text) !important;
+  box-sizing: border-box;
+}
+
+.vs-form input:not([type="checkbox"]),
+.vs-form textarea,
+.vs-page-shell:not(.vs-page-shell--dark) .vs-form input,
+.vs-page-shell:not(.vs-page-shell--dark) .vs-form textarea {
+  border-color: var(--utility-line) !important;
+  border-radius: 4px !important;
+  background: #0a0b0d !important;
+  color: var(--utility-text) !important;
+}
+
+.vs-form input:focus,
+.vs-form textarea:focus {
+  border-color: rgba(216, 255, 85, 0.65) !important;
+  outline: 1px solid rgba(216, 255, 85, 0.28);
+  outline-offset: 1px;
+}
+
+.vs-form__consent {
+  grid-template-columns: 18px minmax(0, 1fr) !important;
+  gap: 12px !important;
+  align-items: start !important;
+}
+
+.vs-form__consent input {
+  margin-top: 2px !important;
+}
+
+.vs-form button[type="submit"] {
+  border-radius: 4px !important;
+  background: var(--utility-accent) !important;
+  color: #08090b !important;
+}
+
+/* FAQ: simple hierarchy, aligned number/text/icon and a full-width form block. */
+.faq-page__hero {
+  display: block !important;
+  max-width: 920px !important;
+  margin-bottom: clamp(42px, 6vw, 72px) !important;
+}
+
+.faq-page__copy {
+  gap: 18px !important;
+}
+
+.faq-page__copy h1 {
+  max-width: 900px;
+  color: var(--utility-text) !important;
+  font-size: clamp(44px, 6vw, 82px) !important;
+}
+
+.faq-page__copy p:not(.vs-kicker),
+.faq-page__form-copy > p:last-child {
+  max-width: 720px;
+  color: var(--utility-muted) !important;
+}
+
+.faq-page__map {
+  display: none !important;
+}
+
+.faq-accordion {
+  gap: 0 !important;
+}
+
+.faq-accordion__item {
+  border: 0 !important;
+  border-bottom: 1px solid var(--utility-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.faq-accordion__item:hover {
+  background: rgba(255, 255, 255, 0.025) !important;
+  transform: none !important;
+}
+
+.faq-accordion__item button {
+  grid-template-columns: 48px minmax(0, 1fr) 44px !important;
+  gap: 18px !important;
+  align-items: start !important;
+  padding: 26px 0 !important;
+  color: var(--utility-text) !important;
+}
+
+.faq-accordion__item button > span {
+  display: block;
+  padding-top: 4px;
+  color: var(--utility-accent) !important;
+  font-size: 18px !important;
+  line-height: 1;
+  text-align: left;
+}
+
+.faq-accordion__item strong {
+  color: var(--utility-text) !important;
+  font-size: clamp(22px, 2.2vw, 34px) !important;
+  line-height: 1.15 !important;
+}
+
+.faq-accordion__item i {
+  width: 40px !important;
+  height: 40px !important;
+  border-color: var(--utility-line) !important;
+  color: var(--utility-accent);
+}
+
+.faq-accordion__answer p {
+  max-width: 860px !important;
+  margin: 0 !important;
+  padding: 0 62px 28px 66px !important;
+  color: var(--utility-muted) !important;
+  font-size: 16px !important;
+  line-height: 1.65 !important;
+}
+
+.faq-page__form {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(380px, 520px) !important;
+  gap: clamp(32px, 6vw, 86px) !important;
+  align-items: start !important;
+  margin-top: clamp(64px, 8vw, 110px) !important;
+  padding-top: clamp(42px, 6vw, 72px) !important;
+  border-top: 1px solid var(--utility-line);
+}
+
+.faq-page__form-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.faq-page__form h2 {
+  margin: 0;
+  color: var(--utility-text) !important;
+  font-family: "Russo One", sans-serif;
+  font-size: clamp(38px, 5vw, 70px) !important;
+  font-weight: 400;
+  line-height: 1 !important;
+}
+
+/* Lists keep markers and text on a predictable baseline. */
+.rich-content ul,
+.rich-content ol {
+  padding-left: 1.35em !important;
+}
+
+.rich-content li {
+  padding-left: 0.25em;
+}
+
+.rich-content li::marker {
+  color: var(--utility-accent);
+}
+
+/* Mobile portfolio cards preserve the image ratio instead of forcing 72svh/360px media. */
+@media (max-width: 760px) {
+  .vs-site-header__actions {
+    gap: 2px !important;
+  }
+
+  .site-search-link,
+  .vs-burger {
+    flex-basis: 38px;
+    width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+  }
+
+  .site-footer__brand > a {
+    margin-left: -12px;
+  }
+
+  .work-v2__mobile-gallery {
+    grid-auto-columns: min(88vw, 420px) !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .work-v2__mobile-gallery .work-v2__card {
+    width: 100% !important;
+  }
+
+  .work-v2__mobile-gallery .work-v2__card-link {
+    min-height: 0 !important;
+    grid-template-rows: auto auto !important;
+  }
+
+  .work-v2__mobile-gallery .work-v2__image {
+    width: 100% !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 10;
+    background-position: center !important;
+    background-size: contain !important;
+  }
+
+  .work-v2__mobile-gallery .work-v2__caption {
+    min-height: 0 !important;
+    padding: 20px !important;
+  }
+
+  .work-v2__mobile-gallery .work-v2__caption h2 {
+    font-size: clamp(24px, 8vw, 32px) !important;
+  }
+
+  .faq-page__hero {
+    margin-bottom: 34px !important;
+  }
+
+  .faq-accordion__item button {
+    grid-template-columns: 34px minmax(0, 1fr) 36px !important;
+    gap: 10px !important;
+    padding: 20px 0 !important;
+  }
+
+  .faq-accordion__item button > span {
+    font-size: 15px !important;
+  }
+
+  .faq-accordion__item i {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .faq-accordion__answer p {
+    padding: 0 0 22px 44px !important;
+  }
+
+  .faq-page__form {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+    margin-top: 52px !important;
+    padding-top: 36px !important;
+  }
+
+  .faq-page .vs-form {
+    padding: 20px !important;
+  }
+}

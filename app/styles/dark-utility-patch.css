@@ -1,0 +1,68 @@
+/* Small route-specific corrections applied after the utility theme. */
+
+.breadcrumbs,
+body:has(.blog-page) .breadcrumbs,
+body:has(.article-page) .breadcrumbs,
+body:has(.privacy-page) .breadcrumbs {
+  color: rgba(244, 244, 239, 0.72) !important;
+}
+
+.breadcrumbs a:hover,
+.breadcrumbs [aria-current="page"],
+body:has(.blog-page) .breadcrumbs a:hover,
+body:has(.article-page) .breadcrumbs a:hover,
+body:has(.privacy-page) .breadcrumbs a:hover,
+body:has(.blog-page) .breadcrumbs [aria-current="page"],
+body:has(.article-page) .breadcrumbs [aria-current="page"],
+body:has(.privacy-page) .breadcrumbs [aria-current="page"] {
+  color: var(--utility-accent) !important;
+}
+
+.article-back,
+.blog-page__all,
+.news-preview__all,
+.search-results li a,
+.related-content a {
+  color: var(--utility-text) !important;
+}
+
+.blog-page__count,
+.article-page__header p:not(.vs-kicker),
+.search-results p,
+.related-content span {
+  color: var(--utility-muted) !important;
+}
+
+.search-results li a,
+.related-content a,
+.faq-detail-page__hero p,
+.search-results__empty {
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  background: var(--utility-surface) !important;
+  box-shadow: none !important;
+}
+
+.faq-detail-page__hero {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.faq-detail-page__hero p {
+  color: var(--utility-muted) !important;
+}
+
+.site-footer h2,
+.site-footer__nav a:hover,
+.site-footer__contacts a:hover,
+.site-footer__socials a:hover {
+  color: var(--utility-accent) !important;
+}
+
+@media (max-width: 520px) {
+  .site-search-link::before {
+    font-size: 23px !important;
+    line-height: 1 !important;
+  }
+}

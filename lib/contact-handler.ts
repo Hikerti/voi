@@ -55,27 +55,22 @@ function validatePayload(body: ContactPayload) {
   return null;
 }
 
-function addApiVariants(target: Set<string>, value?: string) {
-  const normalized = value?.trim().replace(/\/+$/, "");
-  if (!normalized) return;
+function addBackendVariants(candidates: string[], value?: string) {
+  const configured = value?.trim().replace(/\/+$/, "");
+  if (!configured) return;
 
-  target.add(normalized);
-  if (normalized.endsWith("/api")) {
-    target.add(normalized.slice(0, -4));
-  } else {
-    target.add(`${normalized}/api`);
-  }
+  candidates.push(configured);
+  candidates.push(configured.endsWith("/api") ? configured.slice(0, -4) : `${configured}/api`);
 }
 
-function backendCandidates(requestOrigin?: string) {
-  const candidates = new Set<string>();
+function backendCandidates() {
+  const candidates: string[] = [];
 
-  // The server-local address is intentionally always included. A missing or stale
-  // public CMS URL must not break forms when Nest is running on the same VPS.
-  addApiVariants(candidates, process.env.CMS_API_URL);
-  addApiVariants(candidates, "http://127.0.0.1:4000/api");
-  addApiVariants(candidates, process.env.NEXT_PUBLIC_CMS_API_URL);
-  addApiVariants(candidates, requestOrigin ? `${requestOrigin}/api` : undefined);
+  addBackendVariants(candidates, process.env.CMS_API_URL);
+  addBackendVariants(candidates, process.env.NEXT_PUBLIC_CMS_API_URL);
+  addBackendVariants(candidates, "http://127.0.0.1:4000/api");
+  addBackendVariants(candidates, "http://localhost:4000/api");
+  addBackendVariants(candidates, "http://backend:4000/api");
 
   return Array.from(candidates);
 }
@@ -155,9 +150,7 @@ async function sendEmail(body: ContactPayload, leadId?: number): Promise<EmailRe
   const from = process.env.CONTACT_EMAIL_FROM ?? "Voitov Studio <onboarding@resend.dev>";
   const resendApiKey = process.env.RESEND_API_KEY;
 
-  if (!resendApiKey || !to) {
-    return { ok: false, error: "Email delivery is not configured" };
-  }
+  if (!resendApiKey || !to) return false;
 
   const subject = `Новая заявка с сайта${body.source ? `: ${body.source}` : ""}`;
   const text = [
@@ -193,15 +186,14 @@ async function sendEmail(body: ContactPayload, leadId?: number): Promise<EmailRe
     });
 
     if (!response.ok) {
-      return { ok: false, error: await response.text() };
+      console.error("Email send error:", await response.text());
+      return false;
     }
 
-    return { ok: true };
+    return true;
   } catch (error) {
-    return {
-      ok: false,
-      error: error instanceof Error ? error.message : "Email transport unavailable",
-    };
+    console.error("Email transport error:", error);
+    return false;
   }
 }
 
@@ -214,40 +206,23 @@ export async function handleContactPost(request: NextRequest) {
       return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    const storedLead = await storeLead(body, request.nextUrl.origin);
+    const storedLead = await storeLead(body);
+    const emailSent = await sendEmail(body, storedLead.id);
 
-    if (!storedLead.ok && storedLead.status && storedLead.status >= 400 && storedLead.status < 500) {
-      console.warn("Lead rejected by backend:", storedLead.error);
-      return NextResponse.json(
-        { error: "Не удалось отправить заявку. Проверьте заполнение формы и повторите попытку." },
-        { status: storedLead.status },
-      );
+    if (storedLead.ok) {
+      return NextResponse.json({ ok: true, leadId: storedLead.id, emailSent });
     }
 
-    const emailResult = await sendEmail(body, storedLead.id);
-
-    if (!storedLead.ok) {
-      console.error("Lead store error:", storedLead.error);
-    }
-    if (!emailResult.ok) {
-      console.error("Email send error:", emailResult.error);
+    if (emailSent) {
+      console.error("Lead store error; delivered by email:", storedLead.error);
+      return NextResponse.json({ ok: true, delivery: "email" });
     }
 
-    // A temporary failure of one delivery channel must not discard a valid lead.
-    // The request is successful when it was either stored in the CMS or delivered by email.
-    if (!storedLead.ok && !emailResult.ok) {
-      return NextResponse.json(
-        { error: "Не удалось отправить заявку. Повторите попытку позже или позвоните нам." },
-        { status: 502 },
-      );
-    }
-
-    return NextResponse.json({
-      ok: true,
-      leadId: storedLead.id,
-      stored: storedLead.ok,
-      emailed: emailResult.ok,
-    });
+    console.error("Lead store error:", storedLead.error);
+    return NextResponse.json(
+      { error: "Не удалось отправить заявку. Повторите попытку позже или позвоните нам." },
+      { status: 502 },
+    );
   } catch (error) {
     console.error("Contact form error:", error);
     return NextResponse.json(
