@@ -3,12 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const HIDDEN_ROUTES = ["/", "/zayavka", "/spasibo", "/privacy"];
+const HIDDEN_ROUTES = ["/", "/zayavka", "/spasibo", "/privacy", "/contacts", "/reviews", "/faq"];
+
+function hasOwnFinalAction(pathname: string) {
+  return pathname.startsWith("/services/") || pathname.startsWith("/portfolio/");
+}
 
 export default function DecisionCta() {
   const pathname = usePathname();
 
-  if (HIDDEN_ROUTES.includes(pathname)) return null;
+  if (HIDDEN_ROUTES.includes(pathname) || hasOwnFinalAction(pathname)) return null;
 
   return (
     <section className="decision-cta" aria-labelledby="decision-cta-title">
