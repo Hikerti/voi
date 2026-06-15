@@ -41,10 +41,7 @@ const linkVariants: Variants = {
   exit: { x: -60, opacity: 0, transition: { duration: 0.2 } },
 };
 
-export default function MobileMenu({
-  isOpen,
-  onClose,
-}: MobileMenuProps) {
+export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const pathname = usePathname();
   const { navigate } = usePageTransition();
   const menuLinks = NAV_LINKS.filter((item) => item.href !== "/");
@@ -98,27 +95,43 @@ export default function MobileMenu({
             <PanelDiv className="menu1" delay={0} />
 
             <PanelDiv className="menu2" delay={0.06}>
-              <ul role="list" className="list-3">
-                {menuLinks.map((item, i) => (
-                  <li key={item.href} className={`m${i + 1}`}>
-                    <h1 className="heading-9">
-                      <motion.a
-                        href={item.href}
-                        className={`menu-link${pathname === item.href ? " w--current" : ""}`}
-                        custom={i}
-                        variants={linkVariants}
-                        initial="closed"
-                        animate="open"
-                        exit="exit"
-                        onClick={(e) => handleNavClick(e, item.href)}
-                      >
-                        {item.label}
-                      </motion.a>
-                    </h1>
-                  </li>
-                ))}
-                <li className="m6">
-                  <h1 className="heading-51">
+              <nav aria-label="Мобильная навигация">
+                <ul role="list" className="list-3">
+                  {menuLinks.map((item, index) => {
+                    const isCurrent = pathname === item.href || pathname.startsWith(`${item.href}/`);
+
+                    return (
+                      <li key={item.href} className={`m${index + 1}`}>
+                        {isCurrent ? (
+                          <motion.span
+                            className="menu-link w--current"
+                            aria-current="page"
+                            custom={index}
+                            variants={linkVariants}
+                            initial="closed"
+                            animate="open"
+                            exit="exit"
+                          >
+                            {item.label}
+                          </motion.span>
+                        ) : (
+                          <motion.a
+                            href={item.href}
+                            className="menu-link"
+                            custom={index}
+                            variants={linkVariants}
+                            initial="closed"
+                            animate="open"
+                            exit="exit"
+                            onClick={(event) => handleNavClick(event, item.href)}
+                          >
+                            {item.label}
+                          </motion.a>
+                        )}
+                      </li>
+                    );
+                  })}
+                  <li className="m6">
                     <motion.a
                       href="/zayavka"
                       className="menu-link"
@@ -127,35 +140,44 @@ export default function MobileMenu({
                       initial="closed"
                       animate="open"
                       exit="exit"
-                      onClick={(e) => handleNavClick(e, "/zayavka")}
+                      onClick={(event) => handleNavClick(event, "/zayavka")}
                     >
                       Оставить заявку
                     </motion.a>
-                  </h1>
-                </li>
-              </ul>
+                  </li>
+                  <li className="m7">
+                    <motion.a
+                      href="/search"
+                      className="menu-link"
+                      custom={menuLinks.length + 1}
+                      variants={linkVariants}
+                      initial="closed"
+                      animate="open"
+                      exit="exit"
+                      onClick={(event) => handleNavClick(event, "/search")}
+                    >
+                      Поиск
+                    </motion.a>
+                  </li>
+                </ul>
+              </nav>
 
-              <motion.p
+              <motion.address
                 className="paragraph-300"
-                custom={menuLinks.length + 1}
+                custom={menuLinks.length + 2}
                 variants={linkVariants}
                 initial="closed"
                 animate="open"
                 exit="exit"
               >
-                <a href={SITE.phoneHref} className="link-9">
-                  {SITE.phone}
-                </a>
+                <a href={SITE.phoneHref} className="link-9">{SITE.phone}</a>
                 <br />
-                <a href={SITE.emailHref} className="link-10">
-                  {SITE.email}
-                </a>
-                <br />‍<br />
-                {SITE.name}
+                <a href={SITE.emailHref} className="link-10">{SITE.email}</a>
                 <br />
-                {SITE.tagline}
+                {SITE.workHours}
                 <br />
-              </motion.p>
+                {SITE.address}
+              </motion.address>
             </PanelDiv>
 
             <PanelDiv className="menu3" delay={0.03} />
