@@ -38,6 +38,9 @@ export default function SiteHeader() {
           <input id="site-search-header" name="q" type="search" placeholder="Поиск" minLength={2} required />
           <button type="submit">Найти</button>
         </form>
+        <Link className="site-search-link" href="/search" aria-label="Открыть поиск по сайту">
+          Поиск
+        </Link>
         <a className="site-header-phone" href={SITE.phoneHref} aria-label={`Позвонить: ${SITE.phone}`}>
           {SITE.phone}
         </a>
