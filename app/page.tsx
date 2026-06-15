@@ -6,6 +6,7 @@ import NewsPreview from "@/components/home/NewsPreview";
 import HomeSections from "@/components/home/HomeSections";
 import HomeTrustSections from "@/components/home/HomeTrustSections";
 import HomeFinalCta from "@/components/home/HomeFinalCta";
+import HomeSeoCopy from "@/components/home/HomeSeoCopy";
 import { getAllProjectSlugs, getProjectBySlug } from "@/lib/portfolio";
 import { getAllArticleSlugs, getArticleBySlug } from "@/lib/blog";
 import GridLines from "@/components/layout/GridLines";
@@ -15,16 +16,21 @@ import {
   getCmsServices,
   getCmsWorkStages,
 } from "@/lib/cms-api";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Voitov Studio | Нешаблонные сайты с вау-эффектом",
-  description: "Voitov Studio делает креативные сайты, лендинги и визуальные системы, которые помогают бизнесу выглядеть сильнее конкурентов.",
-  alternates: { canonical: "https://voitov.ru" },
-  openGraph: {
-    title: "Voitov Studio | Нешаблонные сайты с вау-эффектом",
-    description: "Креативная веб-студия с нешаблонным дизайном, анимациями и фокусом на заявки.",
-  },
-};
+export const metadata: Metadata = createPageMetadata({
+  title: "Разработка сайтов и веб-дизайн",
+  description:
+    "Voitov Studio создаёт лендинги, корпоративные сайты, дизайн и SEO-структуру для бизнеса.",
+  path: "/",
+  keywords: [
+    "разработка сайтов в Москве",
+    "заказать сайт",
+    "креативный веб-дизайн",
+    "создание лендинга",
+    "корпоративный сайт",
+  ],
+});
 
 export default async function HomePage() {
   const [services, stages, reviews, faq] = await Promise.all([
@@ -49,13 +55,13 @@ export default async function HomePage() {
   return (
     <>
       <GridLines />
-
       <HeroExperience />
       <IntroSection />
       <HomeSections services={services} />
       <StudioSection projects={projects} />
       <HomeTrustSections stages={stages} reviews={reviews} faq={faq} />
       <NewsPreview items={newsItems} />
+      <HomeSeoCopy />
       <HomeFinalCta />
     </>
   );
