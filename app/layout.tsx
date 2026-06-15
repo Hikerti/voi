@@ -8,11 +8,14 @@ import "./site-polish.css";
 import "./home-reference.css";
 import "./client-revision.css";
 import "./client-revision-patch.css";
+import "./visual-polish.css";
+import "./route-polish.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
 import ScrollRevealLayer from "@/components/layout/ScrollRevealLayer";
 import AnalyticsEvents from "@/components/analytics/AnalyticsEvents";
+import ProjectHeroSizer from "@/components/portfolio/ProjectHeroSizer";
 import { SITE } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -64,6 +67,7 @@ export default function RootLayout({
       <body className="body">
         <MenuProvider>
           <AnalyticsEvents />
+          <ProjectHeroSizer />
           <SiteHeader />
           {children}
           <Footer />

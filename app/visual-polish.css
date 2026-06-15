@@ -1,0 +1,407 @@
+/* Final visual polish: balanced hero artwork, dark surfaces and readable case studies. */
+
+/* Brand marks are supplied as dark artwork; keep them readable on every dark surface. */
+.vs-site-header__brand img,
+.footer-logo-link img,
+.vs-burger__logo {
+  filter: brightness(0) invert(1) !important;
+}
+
+.vs-site-header__brand img,
+.footer-logo-link img {
+  opacity: 1 !important;
+}
+
+/* Home hero: keep the tall split assets inside the viewport instead of clipping
+   their heads/top edges behind the fixed header. */
+.home-ref .home-ref__scene {
+  top: 54% !important;
+  width: min(54vw, 760px) !important;
+}
+
+.home-ref .home-ref__scene--runner {
+  --shape-width: min(32vw, 480px);
+  --asset-height: min(38vw, 580px);
+  --asset-half-width: min(12.8vw, 196px);
+  --asset-top: 1%;
+  --open-gap: -1px;
+}
+
+.home-ref .home-ref__scene--wrench {
+  --shape-width: min(29vw, 440px);
+  --asset-height: min(34vw, 520px);
+  --asset-half-width: min(8.7vw, 145px);
+  --asset-top: 4%;
+  --open-gap: -1px;
+}
+
+.home-ref .home-ref__scene--phone {
+  --asset-top: 1%;
+  --open-gap: -1px;
+}
+
+.home-ref .home-ref__asset {
+  top: var(--asset-top) !important;
+}
+
+/* The old Webflow selector had enough specificity to paint the active quarter
+   light grey. Keep hover feedback dark and use the lime edge as the cue. */
+.home-ref .home-ref__hotspots:has(a:nth-child(1):hover) ~ .home-ref__nav a:nth-child(1),
+.home-ref .home-ref__hotspots:has(a:nth-child(2):hover) ~ .home-ref__nav a:nth-child(2),
+.home-ref .home-ref__hotspots:has(a:nth-child(3):hover) ~ .home-ref__nav a:nth-child(3),
+.home-ref .home-ref__hotspots:has(a:nth-child(4):hover) ~ .home-ref__nav a:nth-child(4),
+.home-ref .home-ref__nav a:hover,
+.home-ref .home-ref__nav a.is-active,
+.home-ref[data-active="0"] .home-ref__nav a:nth-child(1),
+.home-ref[data-active="1"] .home-ref__nav a:nth-child(2),
+.home-ref[data-active="2"] .home-ref__nav a:nth-child(3),
+.home-ref[data-active="3"] .home-ref__nav a:nth-child(4) {
+  background: linear-gradient(180deg, rgba(216, 255, 85, 0.09), rgba(14, 14, 18, 0.96)) !important;
+  color: #fff !important;
+  box-shadow: inset 0 3px 0 var(--vs-lime), 0 -18px 52px rgba(216, 255, 85, 0.06) !important;
+}
+
+.home-ref .home-ref__hotspots:has(a:nth-child(1):hover) ~ .home-ref__nav a:nth-child(1) span,
+.home-ref .home-ref__hotspots:has(a:nth-child(2):hover) ~ .home-ref__nav a:nth-child(2) span,
+.home-ref .home-ref__hotspots:has(a:nth-child(3):hover) ~ .home-ref__nav a:nth-child(3) span,
+.home-ref .home-ref__hotspots:has(a:nth-child(4):hover) ~ .home-ref__nav a:nth-child(4) span,
+.home-ref .home-ref__nav a:hover span,
+.home-ref .home-ref__nav a.is-active span {
+  color: var(--vs-lime) !important;
+}
+
+/* Site-wide dark surfaces. */
+body,
+.news-preview,
+.studio2,
+.blog-page,
+.vs-page-shell,
+.vs-prices,
+.vs-stages,
+.vs-faq-preview,
+.project-detail-page,
+.wrapper-b-raboti,
+.c-section-r,
+.c-section-p,
+.block-strip,
+.div-block-71 {
+  background-color: var(--vs-bg) !important;
+  color: var(--vs-text) !important;
+}
+
+.news-preview,
+.studio2,
+.blog-page,
+.vs-page-shell,
+.vs-prices,
+.vs-stages,
+.vs-faq-preview {
+  border-color: var(--vs-line) !important;
+}
+
+.news-preview__title,
+.news-preview__all,
+.news-card,
+.news-card__title,
+.blog-page__title,
+.blog-card,
+.blog-card__title,
+.blog-card__excerpt,
+.vs-page-shell,
+.vs-page-shell h1,
+.vs-page-shell h2,
+.vs-page-shell h3,
+.vs-prices h2,
+.vs-stages h2,
+.vs-faq-preview h2 {
+  color: var(--vs-text) !important;
+}
+
+.news-card__date,
+.news-preview__empty,
+.blog-page__count,
+.blog-card__date,
+.blog-page__empty,
+.vs-page-shell p {
+  color: var(--vs-muted) !important;
+}
+
+.news-card__image,
+.news-card__image-placeholder,
+.blog-card__image,
+.blog-card__image-placeholder,
+.studio2__card-placeholder,
+.vs-price-card,
+.vs-faq-row,
+.vs-page-shell:not(.vs-page-shell--dark) .vs-form {
+  background: var(--vs-surface) !important;
+  color: var(--vs-text) !important;
+  border-color: var(--vs-line) !important;
+}
+
+.vs-page-shell:not(.vs-page-shell--dark) .vs-form input,
+.vs-page-shell:not(.vs-page-shell--dark) .vs-form textarea {
+  background: var(--vs-surface-soft) !important;
+  color: var(--vs-text) !important;
+  border-color: var(--vs-line) !important;
+}
+
+.news-preview__all,
+.blog-page__head,
+.blog-card-featured-wrap,
+.vs-stage-list,
+.vs-stage {
+  border-color: var(--vs-line) !important;
+}
+
+.blog-card__arrow-line {
+  background: var(--vs-text) !important;
+}
+
+/* Project detail page: render the supplied long screenshot at content width.
+   A background-size: contain box made portrait case images look like thumbnails. */
+.project-detail-page {
+  min-height: 100vh;
+  overflow: clip;
+}
+
+.project-detail-page .grid-parent-case {
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.project-detail-page .case-hero-hider {
+  display: block;
+  width: 100%;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: clamp(112px, 9vw, 156px) var(--vs-gutter) clamp(46px, 6vw, 88px);
+  overflow: visible !important;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(157, 85, 255, 0.12), transparent 36%),
+    var(--vs-bg) !important;
+  box-sizing: border-box;
+}
+
+.project-detail-page .case-hero-raboti {
+  display: none !important;
+}
+
+.project-detail-page .case-hero-image {
+  display: block;
+  width: min(100%, 1280px) !important;
+  max-width: 1280px !important;
+  height: auto !important;
+  margin: 0 auto;
+  object-fit: contain;
+  object-position: center top;
+  background: #fff;
+  box-shadow: 0 36px 100px rgba(0, 0, 0, 0.46);
+}
+
+.project-detail-page .block-strip {
+  width: min(calc(100% - (2 * var(--vs-gutter))), var(--vs-content));
+  margin: 0 auto !important;
+  border: 1px solid var(--vs-line);
+  border-radius: var(--vs-radius);
+  background: var(--vs-surface) !important;
+}
+
+.project-detail-page .title-holder {
+  padding: clamp(24px, 4vw, 54px);
+}
+
+.project-detail-page .project-title,
+.project-detail-page .case-b,
+.project-detail-page .heading-82,
+.project-detail-page .w-richtext h1,
+.project-detail-page .w-richtext h2,
+.project-detail-page .w-richtext h3 {
+  color: var(--vs-text) !important;
+}
+
+.project-detail-page .project-title {
+  margin: 0;
+  font-size: clamp(34px, 5.2vw, 78px) !important;
+  line-height: 1 !important;
+}
+
+.project-detail-page .wrapper-b-raboti {
+  padding: clamp(54px, 7vw, 108px) var(--vs-gutter) !important;
+}
+
+.project-detail-page .c-section-r,
+.project-detail-page .c-section-p {
+  width: min(100%, var(--vs-content));
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 58px) !important;
+  border: 1px solid var(--vs-line);
+  border-radius: var(--vs-radius);
+  background: var(--vs-surface) !important;
+  box-sizing: border-box;
+}
+
+.project-detail-page .c-section-p + .c-section-p {
+  margin-top: 24px;
+}
+
+.project-detail-page .w-richtext,
+.project-detail-page .w-richtext p,
+.project-detail-page .services-block,
+.project-detail-page .services-block p,
+.project-detail-page .c-code {
+  color: var(--vs-muted) !important;
+}
+
+.project-detail-page .case-info-row {
+  border-color: var(--vs-line) !important;
+}
+
+.project-detail-page .div-block-71 {
+  width: min(calc(100% - (2 * var(--vs-gutter))), var(--vs-content));
+  margin: 0 auto !important;
+  padding: 0 0 clamp(54px, 7vw, 108px);
+  overflow: visible !important;
+}
+
+.project-detail-page .div-block-71 img,
+.project-detail-page .wrapper-b-raboti img,
+.project-detail-page .rich-text-block-3 img {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+  object-position: center top !important;
+}
+
+.project-detail-page .image-45,
+.project-detail-page .image-46 {
+  padding: clamp(18px, 3vw, 36px);
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.project-detail-page [class^="c-block-"],
+.project-detail-page [class*=" c-block-"] {
+  min-height: clamp(130px, 18vw, 260px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.project-detail-page .project-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  width: min(calc(100% - (2 * var(--vs-gutter))), var(--vs-content));
+  margin: 0 auto !important;
+  padding: 0 0 clamp(54px, 7vw, 108px);
+  background: transparent !important;
+}
+
+.project-detail-page .project-nav__link {
+  min-height: 128px;
+  padding: clamp(24px, 3vw, 42px);
+  border: 1px solid var(--vs-line);
+  background: var(--vs-surface) !important;
+  color: var(--vs-text) !important;
+  text-decoration: none;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.project-detail-page .project-nav__link:not(.project-nav__link--disabled):hover {
+  border-color: rgba(216, 255, 85, 0.62);
+  background: var(--vs-surface-soft) !important;
+  transform: translateY(-3px);
+}
+
+.project-detail-page .project-nav__link--disabled {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.project-detail-page .vs-final-cta {
+  border-top: 1px solid var(--vs-line);
+  background: var(--vs-surface) !important;
+}
+
+/* Footer: no artificial offset around the brand block. */
+.shapkavniz {
+  border-top: 1px solid var(--vs-line) !important;
+  background: var(--vs-bg) !important;
+}
+
+.shapkavniz .shapka-para,
+.shapkavniz .column-14,
+.footer-logo-wrap,
+.footer-logo-link,
+.footer-logo-tag {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.footer-logo-wrap {
+  margin-bottom: 0 !important;
+}
+
+.footer-logo-link {
+  line-height: 1 !important;
+}
+
+.footer-logo-tag {
+  margin-bottom: 0 !important;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vs-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3b3b43;
+}
+
+@media (max-width: 760px) {
+  .home-ref .home-ref__scene {
+    top: 51% !important;
+    width: 96vw !important;
+  }
+
+  .home-ref .home-ref__scene--runner {
+    --shape-width: min(76vw, 350px);
+    --asset-height: min(86vw, 500px);
+    --asset-half-width: min(24vw, 142px);
+    --asset-top: 0%;
+  }
+
+  .home-ref .home-ref__scene--wrench {
+    --shape-width: min(72vw, 330px);
+    --asset-height: min(78vw, 460px);
+    --asset-half-width: min(20vw, 118px);
+    --asset-top: 3%;
+  }
+
+  .project-detail-page .case-hero-hider {
+    padding: 94px 14px 38px;
+  }
+
+  .project-detail-page .block-strip,
+  .project-detail-page .div-block-71,
+  .project-detail-page .project-nav {
+    width: calc(100% - 28px);
+  }
+
+  .project-detail-page .wrapper-b-raboti {
+    padding: 42px 14px !important;
+  }
+
+  .project-detail-page .c-section-r,
+  .project-detail-page .c-section-p {
+    padding: 24px 18px !important;
+  }
+
+  .project-detail-page .project-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .project-detail-page .project-nav__link {
+    min-height: 96px;
+  }
+}
