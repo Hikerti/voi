@@ -32,6 +32,12 @@ const CONTENT_LABELS: Record<string, string> = {
   "effektivnost-klyuchevykh-slov": "Эффективность ключевых слов",
   "seo-prodvizhenie-3-shaga": "SEO-продвижение: 3 шага",
   "vybor-domena-dlya-sayta": "Выбор домена для сайта",
+  "can-start-without-final-design": "Можно ли начать без готового дизайна?",
+  "will-there-be-admin": "Будет ли простая админка?",
+  "what-if-no-content": "Что делать, если нет готовых текстов?",
+  "seo-ready": "Будет ли сайт готов к SEO?",
+  "mobile-experience": "Мобильная версия будет такой же выразительной?",
+  "what-is-in-launch": "Что входит в запуск сайта?",
 };
 
 const DATA_LABELS: Record<string, string> = Object.fromEntries([
@@ -106,7 +112,7 @@ export default function Breadcrumbs() {
       </nav>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\u003c") }}
       />
     </>
   );
