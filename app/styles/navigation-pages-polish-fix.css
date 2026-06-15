@@ -1,0 +1,9 @@
+/* Valid calc() fallbacks for the final navigation page width rules. */
+
+.blog-page > :not(script),
+.work-v2 > :not(script),
+.article-page__inner,
+.article-page .related-content,
+.faq-detail-page__hero {
+  width: min(calc(100% - var(--page-gutter) - var(--page-gutter)), var(--page-max)) !important;
+}
