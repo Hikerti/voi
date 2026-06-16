@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getArticleBySlug, getAllArticleSlugs } from "@/lib/blog";
-import AnimatedLink from "@/components/ui/AnimatedLink";
 import StructuredData from "@/components/seo/StructuredData";
 import { absoluteUrl, createPageMetadata } from "@/lib/seo";
 

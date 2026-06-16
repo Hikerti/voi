@@ -206,7 +206,7 @@
 /* Case-study page stays on a dark canvas, while its information blocks return
    to the original light treatment requested by the client. */
 body:has(.case-hero-raboti) .block-strip {
-  background: #f4f1ec !important;
+  background: white !important;
   color: #111 !important;
   border-color: rgba(17, 17, 17, 0.14) !important;
 }

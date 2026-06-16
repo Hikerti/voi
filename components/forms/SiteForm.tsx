@@ -37,6 +37,14 @@ const SUCCESS_MESSAGES: Record<FormVariant, string> = {
   question: "Ваш вопрос отправлен. Ответ мы пришлём по почте.",
 };
 
+const SUCCESS_TITLES: Record<FormVariant, string> = {
+  general: "Заявка принята",
+  contact: "Сообщение отправлено",
+  callback: "Звонок запланирован",
+  review: "Спасибо за отзыв",
+  question: "Вопрос отправлен",
+};
+
 const FALLBACK_ERROR = "Не удалось отправить форму. Повторите попытку позже или позвоните нам.";
 
 function countDigits(value: string) {
@@ -50,6 +58,10 @@ function directLeadEndpoint(variant: FormVariant) {
   return "/api/leads/contact";
 }
 
+function formEndpoints(variant: FormVariant) {
+  return ["/submit-lead/", "/api/contact/", directLeadEndpoint(variant)];
+}
+
 async function responseError(response: Response) {
   const data = (await response.json().catch(() => null)) as
     | { error?: string; message?: string | string[] }
@@ -59,7 +71,7 @@ async function responseError(response: Response) {
 }
 
 async function submitLead(payload: LeadPayload, variant: FormVariant) {
-  const endpoints = ["/submit-lead", directLeadEndpoint(variant)];
+  const endpoints = formEndpoints(variant);
   let lastError = FALLBACK_ERROR;
 
   for (const [index, endpoint] of endpoints.entries()) {
@@ -109,6 +121,8 @@ export default function SiteForm({
   const messageRequired = variant === "contact" || variant === "review" || variant === "question";
   const messageLabel = variant === "review" ? "Отзыв" : variant === "question" ? "Вопрос" : "Сообщение";
   const validationMessages = Array.from(new Set(Object.values(errors).filter(Boolean)));
+  const successTitle = SUCCESS_TITLES[variant];
+  const successMessage = SUCCESS_MESSAGES[variant];
 
   function validate(formData: FormData) {
     const nextErrors: FieldErrors = {};
@@ -171,13 +185,14 @@ export default function SiteForm({
   }
 
   return (
-    <form
-      className={`vs-form vs-form--${variant} ${compact ? "vs-form--compact" : ""}`}
-      onSubmit={handleSubmit}
-      noValidate
-    >
-      <fieldset disabled={status === "loading"}>
-        <legend>{title}</legend>
+    <>
+      <form
+        className={`vs-form vs-form--${variant} ${compact ? "vs-form--compact" : ""}`}
+        onSubmit={handleSubmit}
+        noValidate
+      >
+        <fieldset disabled={status === "loading"}>
+          <legend>{title}</legend>
 
         {validationMessages.length > 0 && (
           <div className="vs-form__error-summary" role="alert">
@@ -263,15 +278,29 @@ export default function SiteForm({
         </label>
         {errors.consent && <small className="vs-form__field-error">{errors.consent}</small>}
 
-        <div className="vs-form__status" aria-live="polite">
-          {status === "success" && <p className="vs-form__success">{SUCCESS_MESSAGES[variant]}</p>}
-          {status === "error" && <p className="vs-form__error" role="alert">{serverError}</p>}
-        </div>
+          <div className="vs-form__status" aria-live="polite">
+            {status === "success" && <p className="vs-form__success">{successMessage}</p>}
+            {status === "error" && <p className="vs-form__error" role="alert">{serverError}</p>}
+          </div>
 
-        <button type="submit">
-          {status === "loading" ? "Отправляем..." : submitLabel}
-        </button>
-      </fieldset>
-    </form>
+          <button type="submit">
+            {status === "loading" ? "Отправляем..." : submitLabel}
+          </button>
+        </fieldset>
+      </form>
+
+      {status === "success" && (
+        <div className="vs-form__success-dialog" role="dialog" aria-modal="true" aria-labelledby={`${source}-success-title`}>
+          <div className="vs-form__success-card">
+            <h2 id={`${source}-success-title`}>{successTitle}</h2>
+            <p>{successMessage}</p>
+            <div className="vs-form__success-actions">
+              <button type="button" onClick={() => setStatus("idle")}>Закрыть</button>
+              <Link className="button button--accent" href="/">На главную</Link>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

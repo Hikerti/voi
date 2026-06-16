@@ -25,6 +25,7 @@ body:has(.faq-page) .route-frame > .faq-page .faq-accordion::after,
 body:has(.faq-page) .route-frame > .faq-page .faq-accordion__item::before,
 body:has(.faq-page) .route-frame > .faq-page .faq-accordion__item::after,
 body:has(.faq-page) .route-frame > .faq-page .faq-accordion__answer::before,
+body:has(.faq-page) .route-frame > .faq-page .faq-accordion__answer::before,
 body:has(.faq-page) .route-frame > .faq-page .faq-accordion__answer::after {
   display: none !important;
   content: none !important;

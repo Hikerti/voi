@@ -1,4 +1,4 @@
-import AnimatedLink, { ShuffleText } from "@/components/ui/AnimatedLink";
+import AnimatedLink from "@/components/ui/AnimatedLink";
 
 interface NewsItem {
   slug: string;

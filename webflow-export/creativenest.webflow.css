@@ -1460,7 +1460,6 @@ a {
   margin-right: auto;
   display: flex;
   position: relative;
-  top: -180px;
   left: 0;
   right: 0;
 }

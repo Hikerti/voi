@@ -69,13 +69,6 @@ export default async function ProjectDetailPage({
         </figure>
       )}
 
-      <header className="block-strip c-4">
-        <div className="title-holder">
-          <p className="section-kicker">кейс</p>
-          <h1 className="project-title">{project.title}</h1>
-        </div>
-      </header>
-
       <div className="wrapper-b-raboti">
         <section className="c-section-r rich-content" aria-labelledby="project-about-title">
           {project.company && (

@@ -20,6 +20,7 @@ import "./styles/header.css";
 import "./styles/accessibility.css";
 import "./styles/faq-width-final.css";
 import "./styles/content-detail-final.css";
+import "./styles/final-delivery-polish.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
@@ -79,9 +80,9 @@ export const metadata: Metadata = {
     images: ["/images/og-cover.svg"],
   },
   icons: {
-    icon: "/images/favicon-vs.svg",
-    shortcut: "/images/favicon-vs.svg",
-    apple: "/images/favicon-vs.svg",
+    icon: "/logo_2.png",
+    shortcut: "/logo_2.png",
+    apple: "/logo_2.png",
   },
 };
 
@@ -93,6 +94,9 @@ export default function RootLayout({
   return (
     <html lang="ru" className="w-mod-js">
       <head>
+        <link rel="icon" href="/logo_2.png" type="image/png" />
+        <link rel="shortcut icon" href="/logo_2.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/logo_2.png" />
         <link rel="stylesheet" href="/css/normalize.css" />
         <link rel="stylesheet" href="/css/webflow.css" />
         <link rel="stylesheet" href="/css/creativenest.webflow.css" />

@@ -239,7 +239,6 @@ body {
   height: auto !important;
   min-height: 0 !important;
   overflow: visible !important;
-  background: #08080a;
 }
 
 .case-hero-raboti {
@@ -370,16 +369,6 @@ body {
     font-size: 15px;
     text-align: center;
     pointer-events: none;
-  }
-
-  .studio2__slider-media .studio2__card,
-  .studio2__grid .studio2__card {
-    min-height: 72svh;
-  }
-
-  .work-v2__feature-link,
-  .work-v2__card-link {
-    min-height: 72svh;
   }
 
   .work-v2__mobile-gallery {

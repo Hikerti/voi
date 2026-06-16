@@ -37,11 +37,8 @@ body:has(.case-hero-raboti) .case-hero-hider {
   width: 100%;
   height: auto !important;
   min-height: 0 !important;
-  padding: clamp(118px, 10vw, 168px) var(--vs-gutter) clamp(48px, 6vw, 88px);
+  padding: clamp(20px, 7vw, 40px) var(--vs-gutter) !important;
   overflow: visible !important;
-  background:
-    radial-gradient(circle at 50% 12%, rgba(157, 85, 255, 0.14), transparent 38%),
-    var(--vs-bg) !important;
   box-sizing: border-box;
 }
 
@@ -66,7 +63,7 @@ body:has(.case-hero-raboti) .c-section-p,
 body:has(.case-hero-raboti) .div-block-71,
 body:has(.case-hero-raboti) .project-nav,
 body:has(.case-hero-raboti) .vs-final-cta {
-  background-color: var(--vs-bg) !important;
+  background-color: inherit !important;
   color: var(--vs-text) !important;
 }
 
@@ -90,7 +87,7 @@ body:has(.case-hero-raboti) .project-title {
 }
 
 body:has(.case-hero-raboti) .wrapper-b-raboti {
-  padding: clamp(54px, 7vw, 108px) var(--vs-gutter) !important;
+  padding: clamp(20px, 7vw, 40px) var(--vs-gutter) !important;
 }
 
 body:has(.case-hero-raboti) .c-section-r,
@@ -105,7 +102,7 @@ body:has(.case-hero-raboti) .c-section-p {
 }
 
 body:has(.case-hero-raboti) .c-section-p + .c-section-p {
-  margin-top: 24px;
+  margin-top: 80px;
 }
 
 body:has(.case-hero-raboti) .case-b,

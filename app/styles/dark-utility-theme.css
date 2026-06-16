@@ -350,7 +350,7 @@ body:has(.home-ref) .home-ref__nav a {
 .faq-accordion__answer p {
   max-width: 860px !important;
   margin: 0 !important;
-  padding: 0 62px 28px 66px !important;
+  padding: 0 62px 28px 20px !important;
   color: var(--utility-muted) !important;
   font-size: 16px !important;
   line-height: 1.65 !important;

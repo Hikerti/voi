@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import AnimatedLink, { ShuffleText } from "@/components/ui/AnimatedLink";
+import AnimatedLink from "@/components/ui/AnimatedLink";
 import Image from "next/image";
 
 const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
@@ -33,9 +33,6 @@ export default function StudioSection({ projects = [] }: StudioSectionProps) {
           <h2 className="studio2__title">
             Работы<br />в полный экран
           </h2>
-          <AnimatedLink href="/portfolio" className="studio2__all">
-            <ShuffleText tag="span">Посмотреть все проекты</ShuffleText>
-          </AnimatedLink>
         </div>
 
         {projects.length > 0 ? (

@@ -339,7 +339,6 @@ body.body {
 .faq-accordion__answer p {
   max-width: 860px !important;
   margin: 0 !important;
-  padding: 0 62px 28px 70px !important;
   color: var(--page-muted) !important;
   font-size: 17px !important;
   line-height: 1.65 !important;

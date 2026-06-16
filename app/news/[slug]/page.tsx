@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import AnimatedLink from "@/components/ui/AnimatedLink";
 import StructuredData from "@/components/seo/StructuredData";
 import { NEWS_ITEMS, getNewsBySlug } from "@/lib/site-data";
 import { getCmsNewsBySlug } from "@/lib/cms-api";
@@ -49,10 +48,6 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   return (
     <main className="article-page article-page--dark">
       <StructuredData data={articleJsonLd} />
-      <AnimatedLink href="/news" className="article-back">
-        <span aria-hidden="true">←</span>
-        Все новости
-      </AnimatedLink>
 
       <article className="article-page__inner">
         <header className="article-page__header">

@@ -85,7 +85,7 @@ body,
 .c-section-p,
 .block-strip,
 .div-block-71 {
-  background-color: var(--vs-bg) !important;
+  background-color: inherit !important;
   color: var(--vs-text) !important;
 }
 
@@ -177,9 +177,6 @@ body,
   min-height: 0 !important;
   padding: clamp(112px, 9vw, 156px) var(--vs-gutter) clamp(46px, 6vw, 88px);
   overflow: visible !important;
-  background:
-    radial-gradient(circle at 50% 12%, rgba(157, 85, 255, 0.12), transparent 36%),
-    var(--vs-bg) !important;
   box-sizing: border-box;
 }
 
@@ -227,7 +224,7 @@ body,
 }
 
 .project-detail-page .wrapper-b-raboti {
-  padding: clamp(54px, 7vw, 108px) var(--vs-gutter) !important;
+  padding: clamp(20px, 7vw, 40px) var(--vs-gutter) !important;
 }
 
 .project-detail-page .c-section-r,

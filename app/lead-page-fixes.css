@@ -199,7 +199,6 @@
 .lead-page .vs-form textarea {
   width: 100%;
   min-height: 64px;
-  padding: 0 20px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.08);

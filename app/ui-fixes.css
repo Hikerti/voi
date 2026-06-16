@@ -547,7 +547,6 @@
 .faq-accordion__answer p {
   max-width: 900px;
   margin: 0;
-  padding: 0 clamp(22px, 3vw, 36px) clamp(24px, 3vw, 38px) calc(clamp(22px, 3vw, 36px) + 52px);
   font-family: Jura, sans-serif;
   font-size: 18px;
   line-height: 1.58;
@@ -1645,7 +1644,6 @@
 }
 
 .faq-accordion__answer p {
-  padding: 0 var(--vs-s40) var(--vs-s40) calc(var(--vs-s40) * 2) !important;
   font-size: 16px !important;
 }
 
@@ -2905,23 +2903,6 @@
   filter: blur(0);
 }
 
-.vs-page-shell--dark::after,
-.work-v2::after,
-.vs-reviews-preview::after,
-.reviews-page::after,
-.article-page--dark::after,
-.lead-page::after {
-  content: "";
-  position: absolute;
-  inset: var(--vs-s40);
-  z-index: -1;
-  pointer-events: none;
-  border: 1px solid rgba(216, 255, 85, 0.14);
-  border-radius: var(--vs-s8);
-  box-shadow:
-    0 0 40px rgba(216, 255, 85, 0.08),
-    inset 0 0 40px rgba(157, 85, 255, 0.06);
-}
 
 .vs-stages,
 .vs-faq-preview,
@@ -2954,29 +2935,6 @@
     linear-gradient(225deg, var(--vs-paper) 25%, transparent 25%) 0 0 / 16px 16px,
     linear-gradient(90deg, rgba(157, 85, 255, 0.08), rgba(216, 255, 85, 0.08));
   opacity: 0.92;
-}
-
-.vs-stages::after,
-.vs-faq-preview::after,
-.news-preview::after,
-.faq-detail-page::after,
-.contacts-page::after,
-.vs-prices::after,
-.vs-services-band::after {
-  content: "";
-  position: absolute;
-  right: var(--vs-s40);
-  top: var(--vs-s40);
-  z-index: -1;
-  width: min(360px, 32vw);
-  height: min(360px, 32vw);
-  border: 1px solid rgba(6, 6, 6, 0.08);
-  background:
-    repeating-linear-gradient(-8deg, rgba(6, 6, 6, 0.045) 0 1px, transparent 1px 16px),
-    rgba(255, 255, 255, 0.38);
-  clip-path: polygon(0 8%, 12% 0, 28% 6%, 40% 0, 58% 8%, 72% 0, 100% 10%, 92% 28%, 100% 44%, 90% 60%, 100% 78%, 84% 100%, 64% 92%, 48% 100%, 28% 92%, 8% 100%, 0 80%, 8% 64%, 0 44%, 8% 28%);
-  transform: rotate(3deg);
-  opacity: 0.48;
 }
 
 .work-v2 {
@@ -3966,10 +3924,6 @@
   background: transparent !important;
   color: #060606 !important;
   font-size: 28px !important;
-}
-
-.faq-page .faq-accordion__answer {
-  padding: 0 var(--vs-s40) var(--vs-s40) calc(80px + var(--vs-s40) + var(--vs-s16)) !important;
 }
 
 .faq-page .faq-accordion__answer p {
