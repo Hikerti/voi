@@ -25,6 +25,10 @@
   padding: 0 !important;
 }
 
+.services-page .vs-catalog-card {
+  justify-content: flex-start !important;
+}
+
 .vs-catalog-card__media {
   position: relative;
   aspect-ratio: 16 / 10;
@@ -43,6 +47,7 @@
 
 .vs-catalog-card__body {
   display: grid;
+  align-content: start;
   gap: 10px;
   padding: clamp(20px, 3vw, 30px);
 }
@@ -60,9 +65,22 @@
 }
 
 .service-detail-page .vs-related > h2 {
-  margin: 8px 0 22px;
+  margin: 0 0 clamp(24px, 3vw, 40px);
   color: #fff;
   font-size: clamp(28px, 4vw, 48px);
+}
+
+.service-detail-page .vs-related {
+  margin-top: clamp(72px, 9vw, 132px);
+}
+
+.service-detail-page .vs-related-grid {
+  gap: clamp(14px, 1.8vw, 24px);
+}
+
+.service-detail-page .vs-related-card {
+  min-height: clamp(210px, 18vw, 300px);
+  border-radius: 8px;
 }
 
 .related-content {

@@ -6,6 +6,10 @@
   --final-mobile-gutter: 24px;
   --final-section-gap: 40px;
   --final-section-gap-mobile: 16px;
+  --breadcrumb-top: clamp(132px, 8vw, 148px);
+  --breadcrumb-gutter: 16px;
+  --breadcrumb-reserve: clamp(70px, 6vw, 92px);
+  --breadcrumb-content-width: var(--review-layout-width, var(--content-width, 1280px));
 }
 
 html {
@@ -223,7 +227,47 @@ li,
 }
 
 body:has(.privacy-page) .breadcrumbs {
-  top: 132px !important;
+  top: var(--breadcrumb-top) !important;
+}
+
+.route-frame > .breadcrumbs {
+  position: absolute !important;
+  top: var(--breadcrumb-top) !important;
+  left: 50% !important;
+  width: min(calc(100% - (2 * var(--breadcrumb-gutter))), var(--breadcrumb-content-width)) !important;
+  max-width: var(--breadcrumb-content-width) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: translateX(-50%) !important;
+}
+
+.route-frame > .vs-page-shell,
+.route-frame > .work-v2,
+.route-frame > .project-detail-page,
+.route-frame > .blog-page,
+.route-frame > .article-page,
+.route-frame > .search-page,
+.route-frame > .lead-page,
+.route-frame > .faq-page,
+.route-frame > .reviews-page,
+.route-frame > .contacts-page {
+  padding-top: var(--review-page-top, clamp(108px, 8vw, 124px)) !important;
+}
+
+.route-frame > .vs-page-shell > section:first-of-type,
+.route-frame > .work-v2 > section:first-of-type,
+.route-frame > .blog-page > section:first-of-type,
+.route-frame > .article-page > article:first-of-type,
+.route-frame > .search-page > :first-child,
+.route-frame > .lead-page > section:first-of-type,
+.route-frame > .faq-page > section:first-of-type,
+.route-frame > .reviews-page > section:first-of-type,
+.route-frame > .contacts-page > section:first-of-type {
+  padding-top: var(--breadcrumb-reserve) !important;
+}
+
+.route-frame > .project-detail-page .case-hero-hider {
+  padding-top: var(--breadcrumb-reserve) !important;
 }
 
 .privacy-page__article {
@@ -384,6 +428,64 @@ body:has(.privacy-page) .breadcrumbs {
   line-height: 1.45 !important;
 }
 
+.vs-final-cta .vs-form--compact fieldset {
+  gap: 16px !important;
+}
+
+.vs-final-cta .vs-form--compact .vs-form__consent {
+  grid-template-columns: 22px minmax(0, 1fr) !important;
+  gap: 12px !important;
+  align-items: start !important;
+  margin-top: 2px !important;
+}
+
+.vs-final-cta .vs-form--compact .vs-form__consent > span {
+  max-width: 100% !important;
+  padding: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+
+.vs-final-cta .vs-form--compact .vs-form__consent a {
+  display: inline !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  text-decoration-line: underline !important;
+  text-decoration-color: var(--content-accent) !important;
+  text-underline-offset: 0.16em !important;
+}
+
+.vs-final-cta .vs-form--compact button[type="submit"] {
+  margin-top: 4px !important;
+}
+
+.project-detail-page .project-nav,
+body:has(.case-hero-raboti) .project-nav {
+  gap: clamp(12px, 1.6vw, 22px) !important;
+}
+
+.project-detail-page .project-nav__link,
+body:has(.case-hero-raboti) .project-nav__link {
+  min-height: clamp(82px, 8vw, 116px) !important;
+  padding: clamp(16px, 2.2vw, 28px) !important;
+  border-radius: 10px !important;
+}
+
+.project-detail-page .project-nav__link strong,
+body:has(.case-hero-raboti) .project-nav__link strong {
+  font-size: clamp(18px, 2vw, 30px) !important;
+  line-height: 1.08 !important;
+}
+
+.project-detail-page .project-nav__link span,
+body:has(.case-hero-raboti) .project-nav__link span {
+  font-size: clamp(24px, 2.8vw, 38px) !important;
+}
+
 .privacy-page__article {
   max-width: var(--final-content-width) !important;
 }
@@ -402,6 +504,9 @@ body:has(.privacy-page) .breadcrumbs {
 @media (max-width: 760px) {
   :root {
     --final-gutter: var(--final-mobile-gutter);
+    --breadcrumb-top: 106px;
+    --breadcrumb-gutter: 24px;
+    --breadcrumb-reserve: 62px;
   }
 
   .vs-site-header,
@@ -559,7 +664,7 @@ body:has(.privacy-page) .breadcrumbs {
   }
 
   body:has(.privacy-page) .breadcrumbs {
-    top: 116px !important;
+    top: var(--breadcrumb-top) !important;
   }
 
   .privacy-page__article {
@@ -588,5 +693,28 @@ body:has(.privacy-page) .breadcrumbs {
   .vs-form__success-actions {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .project-detail-page .project-nav,
+  body:has(.case-hero-raboti) .project-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .project-detail-page .project-nav__link,
+  body:has(.case-hero-raboti) .project-nav__link {
+    min-height: 76px !important;
+    padding: 12px !important;
+    gap: 8px !important;
+  }
+
+  .project-detail-page .project-nav__link strong,
+  body:has(.case-hero-raboti) .project-nav__link strong {
+    font-size: clamp(14px, 4.2vw, 18px) !important;
+  }
+
+  .project-detail-page .project-nav__link span,
+  body:has(.case-hero-raboti) .project-nav__link span {
+    font-size: 24px !important;
   }
 }
