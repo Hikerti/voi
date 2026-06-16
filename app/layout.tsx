@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import "../libs/styles/normalize.css";
+import "../libs/styles/legacy/webflow.css";
+import "../libs/styles/legacy/creativenest.webflow.css";
 import "./globals.css";
 import "./ui-fixes.css";
 import "./page-hotfixes.css";
@@ -97,9 +100,6 @@ export default function RootLayout({
         <link rel="icon" href="/logo_2.png" type="image/png" />
         <link rel="shortcut icon" href="/logo_2.png" type="image/png" />
         <link rel="apple-touch-icon" href="/logo_2.png" />
-        <link rel="stylesheet" href="/css/normalize.css" />
-        <link rel="stylesheet" href="/css/webflow.css" />
-        <link rel="stylesheet" href="/css/creativenest.webflow.css" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
