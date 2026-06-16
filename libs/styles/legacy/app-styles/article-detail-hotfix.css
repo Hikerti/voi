@@ -1,0 +1,84 @@
+/* Article detail: readable related links and compact rhythm. */
+
+body:has(.article-page) .article-page__body {
+  color: rgba(245, 245, 239, 0.68) !important;
+  line-height: 1.62 !important;
+}
+
+body:has(.article-page) .article-page__body p {
+  margin: 0 0 0.78em !important;
+}
+
+body:has(.article-page) .article-page__body :is(h2, h3) {
+  margin: 1.25em 0 0.48em !important;
+  color: #f5f5ef !important;
+}
+
+body:has(.article-page) .article-page .related-content {
+  margin-top: clamp(42px, 6vw, 72px) !important;
+  margin-bottom: clamp(42px, 6vw, 72px) !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+body:has(.article-page) .article-page .related-content > h2 {
+  margin: 10px 0 24px !important;
+  color: #f5f5ef !important;
+}
+
+body:has(.article-page) .article-page .related-content ul {
+  gap: 14px !important;
+}
+
+body:has(.article-page) .article-page .related-content a {
+  display: grid !important;
+  min-height: 132px !important;
+  gap: 16px !important;
+  align-content: space-between !important;
+  padding: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  background: #111218 !important;
+  color: #f5f5ef !important;
+  box-shadow: none !important;
+}
+
+body:has(.article-page) .article-page .related-content a:hover {
+  border-color: rgba(157, 85, 255, 0.42) !important;
+  background: #171922 !important;
+  transform: translateY(-2px) !important;
+}
+
+body:has(.article-page) .article-page .related-content a > span {
+  color: #9d55ff !important;
+}
+
+body:has(.article-page) .article-page .related-content a h3 {
+  margin: 0 !important;
+  color: #f5f5ef !important;
+}
+
+body:has(.article-page) .article-back {
+  display: inline-flex !important;
+  min-height: 44px !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 0 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.035) !important;
+  color: #f5f5ef !important;
+  box-shadow: none !important;
+}
+
+body:has(.article-page) .article-back:hover {
+  border-color: rgba(216, 255, 85, 0.38) !important;
+  background: rgba(216, 255, 85, 0.08) !important;
+  color: #d8ff55 !important;
+}
+
+@media (max-width: 760px) {
+  body:has(.article-page) .article-page .related-content ul {
+    grid-template-columns: 1fr !important;
+  }
+}

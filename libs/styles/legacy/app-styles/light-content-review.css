@@ -1,0 +1,85 @@
+/* Light-page contrast and related-content polish. */
+
+body:has(.blog-page) .breadcrumbs,
+body:has(.article-page) .breadcrumbs,
+body:has(.privacy-page) .breadcrumbs {
+  background: transparent !important;
+  color: rgba(9, 9, 9, 0.62);
+}
+
+body:has(.blog-page) .breadcrumbs a:hover,
+body:has(.article-page) .breadcrumbs a:hover,
+body:has(.privacy-page) .breadcrumbs a:hover {
+  color: #667a00 !important;
+}
+
+body:has(.blog-page) .breadcrumbs [aria-current="page"],
+body:has(.article-page) .breadcrumbs [aria-current="page"],
+body:has(.privacy-page) .breadcrumbs [aria-current="page"] {
+  color: #090909 !important;
+}
+
+.article-page,
+.blog-page {
+  color: #0a0a0b !important;
+}
+
+.article-page :where(h1, h2, h3, h4),
+.blog-page :where(h1, h2, h3, h4) {
+  color: #0a0a0b !important;
+}
+
+.article-page .related-content {
+  width: min(calc(100% - 32px), 1280px) !important;
+  margin: clamp(52px, 7vw, 82px) auto clamp(24px, 4vw, 46px) !important;
+  color: #0a0a0b !important;
+}
+
+.article-page .related-content > h2 {
+  margin: 8px 0 22px !important;
+  color: #0a0a0b !important;
+  font-size: clamp(30px, 4vw, 48px) !important;
+}
+
+.article-page .related-content ul {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+}
+
+.article-page .related-content a {
+  display: flex !important;
+  min-height: 128px;
+  flex-direction: column;
+  justify-content: space-between;
+  border-color: rgba(9, 9, 9, 0.13) !important;
+  background: #fff !important;
+  color: #0a0a0b !important;
+  box-shadow: 0 18px 48px rgba(9, 9, 9, 0.06);
+}
+
+.article-page .related-content a:hover {
+  border-color: rgba(150, 190, 20, 0.75) !important;
+  transform: translateY(-2px);
+}
+
+.article-page .related-content span {
+  color: rgba(9, 9, 9, 0.55) !important;
+}
+
+.article-page .related-content h3 {
+  color: #0a0a0b !important;
+}
+
+.vs-page-shell--dark :where(h1, h2, h3, h4, legend, strong) {
+  color: #fff;
+}
+
+.vs-page-shell--dark :where(p, li) {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+@media (max-width: 700px) {
+  .article-page .related-content ul {
+    grid-template-columns: 1fr !important;
+  }
+}

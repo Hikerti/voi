@@ -1,0 +1,40 @@
+/*
+ * Global style tokens.
+ * Keep shared color, spacing, radius, and layout variables here before moving
+ * component-specific values into narrower CSS modules.
+ */
+:root {
+  /* Legacy Webflow tokens still used by migrated legacy classes. */
+  --white: white;
+  --black: black;
+
+  /* Voitov Studio theme. */
+  --vs-bg: #f4f1ec;
+  --vs-ink: #111111;
+  --vs-muted: #6b655f;
+  --vs-dark: #070707;
+  --vs-dark-2: #111114;
+  --vs-line: rgba(17, 17, 17, 0.14);
+  --vs-line-dark: rgba(255, 255, 255, 0.16);
+  --vs-accent: #9d55ff;
+  --vs-accent-2: #d8ff55;
+  --vs-lime: #d8ff55;
+  --vs-radius: 8px;
+  --vs-page-pad: clamp(24px, 5vw, 80px);
+
+  /* Shared content pages. */
+  --content-width: 1180px;
+  --content-gutter: clamp(18px, 4vw, 64px);
+  --content-text: #f5f5f5;
+  --content-muted: rgba(255, 255, 255, 0.68);
+  --content-line: rgba(255, 255, 255, 0.14);
+  --content-surface: #111114;
+  --content-accent: var(--vs-lime, #d8ff55);
+
+  /* Final layout polish layer. */
+  --final-content-width: 1280px;
+  --final-gutter: 16px;
+  --final-mobile-gutter: 24px;
+  --final-section-gap: 40px;
+  --final-section-gap-mobile: 16px;
+}

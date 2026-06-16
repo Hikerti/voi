@@ -1,0 +1,43 @@
+@import "./legacy/app-styles/layout-review.css";
+@import "./legacy/app-styles/light-content-review.css";
+@import "./legacy/app-styles/layout-alignment-fix.css";
+@import "./legacy/app-styles/dark-utility-theme.css";
+@import "./legacy/app-styles/dark-utility-patch.css";
+@import "./legacy/app-styles/navigation-pages-polish.css";
+@import "./legacy/app-styles/navigation-pages-polish-fix.css";
+@import "./legacy/app-styles/article-detail-hotfix.css";
+@import "./legacy/app-styles/faq-page-hotfix.css";
+@import "./legacy/app-styles/home-trust-hotfix.css";
+@import "./legacy/app-styles/privacy-plain-background.css";
+
+/* Reusable accessibility helpers. */
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 10000;
+  transform: translateY(-160%);
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--content-accent, #d8ff55);
+  color: #080808;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}

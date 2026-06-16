@@ -1,0 +1,102 @@
+/* Homepage reviews and FAQ preview after VPS screenshots. */
+
+body:has(.vs-reviews-preview) .vs-reviews-preview {
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.vs-reviews-preview) .vs-reviews-preview::before,
+body:has(.vs-reviews-preview) .vs-reviews-preview::after {
+  border: 0 !important;
+  outline: 0 !important;
+}
+
+body:has(.vs-faq-preview) .vs-faq-preview {
+  display: grid !important;
+  width: min(calc(100% - 32px), var(--review-layout-width, 1280px)) !important;
+  max-width: var(--review-layout-width, 1280px) !important;
+  grid-template-columns: minmax(280px, 0.38fr) minmax(0, 0.62fr) !important;
+  gap: clamp(34px, 5vw, 72px) !important;
+  align-items: start !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  box-sizing: border-box !important;
+}
+
+body:has(.vs-faq-preview) .vs-faq-preview > div:first-child {
+  min-width: 0 !important;
+}
+
+body:has(.vs-faq-preview) .vs-faq-preview > div:first-child h2 {
+  max-width: 520px !important;
+  margin: 0 !important;
+  color: #f5f5ef !important;
+  font-size: clamp(42px, 5vw, 70px) !important;
+  line-height: 1.02 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+body:has(.vs-faq-preview) .vs-faq-list {
+  min-width: 0 !important;
+  gap: 12px !important;
+}
+
+body:has(.vs-faq-preview) .vs-faq-row {
+  display: grid !important;
+  min-height: 0 !important;
+  grid-template-columns: minmax(220px, 0.46fr) minmax(0, 0.54fr) !important;
+  gap: clamp(20px, 3vw, 38px) !important;
+  align-items: start !important;
+  padding: clamp(24px, 3vw, 34px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  background: rgba(17, 18, 24, 0.94) !important;
+  color: #f5f5ef !important;
+  box-shadow: none !important;
+}
+
+body:has(.vs-faq-preview) .vs-faq-row:hover {
+  border-color: rgba(216, 255, 85, 0.28) !important;
+  background: #171922 !important;
+  transform: translateY(-2px) !important;
+}
+
+body:has(.vs-faq-preview) .vs-faq-row h3 {
+  min-width: 0 !important;
+  margin: 0 !important;
+  color: #f5f5ef !important;
+  font-size: clamp(24px, 2.45vw, 38px) !important;
+  line-height: 1.12 !important;
+  overflow-wrap: break-word !important;
+}
+
+body:has(.vs-faq-preview) .vs-faq-row p {
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: rgba(245, 245, 239, 0.68) !important;
+  font-size: clamp(15px, 1.25vw, 18px) !important;
+  line-height: 1.58 !important;
+}
+
+@media (max-width: 980px) {
+  body:has(.vs-faq-preview) .vs-faq-preview {
+    grid-template-columns: 1fr !important;
+  }
+
+  body:has(.vs-faq-preview) .vs-faq-preview > div:first-child h2 {
+    max-width: 760px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body:has(.vs-faq-preview) .vs-faq-row {
+    grid-template-columns: 1fr !important;
+    padding: 22px !important;
+  }
+}

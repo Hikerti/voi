@@ -1,0 +1,669 @@
+/* Final cross-page polish for the primary navigation routes and dark visual system. */
+
+:root {
+  --page-max: var(--review-layout-width, 1280px);
+  --page-gutter: var(--review-layout-gutter, 16px);
+  --page-bg: #07080b;
+  --page-surface: #101116;
+  --page-surface-hover: #161820;
+  --page-text: #f5f5ef;
+  --page-muted: rgba(245, 245, 239, 0.68);
+  --page-line: rgba(255, 255, 255, 0.1);
+  --page-lime: #d8ff55;
+  --page-violet: #9d55ff;
+}
+
+html,
+body,
+.body {
+  background-color: var(--page-bg) !important;
+}
+
+body.body {
+  background-image:
+    radial-gradient(circle at 8% 14%, rgba(216, 255, 85, 0.09), transparent 34rem),
+    radial-gradient(circle at 92% 28%, rgba(157, 85, 255, 0.13), transparent 40rem),
+    radial-gradient(circle at 42% 86%, rgba(80, 125, 255, 0.07), transparent 36rem),
+    linear-gradient(180deg, #07080b 0%, #0a0b0f 48%, #07080b 100%) !important;
+  background-attachment: fixed !important;
+  color: var(--page-text);
+}
+
+.route-frame,
+.route-frame > main,
+.blog-page,
+.work-v2,
+.faq-page,
+.reviews-page,
+.services-page,
+.article-page,
+.faq-detail-page,
+.vs-services-band,
+.vs-prices,
+.vs-stages,
+.vs-reviews-preview,
+.vs-faq-preview,
+.news-preview,
+.studio2 {
+  background: transparent !important;
+}
+
+/* Primary navigation routes follow the same horizontal lines as the header. */
+.blog-page > :not(script),
+.work-v2 > :not(script) {
+  width: min(calc(100% - (2 * var(--page-gutter))), var(--page-max)) !important;
+  max-width: var(--page-max) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  box-sizing: border-box;
+}
+
+.services-page > :not(script),
+.reviews-page > :not(script),
+.faq-page > :not(script) {
+  width: min(100%, var(--page-max)) !important;
+  max-width: var(--page-max) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  box-sizing: border-box;
+}
+
+.article-page__inner,
+.article-page .related-content,
+.faq-detail-page__hero {
+  width: min(calc(100% - (2 * var(--page-gutter))), var(--page-max)) !important;
+  max-width: var(--page-max) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  box-sizing: border-box;
+}
+
+.article-page > .article-back {
+  margin-left: max(var(--page-gutter), calc((100vw - var(--page-max)) / 2)) !important;
+}
+
+/* Light typography with restrained lime and violet accents. */
+:is(
+  .services-page,
+  .work-v2,
+  .reviews-page,
+  .faq-page,
+  .blog-page,
+  .article-page,
+  .faq-detail-page,
+  .vs-services-band,
+  .vs-prices,
+  .vs-stages,
+  .vs-reviews-preview,
+  .vs-faq-preview,
+  .news-preview,
+  .studio2
+) :is(h1, h2, h3, h4, strong) {
+  color: var(--page-text) !important;
+}
+
+:is(
+  .services-page,
+  .work-v2,
+  .reviews-page,
+  .faq-page,
+  .blog-page,
+  .article-page,
+  .faq-detail-page,
+  .vs-services-band,
+  .vs-prices,
+  .vs-stages,
+  .vs-reviews-preview,
+  .vs-faq-preview,
+  .news-preview,
+  .studio2
+) p:not(.vs-kicker):not(.section-kicker):not(.vs-form__success):not(.vs-form__error) {
+  color: var(--page-muted) !important;
+}
+
+.vs-kicker,
+.section-kicker,
+.news-card__date,
+.blog-card__body > span,
+.vs-service-card > span,
+.vs-stage > span,
+.vs-review > span,
+.faq-accordion__item button > span {
+  color: var(--page-lime) !important;
+}
+
+.blog-page .vs-kicker,
+.article-page .vs-kicker,
+.article-page .section-kicker,
+.work-v2 .vs-kicker {
+  color: var(--page-violet) !important;
+}
+
+/* Home and services sections: remove invisible dark headings and heavy borders. */
+.vs-prices h2,
+.vs-stages h2,
+.vs-faq-preview h2,
+.vs-services-band h2,
+.vs-reviews-preview h2,
+.news-preview h2,
+.studio2 h2 {
+  color: var(--page-text) !important;
+}
+
+.vs-price-card,
+.vs-stage,
+.vs-service-card,
+.vs-review,
+.vs-catalog-card,
+.vs-related-card,
+.news-card,
+.blog-card {
+  border: 1px solid transparent !important;
+  background: rgba(16, 17, 22, 0.94) !important;
+  color: var(--page-text) !important;
+  box-shadow: none !important;
+}
+
+.vs-price-card:hover,
+.vs-stage:hover,
+.vs-service-card:hover,
+.vs-review:hover,
+.vs-catalog-card:hover,
+.vs-related-card:hover,
+.news-card:hover,
+.blog-card:hover {
+  border-color: rgba(216, 255, 85, 0.18) !important;
+  background: var(--page-surface-hover) !important;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.22) !important;
+  transform: translateY(-3px) !important;
+}
+
+.vs-price-card :is(h3, strong),
+.vs-stage h3,
+.vs-service-card h3,
+.vs-review strong,
+.vs-catalog-card h2,
+.vs-related-card h3 {
+  color: var(--page-text) !important;
+}
+
+.vs-price-card > span,
+.vs-price-card strong,
+.vs-stage > span {
+  color: var(--page-lime) !important;
+}
+
+/* Blog listing: dark media surfaces and readable card copy. */
+.blog-page__hero {
+  display: grid !important;
+  max-width: var(--page-max) !important;
+  gap: 18px !important;
+  margin-bottom: clamp(42px, 6vw, 74px) !important;
+}
+
+.blog-page__hero h1 {
+  max-width: 1040px;
+  color: var(--page-text) !important;
+  font-size: clamp(44px, 6.4vw, 88px) !important;
+  line-height: 0.98 !important;
+}
+
+.blog-page__hero > p:last-child {
+  max-width: 760px;
+  color: var(--page-muted) !important;
+  font-size: 17px !important;
+  line-height: 1.65 !important;
+}
+
+.blog-page__grid {
+  gap: 18px !important;
+}
+
+.blog-card {
+  overflow: hidden;
+  border-radius: 14px !important;
+}
+
+.blog-card__link {
+  display: grid !important;
+  height: 100%;
+  grid-template-rows: auto 1fr;
+  color: var(--page-text) !important;
+  text-decoration: none;
+}
+
+.blog-card__image {
+  min-height: 240px !important;
+  background-color: #14161c !important;
+  background-position: center !important;
+  background-size: cover !important;
+}
+
+.blog-card__body {
+  display: grid !important;
+  gap: 14px !important;
+  align-content: start;
+  padding: 24px !important;
+  background: transparent !important;
+}
+
+.blog-card__body h2,
+.blog-card__body p {
+  color: var(--page-text) !important;
+}
+
+.blog-card__body p {
+  color: var(--page-muted) !important;
+}
+
+.blog-card__body i {
+  display: inline-grid !important;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  margin-top: 4px;
+  border: 1px solid var(--page-line);
+  border-radius: 50%;
+  color: var(--page-lime);
+  font-style: normal;
+}
+
+/* FAQ page: one dark accordion and a balanced form section. */
+.faq-page__hero {
+  display: block !important;
+  max-width: 940px !important;
+  margin-bottom: clamp(40px, 6vw, 72px) !important;
+}
+
+.faq-page__copy h1 {
+  color: var(--page-text) !important;
+  font-size: clamp(44px, 6vw, 82px) !important;
+  line-height: 1 !important;
+}
+
+.faq-page__copy p:not(.vs-kicker) {
+  max-width: 760px;
+  color: var(--page-muted) !important;
+}
+
+.faq-page__map {
+  display: none !important;
+}
+
+.faq-accordion {
+  gap: 0 !important;
+  border-top: 1px solid var(--page-line);
+}
+
+.faq-accordion__item {
+  border: 0 !important;
+  border-bottom: 1px solid var(--page-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.faq-accordion__item:hover,
+.faq-accordion__item.is-open {
+  background: rgba(255, 255, 255, 0.025) !important;
+  transform: none !important;
+}
+
+.faq-accordion__item button {
+  grid-template-columns: 52px minmax(0, 1fr) 44px !important;
+  gap: 18px !important;
+  align-items: start !important;
+  padding: 26px 0 !important;
+  color: var(--page-text) !important;
+}
+
+.faq-accordion__item button > span {
+  padding-top: 5px;
+  font-size: 18px !important;
+  line-height: 1;
+}
+
+.faq-accordion__item strong {
+  color: var(--page-text) !important;
+  font-size: clamp(23px, 2.3vw, 35px) !important;
+  line-height: 1.14 !important;
+}
+
+.faq-accordion__item i {
+  width: 40px !important;
+  height: 40px !important;
+  border-color: var(--page-line) !important;
+  color: var(--page-lime) !important;
+}
+
+.faq-accordion__answer p {
+  max-width: 860px !important;
+  margin: 0 !important;
+  color: var(--page-muted) !important;
+  font-size: 17px !important;
+  line-height: 1.65 !important;
+}
+
+.faq-page__form {
+  display: grid !important;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr) !important;
+  gap: clamp(34px, 6vw, 84px) !important;
+  align-items: start !important;
+  margin-top: clamp(62px, 8vw, 108px) !important;
+  padding: clamp(38px, 5vw, 62px) !important;
+  border: 1px solid var(--page-line) !important;
+  border-radius: 20px !important;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(216, 255, 85, 0.08), transparent 260px),
+    radial-gradient(circle at 92% 88%, rgba(157, 85, 255, 0.11), transparent 300px),
+    rgba(14, 15, 20, 0.94) !important;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.24) !important;
+}
+
+.faq-page__form-copy {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  padding-top: 8px;
+}
+
+.faq-page__form h2 {
+  margin: 0 !important;
+  color: var(--page-text) !important;
+  font-size: clamp(38px, 4.7vw, 68px) !important;
+  line-height: 1 !important;
+}
+
+.faq-page__form .vs-form {
+  padding: 30px !important;
+  border: 1px solid var(--page-line) !important;
+  border-radius: 14px !important;
+  background: rgba(7, 8, 11, 0.72) !important;
+  box-shadow: none !important;
+}
+
+.faq-page__form .vs-form legend,
+.faq-page__form .vs-form label,
+.faq-page__form .vs-form span {
+  color: var(--page-text) !important;
+}
+
+.faq-page__form .vs-form input:not([type="checkbox"]),
+.faq-page__form .vs-form textarea {
+  border-color: var(--page-line) !important;
+  background: rgba(255, 255, 255, 0.025) !important;
+  color: var(--page-text) !important;
+}
+
+/* Individual FAQ answer page. */
+.faq-detail-page__hero {
+  display: grid !important;
+  gap: 24px !important;
+  padding: clamp(34px, 6vw, 72px) !important;
+  border: 1px solid var(--page-line) !important;
+  border-radius: 20px !important;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(157, 85, 255, 0.13), transparent 320px),
+    radial-gradient(circle at 8% 92%, rgba(216, 255, 85, 0.08), transparent 280px),
+    rgba(15, 16, 21, 0.94) !important;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.22) !important;
+}
+
+.faq-detail-page__hero h1 {
+  max-width: 980px;
+  color: var(--page-text) !important;
+  font-size: clamp(42px, 6vw, 84px) !important;
+  line-height: 1 !important;
+}
+
+.faq-detail-page__hero > p:last-child {
+  max-width: 820px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--page-muted) !important;
+  font-size: clamp(18px, 1.5vw, 22px) !important;
+  line-height: 1.7 !important;
+  box-shadow: none !important;
+}
+
+/* Article page: compact reading rhythm and useful dark related links. */
+.article-page__inner {
+  grid-template-columns: minmax(260px, 0.34fr) minmax(0, 0.66fr) !important;
+  gap: clamp(28px, 5vw, 72px) !important;
+}
+
+.article-page__header h1 {
+  max-width: 1100px;
+  color: var(--page-text) !important;
+  font-size: clamp(44px, 6vw, 88px) !important;
+  line-height: 1 !important;
+}
+
+.article-page__header p:not(.vs-kicker) {
+  max-width: 760px;
+  margin-top: 18px !important;
+  color: var(--page-muted) !important;
+  line-height: 1.6 !important;
+}
+
+.article-page__body {
+  color: var(--page-muted) !important;
+  font-size: clamp(17px, 1.25vw, 20px) !important;
+  line-height: 1.68 !important;
+}
+
+.article-page__body p {
+  margin: 0 0 1em !important;
+}
+
+.article-page__body :is(ul, ol) {
+  margin: 0 0 1.15em !important;
+  padding-left: 1.35em !important;
+}
+
+.article-page__body li {
+  margin: 0.35em 0 !important;
+}
+
+.article-page__body :is(h2, h3) {
+  margin: 1.45em 0 0.55em !important;
+  color: var(--page-text) !important;
+}
+
+.article-page__body a {
+  color: var(--page-lime) !important;
+  text-decoration-color: rgba(216, 255, 85, 0.45);
+  text-underline-offset: 0.18em;
+}
+
+.article-page__media {
+  overflow: hidden;
+  border: 1px solid var(--page-line) !important;
+  border-radius: 14px !important;
+  background: var(--page-surface) !important;
+}
+
+.article-back {
+  display: inline-flex !important;
+  min-height: 44px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 17px !important;
+  border: 1px solid var(--page-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--page-text) !important;
+  text-decoration: none;
+}
+
+.article-back:hover {
+  border-color: rgba(216, 255, 85, 0.35);
+  background: rgba(216, 255, 85, 0.08);
+  color: var(--page-lime) !important;
+  transform: translateX(-3px);
+}
+
+.related-content {
+  margin-top: clamp(60px, 8vw, 108px) !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.related-content > h2 {
+  margin: 12px 0 28px !important;
+  color: var(--page-text) !important;
+  font-size: clamp(34px, 4vw, 58px) !important;
+}
+
+.related-content ul {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.related-content li {
+  margin: 0 !important;
+}
+
+.related-content a {
+  display: grid !important;
+  min-height: 150px;
+  gap: 18px;
+  align-content: space-between;
+  padding: 26px !important;
+  border: 1px solid transparent !important;
+  border-radius: 12px !important;
+  background: var(--page-surface) !important;
+  color: var(--page-text) !important;
+  text-decoration: none;
+  box-shadow: none !important;
+  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+}
+
+.related-content a:hover {
+  border-color: rgba(157, 85, 255, 0.32) !important;
+  background: var(--page-surface-hover) !important;
+  transform: translateY(-3px);
+}
+
+.related-content a > span {
+  color: var(--page-violet) !important;
+  font-size: 14px;
+}
+
+.related-content a h3 {
+  margin: 0 !important;
+  color: var(--page-text) !important;
+  font-size: clamp(22px, 2.2vw, 32px) !important;
+  line-height: 1.12 !important;
+}
+
+/* Shared buttons: compact, clear and consistent. */
+.button,
+.decision-cta__actions a,
+.vs-final-cta a,
+.vs-form button[type="submit"] {
+  min-height: 48px !important;
+  padding: 0 20px !important;
+  border-radius: 8px !important;
+  font-weight: 800 !important;
+  box-shadow: none !important;
+}
+
+.button--accent,
+.vs-form button[type="submit"] {
+  border: 1px solid var(--page-lime) !important;
+  background: var(--page-lime) !important;
+  color: #090a0c !important;
+}
+
+.button--accent:hover,
+.vs-form button[type="submit"]:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+}
+
+.button--ghost {
+  border: 1px solid var(--page-line) !important;
+  background: rgba(255, 255, 255, 0.025) !important;
+  color: var(--page-text) !important;
+}
+
+.button--ghost:hover {
+  border-color: rgba(157, 85, 255, 0.42) !important;
+  background: rgba(157, 85, 255, 0.09) !important;
+}
+
+@media (max-width: 900px) {
+  .faq-page__form {
+    grid-template-columns: 1fr !important;
+  }
+
+  .article-page__inner {
+    grid-template-columns: 1fr !important;
+  }
+
+  .article-page__media {
+    position: static !important;
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 760px) {
+  .blog-page > :not(script),
+  .work-v2 > :not(script),
+  .article-page__inner,
+  .article-page .related-content,
+  .faq-detail-page__hero {
+    width: min(calc(100% - 32px), var(--page-max)) !important;
+  }
+
+  .work-v2__mobile-gallery {
+    width: min(calc(100% - 32px), var(--page-max)) !important;
+    max-width: var(--page-max) !important;
+  }
+
+  .faq-accordion__item button {
+    grid-template-columns: 34px minmax(0, 1fr) 36px !important;
+    gap: 10px !important;
+    padding: 20px 0 !important;
+  }
+
+  .faq-accordion__item button > span {
+    font-size: 15px !important;
+  }
+
+  .faq-accordion__item i {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .faq-accordion__answer p {
+    padding: 0 0 22px 44px !important;
+    font-size: 15px !important;
+  }
+
+  .faq-page__form {
+    gap: 28px !important;
+    padding: 24px !important;
+    border-radius: 14px !important;
+  }
+
+  .faq-page__form .vs-form {
+    padding: 20px !important;
+  }
+
+  .related-content ul {
+    grid-template-columns: 1fr !important;
+  }
+
+  .related-content a {
+    min-height: 120px;
+  }
+}

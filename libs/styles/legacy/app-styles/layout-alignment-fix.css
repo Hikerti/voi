@@ -1,0 +1,183 @@
+/* Final alignment pass for shared page sections, breadcrumbs and footer divider. */
+
+:root {
+  --review-page-top: clamp(108px, 8vw, 124px);
+  --review-section-inset: clamp(24px, 2.6vw, 34px);
+  --review-breadcrumb-space: clamp(76px, 6vw, 92px);
+}
+
+/* Keep the first content block directly below the fixed header. */
+.route-frame > .vs-page-shell {
+  padding-top: var(--review-page-top) !important;
+}
+
+/* The breadcrumb remains a global navigation element, but is visually placed
+   inside the first page section. Its left edge now follows the page/header edge
+   without an additional inner offset. */
+.route-frame:has(> .vs-page-shell) > .breadcrumbs {
+  top: calc(var(--review-page-top) + var(--review-section-inset));
+  padding-right: var(--review-section-inset) !important;
+  padding-left: 0 !important;
+}
+
+.route-frame > .vs-page-shell > section:first-of-type {
+  padding-top: var(--review-breadcrumb-space) !important;
+}
+
+/* Several earlier polish rules use a 1480px !important max-width. Override
+   them here so every page section follows the same 1280px line as the header. */
+.route-frame > .vs-page-shell > :not(script),
+.vs-page-hero,
+.vs-detail-hero,
+.vs-two-col,
+.vs-catalog-grid,
+.vs-related,
+.reviews-page__hero,
+.reviews-page__form,
+.vs-review-grid--page,
+.faq-page__hero,
+.faq-accordion,
+.faq-page__form,
+.contacts-page__hero,
+.contacts-page__layout {
+  width: min(100%, var(--review-layout-width)) !important;
+  max-width: var(--review-layout-width) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  box-sizing: border-box;
+}
+
+/* The transparent source image has visual whitespace on the left. Shift only
+   the footer logo so its visible lettering starts on the same line as the text. */
+.site-footer__brand > a:first-child {
+  display: inline-flex;
+  margin-left: -20px;
+}
+
+.site-footer__brand > a:first-child img {
+  display: block;
+}
+
+/* The footer content stays aligned with the header, while the separator itself
+   spans the full viewport width. */
+.site-footer__divider {
+  width: calc(100% + var(--review-layout-gutter) + var(--review-layout-gutter));
+  margin: clamp(30px, 4vw, 48px) calc(0px - var(--review-layout-gutter)) 0;
+  border-top: 1px solid var(--content-line);
+  pointer-events: none;
+}
+
+.site-footer__bottom {
+  margin-top: 0 !important;
+  border-top: 0 !important;
+}
+
+@media (max-width: 760px) {
+  /* Keep the search and menu controls visually grouped without reducing their
+     touch target below 40px. */
+  .vs-site-header__actions {
+    gap: 0 !important;
+  }
+
+  .site-search-link,
+  .vs-burger {
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+  }
+
+  .site-search-link {
+    justify-content: center !important;
+  }
+
+  /* Replace the legacy browser square markers with a predictable two-column
+     row so every point is vertically centered against its menu label. */
+  .menu2 {
+    align-items: stretch !important;
+  }
+
+  .menu2 nav {
+    width: 100%;
+  }
+
+  .list-3 {
+    display: grid !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 18px !important;
+    list-style: none !important;
+    box-sizing: border-box;
+  }
+
+  .list-3 > li {
+    display: grid !important;
+    grid-template-columns: 6px minmax(0, 1fr);
+    column-gap: 12px;
+    align-items: center;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .list-3 > li::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    justify-self: center;
+    background: rgba(255, 255, 255, 0.32);
+  }
+
+  .list-3 .menu-link {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10px 0 !important;
+    line-height: 1.25 !important;
+    box-sizing: border-box;
+  }
+
+  .menu2 .paragraph-300 {
+    width: auto !important;
+    margin: 34px 18px 0 36px !important;
+  }
+
+  /* Mobile portfolio cards use a real media aspect ratio instead of allowing
+     the background block to stretch to 72svh and leave a large empty area. */
+  .work-v2__mobile-gallery {
+    align-items: flex-start;
+  }
+
+  .work-v2__card {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .work-v2__card-link {
+    display: flex !important;
+    min-height: 0 !important;
+    flex-direction: column !important;
+  }
+
+  .work-v2__card .work-v2__image {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex: 0 0 auto !important;
+    aspect-ratio: 16 / 10;
+    background-position: center !important;
+    background-size: contain !important;
+  }
+
+  .work-v2__card .work-v2__caption {
+    display: flex !important;
+    min-height: 150px;
+    align-items: flex-end;
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --review-page-top: 94px;
+    --review-section-inset: 18px;
+    --review-breadcrumb-space: 70px;
+  }
+}

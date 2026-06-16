@@ -1,0 +1,80 @@
+/* Final FAQ width and homepage FAQ surface corrections. */
+
+/* The FAQ route is one full-width column aligned with the site header. */
+.route-frame > .faq-page {
+  display: block !important;
+  width: min(calc(100% - 32px), var(--review-layout-width, 1280px)) !important;
+  max-width: var(--review-layout-width, 1280px) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.route-frame > .faq-page > :not(script),
+.route-frame > .faq-page .faq-page__hero,
+.route-frame > .faq-page .faq-accordion,
+.route-frame > .faq-page .faq-page__form {
+  width: 100% !important;
+  max-width: none !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.route-frame > .faq-page .faq-page__hero {
+  display: block !important;
+  margin-bottom: clamp(36px, 5vw, 64px) !important;
+}
+
+.route-frame > .faq-page .faq-page__copy {
+  width: 100% !important;
+  max-width: 980px !important;
+}
+
+.route-frame > .faq-page .faq-accordion {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+}
+
+.route-frame > .faq-page .faq-page__form {
+  display: grid !important;
+  grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr) !important;
+}
+
+/* Homepage FAQ is no longer a stack of grey cards. */
+body:has(.vs-faq-preview) .vs-faq-preview,
+body:has(.vs-faq-preview) .vs-faq-list {
+  background: transparent !important;
+}
+
+body:has(.vs-faq-preview) .vs-faq-row,
+body:has(.vs-faq-preview) .vs-faq-row:hover {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+body:has(.vs-faq-preview) .vs-faq-row:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body:has(.vs-faq-preview) .vs-faq-row:hover {
+  background: rgba(255, 255, 255, 0.025) !important;
+}
+
+@media (max-width: 980px) {
+  .route-frame > .faq-page .faq-page__form {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .route-frame > .faq-page {
+    width: min(calc(100% - 24px), var(--review-layout-width, 1280px)) !important;
+  }
+}

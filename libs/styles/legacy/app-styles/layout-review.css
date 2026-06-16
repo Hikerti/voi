@@ -1,0 +1,424 @@
+/* Cross-page spacing, width and form review. */
+
+:root {
+  --review-layout-width: 1280px;
+  --review-layout-gutter: 16px;
+  --review-layout-side: max(
+    var(--review-layout-gutter),
+    calc((100vw - var(--review-layout-width)) / 2)
+  );
+  --content-width: var(--review-layout-width);
+  --vs-content: var(--review-layout-width);
+}
+
+.route-frame {
+  position: relative;
+  min-width: 0;
+}
+
+/* Breadcrumbs are overlaid inside the first page section instead of creating
+   a separate horizontal block between the header and the page. */
+.breadcrumbs {
+  position: absolute !important;
+  top: 108px;
+  left: 50%;
+  z-index: 70;
+  width: min(calc(100% - 32px), var(--review-layout-width)) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.72);
+  box-sizing: border-box;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.breadcrumbs ol {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 10px !important;
+  color: inherit !important;
+  font-size: clamp(15px, 1.05vw, 17px) !important;
+  line-height: 1.45;
+  letter-spacing: 0.01em !important;
+  pointer-events: auto;
+}
+
+.breadcrumbs li {
+  gap: 10px !important;
+  min-width: 0;
+}
+
+.breadcrumbs li:not(:last-child)::after {
+  color: currentColor !important;
+  opacity: 0.45;
+}
+
+.breadcrumbs a {
+  color: inherit !important;
+}
+
+.breadcrumbs a:hover,
+.breadcrumbs [aria-current="page"] {
+  color: var(--content-accent) !important;
+}
+
+.breadcrumbs [aria-current="page"] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The page itself now owns the space above its content. */
+.route-frame > .vs-page-shell,
+.route-frame > .blog-page,
+.route-frame > .article-page,
+.route-frame > .search-page,
+.route-frame > .lead-page,
+.route-frame > .work-v2 {
+  padding-top: clamp(156px, 12vw, 184px) !important;
+}
+
+body:has(.case-hero-raboti) .case-hero-hider {
+  padding-top: clamp(156px, 12vw, 188px) !important;
+}
+
+/* One shared content width. Full-bleed sections retain their background, while
+   their content starts and ends on the same lines as the header. */
+.vs-site-header,
+.work-v2__hero,
+.work-v2__desktop,
+.lead-page__hero,
+.lead-page__layout,
+.blog-page__inner,
+.article-page__inner,
+.article-page .related-content,
+.search-page,
+.studio2__inner,
+.news-preview__inner,
+.site-footer__grid,
+.site-footer__bottom,
+.project-nav,
+.vs-final-cta,
+.decision-cta,
+.seo-copy,
+body:has(.case-hero-raboti) .block-strip,
+body:has(.case-hero-raboti) .div-block-71 {
+  width: min(calc(100% - 32px), var(--review-layout-width)) !important;
+  max-width: var(--review-layout-width) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  box-sizing: border-box;
+}
+
+.vs-page-shell {
+  padding-right: var(--review-layout-gutter) !important;
+  padding-left: var(--review-layout-gutter) !important;
+}
+
+.vs-page-shell > :not(script) {
+  width: min(100%, var(--review-layout-width));
+  max-width: var(--review-layout-width);
+  margin-right: auto;
+  margin-left: auto;
+  box-sizing: border-box;
+}
+
+.vs-services-band,
+.vs-prices,
+.vs-stages,
+.vs-reviews-preview,
+.vs-faq-preview {
+  padding-right: var(--review-layout-side) !important;
+  padding-left: var(--review-layout-side) !important;
+  box-sizing: border-box;
+}
+
+.work-v2__hero,
+.work-v2__desktop,
+.lead-page__hero,
+.lead-page__layout {
+  max-width: var(--review-layout-width) !important;
+}
+
+.services-page .vs-page-hero {
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 18px !important;
+  margin-bottom: 32px !important;
+}
+
+.services-page .vs-page-hero > div {
+  max-width: 980px;
+}
+
+.services-page .vs-page-hero h1 {
+  font-size: clamp(44px, 6vw, 84px) !important;
+  line-height: 0.98 !important;
+}
+
+.services-page .vs-page-hero p {
+  max-width: 820px;
+  margin-top: 18px !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.home-ref .home-ref__scene--wrench .home-ref__shape {
+  background-image: none !important;
+  background-color: #5787b7 !important;
+}
+
+.home-ref .home-ref__scene--wrench .home-ref__shape::before {
+  display: none !important;
+}
+
+.vs-services-band .vs-section-head {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.vs-services-band .vs-section-head > p {
+  margin-bottom: 14px !important;
+}
+
+.vs-services-band .vs-section-head h2 {
+  max-width: 1080px;
+  font-size: clamp(38px, 5vw, 72px) !important;
+  line-height: 1.02 !important;
+}
+
+.vs-services-band .vs-service-strip {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.vs-service-card,
+.vs-price-card,
+.vs-catalog-card,
+.vs-review,
+.vs-related-card {
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+}
+
+.vs-service-card h3,
+.vs-price-card h3,
+.vs-catalog-card h2,
+.vs-related-card h3 {
+  overflow-wrap: anywhere;
+}
+
+.seo-copy {
+  margin-top: clamp(54px, 7vw, 88px) !important;
+  margin-bottom: clamp(54px, 7vw, 88px) !important;
+  padding: clamp(30px, 4vw, 54px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  background: #0d0d11 !important;
+  color: #fff !important;
+}
+
+.seo-copy h2 {
+  max-width: 980px;
+  margin-bottom: 30px !important;
+  color: #fff !important;
+  font-size: clamp(34px, 4.6vw, 62px) !important;
+}
+
+.seo-copy__columns {
+  columns: 3 260px !important;
+  column-gap: clamp(26px, 4vw, 54px) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.vs-final-cta,
+.decision-cta {
+  margin-top: clamp(54px, 7vw, 92px) !important;
+  margin-bottom: clamp(54px, 7vw, 92px) !important;
+  padding: clamp(30px, 4vw, 54px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 18px;
+}
+
+.vs-final-cta {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 430px) !important;
+  gap: clamp(30px, 5vw, 72px) !important;
+  align-items: center !important;
+  background: #0d0d11 !important;
+}
+
+.vs-final-cta h2 {
+  max-width: 820px;
+  color: #fff !important;
+  font-size: clamp(38px, 5vw, 70px) !important;
+  line-height: 1.02 !important;
+}
+
+.vs-final-cta__note {
+  max-width: 720px;
+  margin: 22px 0 0 !important;
+  color: rgba(255, 255, 255, 0.68) !important;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.decision-cta h2 {
+  color: #fff !important;
+}
+
+.decision-cta__actions {
+  justify-content: flex-end;
+}
+
+.vs-form__error-summary {
+  grid-column: 1 / -1;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 107, 107, 0.46);
+  border-radius: 10px;
+  background: rgba(255, 107, 107, 0.09);
+  color: #ffb0b0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.vs-form__error-summary strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.vs-form__error-summary ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.vs-form__consent {
+  display: grid !important;
+  grid-template-columns: 20px minmax(0, 1fr) !important;
+  gap: 10px !important;
+  align-items: start !important;
+}
+
+.vs-form__consent input[type="checkbox"] {
+  display: block;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 2px 0 0 !important;
+}
+
+.vs-form__consent > span {
+  min-width: 0;
+  margin: 0;
+}
+
+.vs-form__status,
+.vs-form--compact .vs-form__status {
+  grid-column: 1 / -1;
+}
+
+.vs-form__status:empty {
+  display: none;
+}
+
+.site-footer {
+  width: 100%;
+  min-height: 0 !important;
+  overflow: visible !important;
+  padding: clamp(42px, 5vw, 68px) var(--review-layout-gutter) 24px !important;
+  box-sizing: border-box;
+}
+
+.site-footer__grid {
+  grid-template-columns: minmax(260px, 1.15fr) minmax(240px, 0.85fr) minmax(250px, 0.9fr) !important;
+  gap: clamp(34px, 5vw, 72px) !important;
+}
+
+.site-footer__bottom {
+  margin-top: clamp(30px, 4vw, 48px) !important;
+}
+
+@media (max-width: 1100px) {
+  .vs-services-band .vs-service-strip,
+  .vs-price-grid,
+  .vs-catalog-grid,
+  .vs-review-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .vs-final-cta,
+  .decision-cta {
+    grid-template-columns: 1fr !important;
+  }
+
+  .decision-cta__actions {
+    justify-content: flex-start;
+  }
+
+  .site-footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --review-layout-gutter: 14px;
+  }
+
+  .breadcrumbs {
+    top: 88px;
+    width: calc(100% - 28px) !important;
+  }
+
+  .breadcrumbs ol {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    font-size: 14px !important;
+    white-space: nowrap;
+  }
+
+  .route-frame > .vs-page-shell,
+  .route-frame > .blog-page,
+  .route-frame > .article-page,
+  .route-frame > .search-page,
+  .route-frame > .lead-page,
+  .route-frame > .work-v2 {
+    padding-top: 128px !important;
+  }
+
+  body:has(.case-hero-raboti) .case-hero-hider {
+    padding-top: 128px !important;
+  }
+
+  .vs-services-band .vs-service-strip,
+  .vs-price-grid,
+  .vs-catalog-grid,
+  .vs-review-grid,
+  .site-footer__grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .seo-copy__columns {
+    columns: 1 !important;
+  }
+
+  .vs-final-cta,
+  .decision-cta,
+  .seo-copy {
+    width: calc(100% - 28px) !important;
+    padding: 24px 20px !important;
+    border-radius: 14px;
+  }
+
+  .vs-final-cta h2,
+  .vs-services-band .vs-section-head h2 {
+    font-size: clamp(34px, 10vw, 52px) !important;
+  }
+
+  .decision-cta__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .decision-cta__actions .button {
+    width: 100%;
+  }
+}
