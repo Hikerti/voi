@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/:path*",
+        source: "/:path((?!yandex_).*)",
         has: [{ type: "host", value: "www.voitov.ru" }],
         destination: "https://voitov.ru/:path*",
         permanent: true,
