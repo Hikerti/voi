@@ -7,6 +7,8 @@ import StructuredData from "@/components/seo/StructuredData";
 import { SERVICES, getServiceBySlug } from "@/lib/site-data";
 import { getCmsServiceBySlug, getCmsServices } from "@/lib/cms-api";
 import { absoluteUrl, createPageMetadata } from "@/lib/seo";
+import ServiceSidebar from "@/components/services/ServiceSidebar";
+import sidebarStyles from "@/components/services/ServiceSidebar.module.css";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -71,71 +73,76 @@ export default async function ServicePage({ params }: ServicePageProps) {
       <StructuredData data={serviceJsonLd} />
       <GridLines />
       <main className="vs-page-shell vs-page-shell--dark service-detail-page">
-        <section className="vs-detail-hero" aria-labelledby="service-title">
-          <div>
-            <p className="vs-kicker">услуга</p>
-            <h1 id="service-title">{service.title}</h1>
-            <p>{service.description}</p>
-            <strong><small>Цена </small>{service.price}</strong>
-          </div>
-          <div
-            className="vs-detail-media"
-            style={{ backgroundImage: `url('${service.image}')` }}
-            role="img"
-            aria-label={`${service.title} — иллюстрация услуги`}
-          />
-        </section>
+        <div className={sidebarStyles.layout}>
+          <ServiceSidebar services={allServices} currentSlug={slug} />
+          <div className={sidebarStyles.content}>
+            <section className="vs-detail-hero" aria-labelledby="service-title">
+              <div>
+                <p className="vs-kicker">услуга</p>
+                <h1 id="service-title">{service.title}</h1>
+                <p>{service.description}</p>
+                <strong><small>Цена </small>{service.price}</strong>
+              </div>
+              <div
+                className="vs-detail-media"
+                style={{ backgroundImage: `url('${service.image}')` }}
+                role="img"
+                aria-label={`${service.title} — иллюстрация услуги`}
+              />
+            </section>
 
-        <section className="vs-two-col" aria-labelledby="service-includes-title">
-          <div className="rich-content">
-            <h2 id="service-includes-title">Что входит в услугу</h2>
-            <p>
-              На первом этапе фиксируем задачу, аудиторию, структуру и критерии готовности.
-              Затем собираем прототип, визуальную систему, адаптивную вёрстку и сценарии заявки.
-            </p>
-            <h3>Техническая SEO-подготовка</h3>
-            <p>
-              Настраиваем один H1, последовательную иерархию H2–H6, метатеги,
-              внутренние ссылки, canonical, sitemap, robots.txt и понятные URL.
-            </p>
-            <h3>Что потребуется от заказчика</h3>
-            <ul>
-              <li>информация о компании и услуге;</li>
-              <li>приоритетные направления и регионы работы;</li>
-              <li>фотографии, кейсы и подтверждённые цены;</li>
-              <li>согласование финальной семантики и текстов.</li>
-            </ul>
-          </div>
-          <SiteForm source={`service-${service.slug}`} title="Заказать услугу" variant="general" />
-        </section>
+            <section className="vs-two-col" aria-labelledby="service-includes-title">
+              <div className="rich-content">
+                <h2 id="service-includes-title">Что входит в услугу</h2>
+                <p>
+                  На первом этапе фиксируем задачу, аудиторию, структуру и критерии готовности.
+                  Затем собираем прототип, визуальную систему, адаптивную вёрстку и сценарии заявки.
+                </p>
+                <h3>Техническая SEO-подготовка</h3>
+                <p>
+                  Настраиваем один H1, последовательную иерархию H2–H6, метатеги,
+                  внутренние ссылки, canonical, sitemap, robots.txt и понятные URL.
+                </p>
+                <h3>Что потребуется от заказчика</h3>
+                <ul>
+                  <li>информация о компании и услуге;</li>
+                  <li>приоритетные направления и регионы работы;</li>
+                  <li>фотографии, кейсы и подтверждённые цены;</li>
+                  <li>согласование финальной семантики и текстов.</li>
+                </ul>
+              </div>
+              <SiteForm source={`service-${service.slug}`} title="Заказать услугу" variant="general" />
+            </section>
 
-        <section className="seo-copy rich-content" aria-labelledby="service-seo-title">
-          <p className="seo-copy__eyebrow">описание услуги</p>
-          <h2 id="service-seo-title">{service.title} для бизнеса</h2>
-          <div className="seo-copy__columns">
-            <p>{service.summary}</p>
-            <p>
-              Этот текст используется как временный SEO-блок. После утверждения
-              семантического ядра его заменим на текст под реальные запросы, регион,
-              аудиторию и преимущества компании.
-            </p>
-          </div>
-        </section>
+            <section className="seo-copy rich-content" aria-labelledby="service-seo-title">
+              <p className="seo-copy__eyebrow">описание услуги</p>
+              <h2 id="service-seo-title">{service.title} для бизнеса</h2>
+              <div className="seo-copy__columns">
+                <p>{service.summary}</p>
+                <p>
+                  Этот текст используется как временный SEO-блок. После утверждения
+                  семантического ядра его заменим на текст под реальные запросы, регион,
+                  аудиторию и преимущества компании.
+                </p>
+              </div>
+            </section>
 
-        {related.length > 0 && (
-          <section className="vs-related" aria-labelledby="related-services-title">
-            <p className="vs-kicker">похожие услуги</p>
-            <h2 id="related-services-title">Другие форматы работы</h2>
-            <div className="vs-related-grid">
-              {related.map((item) => (
-                <Link href={`/services/${item!.slug}`} className="vs-related-card" key={item!.slug}>
-                  <h3>{item!.title}</h3>
-                  <span>{item!.price}</span>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
+            {related.length > 0 && (
+              <section className="vs-related" aria-labelledby="related-services-title">
+                <p className="vs-kicker">похожие услуги</p>
+                <h2 id="related-services-title">Другие форматы работы</h2>
+                <div className="vs-related-grid">
+                  {related.map((item) => (
+                    <Link href={`/services/${item!.slug}`} className="vs-related-card" key={item!.slug}>
+                      <h3>{item!.title}</h3>
+                      <span>{item!.price}</span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
+        </div>
       </main>
     </>
   );
