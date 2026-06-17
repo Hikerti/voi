@@ -1,0 +1,2 @@
+.studio2__slider-copy, .work-v2__caption { padding-inline-end: 48px !important; box-sizing: border-box !important; }
+@media (max-width: 760px) { .studio2__slider-copy, .work-v2__caption { padding-inline-end: 20px !important; } }
