@@ -25,7 +25,14 @@ export default function ContactsContent() {
             <div><dt>Телефон</dt><dd><a href={SITE.phoneHref}>{SITE.phone}</a></dd></div>
             <div><dt>Email</dt><dd><a href={SITE.emailHref}>{SITE.email}</a></dd></div>
             <div><dt>График</dt><dd>{SITE.workHours}</dd></div>
-            <div><dt>Адрес</dt><dd>{SITE.address}</dd></div>
+            <div>
+              <dt>Адрес</dt>
+              <dd>
+                <a href={SITE.addressHref} target="_blank" rel="noopener noreferrer">
+                  {SITE.address}
+                </a>
+              </dd>
+            </div>
             <div><dt>Перед визитом</dt><dd>{SITE.visitNote}</dd></div>
             <div><dt>MAX</dt><dd>{SITE.maxPhone}</dd></div>
             <div><dt>ИНН</dt><dd>{SITE.inn}</dd></div>
@@ -36,10 +43,16 @@ export default function ContactsContent() {
 
         <SiteForm source="contacts" title="Напишите нам" variant="contact" />
 
-        <div className="contacts-page__map-placeholder" role="img" aria-label="Voitov Studio работает в Москве и онлайн">
+        <a
+          className="contacts-page__map-placeholder contacts-page__map-link"
+          href={SITE.addressHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${SITE.address} — открыть в Яндекс Картах`}
+        >
           <span>{SITE.address}</span>
-          <p>{SITE.visitNote} Работаем с проектами удалённо и проводим созвоны по предварительной договорённости.</p>
-        </div>
+          <p>{SITE.visitNote} Открыть адрес в Яндекс Картах.</p>
+        </a>
       </section>
     </main>
   );
