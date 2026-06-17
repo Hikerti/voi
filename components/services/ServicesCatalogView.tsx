@@ -2,28 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { SERVICES, type ServiceItem } from "@/lib/site-data";
 
-const CATEGORY_LABELS: Record<string, string> = {
-  strategy: "Стратегия",
-  design: "Дизайн",
-  digital: "Digital",
-  marketing: "Маркетинг",
-  sites: "Сайты",
-};
+const CATEGORY_LINKS = [
+  { slug: "sites", label: "Сайты" },
+  { slug: "design", label: "Дизайн" },
+  { slug: "strategy", label: "Стратегия" },
+  { slug: "marketing", label: "Маркетинг" },
+  { slug: "digital", label: "Digital" },
+] as const;
+
+const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
+  CATEGORY_LINKS.map((item) => [item.slug, item.label]),
+);
 
 interface ServicesCatalogViewProps {
   services?: ServiceItem[];
 }
 
 export default function ServicesCatalogView({ services = SERVICES }: ServicesCatalogViewProps) {
-  const categories = Array.from(
-    new Map(
-      services.map((service) => [
-        service.category,
-        service.categoryLabel || CATEGORY_LABELS[service.category] || service.category,
-      ]),
-    ),
-  );
-
   return (
     <main className="vs-page-shell vs-page-shell--dark services-page">
       <section className="vs-page-hero" aria-labelledby="services-title">
@@ -38,8 +33,8 @@ export default function ServicesCatalogView({ services = SERVICES }: ServicesCat
 
       <nav className="service-category-nav" aria-label="Категории услуг">
         <a href="#service-list">Все услуги</a>
-        {categories.map(([slug, label]) => (
-          <Link key={slug} href={`/services/${slug}`}>{label}</Link>
+        {CATEGORY_LINKS.map((item) => (
+          <Link key={item.slug} href={`/services/${item.slug}`}>{item.label}</Link>
         ))}
       </nav>
 
