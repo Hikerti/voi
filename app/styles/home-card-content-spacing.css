@@ -1,0 +1,121 @@
+/* Final spacing pass for the home service cards and featured portfolio card. */
+
+.vs-service-strip {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: clamp(18px, 2.2vw, 28px) !important;
+}
+
+.vs-service-card {
+  min-width: 0 !important;
+  padding: clamp(30px, 3vw, 42px) clamp(38px, 3.8vw, 56px) clamp(34px, 3.4vw, 48px) clamp(34px, 3.2vw, 48px) !important;
+  box-sizing: border-box !important;
+}
+
+.vs-service-card > span,
+.vs-service-card > h3,
+.vs-service-card > p {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  -webkit-hyphens: none !important;
+  hyphens: none !important;
+}
+
+.vs-service-card > h3 {
+  font-size: clamp(27px, 2.25vw, 36px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.015em !important;
+  text-wrap: balance;
+}
+
+.vs-service-card > p {
+  font-size: clamp(15px, 1.2vw, 18px) !important;
+  line-height: 1.55 !important;
+  text-wrap: pretty;
+}
+
+.studio2__slider {
+  grid-template-columns: minmax(410px, 0.38fr) minmax(0, 1fr) !important;
+}
+
+.studio2__slider-copy {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  padding-left: clamp(44px, 4.2vw, 72px) !important;
+  padding-right: clamp(52px, 5vw, 86px) !important;
+  box-sizing: border-box !important;
+}
+
+.studio2__slider-copy > span,
+.studio2__slider-copy > h3,
+.studio2__slider-copy > p,
+.studio2__slider-actions {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.studio2__slider-copy > h3 {
+  padding-right: 0 !important;
+  font-size: clamp(30px, 2.35vw, 38px) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.025em !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  -webkit-hyphens: none !important;
+  hyphens: none !important;
+  text-wrap: balance;
+}
+
+.studio2__slider-copy > p {
+  max-width: 320px !important;
+  padding-right: 4px !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  -webkit-hyphens: none !important;
+  hyphens: none !important;
+  text-wrap: pretty;
+}
+
+@media (max-width: 1100px) {
+  .vs-service-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .studio2__slider {
+    grid-template-columns: minmax(350px, 0.42fr) minmax(0, 1fr) !important;
+  }
+
+  .studio2__slider-copy {
+    padding-left: 36px !important;
+    padding-right: 44px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .vs-service-strip {
+    grid-template-columns: 1fr !important;
+  }
+
+  .vs-service-card {
+    padding: 28px 30px 30px !important;
+  }
+
+  .studio2__slider {
+    grid-template-columns: 1fr !important;
+  }
+
+  .studio2__slider-copy {
+    padding: 30px 28px !important;
+  }
+
+  .studio2__slider-copy > h3 {
+    font-size: clamp(28px, 9vw, 38px) !important;
+  }
+}
