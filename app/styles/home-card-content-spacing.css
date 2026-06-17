@@ -2,23 +2,29 @@
 
 .vs-service-strip {
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: clamp(18px, 2.2vw, 28px) !important;
+  gap: clamp(18px, 2vw, 26px) !important;
 }
 
 .vs-service-card {
+  display: grid !important;
+  grid-template-rows: auto auto 1fr;
   min-width: 0 !important;
-  padding: clamp(30px, 3vw, 42px) clamp(38px, 3.8vw, 56px) clamp(34px, 3.4vw, 48px) clamp(34px, 3.2vw, 48px) !important;
+  overflow: hidden !important;
+  padding: clamp(30px, 2.8vw, 40px) clamp(30px, 3vw, 38px) clamp(34px, 3vw, 44px) !important;
   box-sizing: border-box !important;
 }
 
 .vs-service-card > span,
 .vs-service-card > h3,
 .vs-service-card > p {
+  display: block !important;
   width: 100% !important;
+  min-width: 0 !important;
   max-width: 100% !important;
   margin-right: 0 !important;
   padding-right: 0 !important;
   box-sizing: border-box !important;
+  white-space: normal !important;
   word-break: normal !important;
   overflow-wrap: normal !important;
   -webkit-hyphens: none !important;
@@ -26,14 +32,14 @@
 }
 
 .vs-service-card > h3 {
-  font-size: clamp(27px, 2.25vw, 36px) !important;
+  font-size: clamp(24px, 1.8vw, 30px) !important;
   line-height: 1.08 !important;
-  letter-spacing: -0.015em !important;
+  letter-spacing: -0.025em !important;
   text-wrap: balance;
 }
 
 .vs-service-card > p {
-  font-size: clamp(15px, 1.2vw, 18px) !important;
+  font-size: clamp(15px, 1.08vw, 17px) !important;
   line-height: 1.55 !important;
   text-wrap: pretty;
 }
@@ -83,11 +89,13 @@
   text-wrap: pretty;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1180px) {
   .vs-service-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
+}
 
+@media (max-width: 1100px) {
   .studio2__slider {
     grid-template-columns: minmax(350px, 0.42fr) minmax(0, 1fr) !important;
   }
