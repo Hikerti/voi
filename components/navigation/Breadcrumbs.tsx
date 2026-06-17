@@ -17,6 +17,7 @@ const SECTION_LABELS: Record<string, string> = {
   privacy: "Политика конфиденциальности",
   zayavka: "Оставить заявку",
   search: "Поиск",
+  sites: "Сайты",
   strategy: "Стратегия",
   design: "Дизайн",
   digital: "Digital",
