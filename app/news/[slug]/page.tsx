@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import StructuredData from "@/components/seo/StructuredData";
-import { NEWS_ITEMS, getNewsBySlug } from "@/lib/site-data";
+import { NEWS_ITEMS } from "@/lib/site-data";
 import { getCmsNewsBySlug } from "@/lib/cms-api";
 import { absoluteUrl, createPageMetadata } from "@/lib/seo";
 
@@ -16,7 +16,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: NewsDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const item = (await getCmsNewsBySlug(slug)) || getNewsBySlug(slug);
+  const item = (await getCmsNewsBySlug(slug)) || NEWS_ITEMS.find((news) => news.slug === slug);
   if (!item) return {};
 
   return createPageMetadata({
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
 
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const { slug } = await params;
-  const item = (await getCmsNewsBySlug(slug)) || getNewsBySlug(slug);
+  const item = (await getCmsNewsBySlug(slug)) || NEWS_ITEMS.find((news) => news.slug === slug);
   if (!item) notFound();
 
   const related = NEWS_ITEMS.filter((news) => news.slug !== item.slug).slice(0, 4);
