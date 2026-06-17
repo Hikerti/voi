@@ -1,4 +1,5 @@
 import SiteForm from "@/components/forms/SiteForm";
+import SocialLinks from "@/components/social/SocialLinks";
 import { SITE } from "@/lib/constants";
 
 export default function ContactsContent() {
@@ -22,25 +23,22 @@ export default function ContactsContent() {
           <dl className="contact-details">
             <div><dt>Компания</dt><dd>{SITE.legalName}</dd></div>
             <div><dt>Телефон</dt><dd><a href={SITE.phoneHref}>{SITE.phone}</a></dd></div>
-            {SITE.secondaryPhone && SITE.secondaryPhoneHref ? (
-              <div><dt>Дополнительный телефон</dt><dd><a href={SITE.secondaryPhoneHref}>{SITE.secondaryPhone}</a></dd></div>
-            ) : null}
             <div><dt>Email</dt><dd><a href={SITE.emailHref}>{SITE.email}</a></dd></div>
             <div><dt>График</dt><dd>{SITE.workHours}</dd></div>
-            <div><dt>Город</dt><dd>{SITE.address}</dd></div>
-            {SITE.inn ? <div><dt>ИНН</dt><dd>{SITE.inn}</dd></div> : null}
-            {SITE.ogrn ? <div><dt>ОГРН</dt><dd>{SITE.ogrn}</dd></div> : null}
+            <div><dt>Адрес</dt><dd>{SITE.address}</dd></div>
+            <div><dt>Перед визитом</dt><dd>{SITE.visitNote}</dd></div>
+            <div><dt>MAX</dt><dd>{SITE.maxPhone}</dd></div>
+            <div><dt>ИНН</dt><dd>{SITE.inn}</dd></div>
+            <div><dt>ОГРН</dt><dd>{SITE.ogrn}</dd></div>
           </dl>
-          <div className="contact-socials" aria-label="Мессенджеры">
-            <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>
-          </div>
+          <SocialLinks className="contact-socials" showLabels />
         </div>
 
         <SiteForm source="contacts" title="Напишите нам" variant="contact" />
 
         <div className="contacts-page__map-placeholder" role="img" aria-label="Voitov Studio работает в Москве и онлайн">
           <span>{SITE.address}</span>
-          <p>Работаем с проектами удалённо и проводим созвоны по предварительной договорённости.</p>
+          <p>{SITE.visitNote} Работаем с проектами удалённо и проводим созвоны по предварительной договорённости.</p>
         </div>
       </section>
     </main>
