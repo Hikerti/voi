@@ -1,3 +1,5 @@
+@import "./project-title-spacing.css";
+
 /* Keep the consent checkbox interactive after client-side validation errors. */
 
 .vs-form__consent {
