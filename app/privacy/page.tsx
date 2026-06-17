@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/layout/PageHeader";
+import { SITE } from "@/lib/constants";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Политика конфиденциальности",
-  description: "Базовые правила обработки персональных данных на сайте Voitov Studio.",
+  description: "Правила обработки персональных данных на сайте Voitov Studio.",
   path: "/privacy",
 });
 
@@ -16,11 +17,18 @@ export default function PrivacyPage() {
         <article className="vs-article rich-content privacy-page__article">
           <h1 className="privacy-page__title">Политика конфиденциальности</h1>
           <p className="privacy-page__intro">
-            Это временный текст для этапа разработки. Юридическую редакцию необходимо
-            заменить после получения реквизитов и утверждённой политики заказчика.
+            Настоящая политика описывает, какие данные могут передаваться через сайт
+            Voitov Studio и для каких целей они используются.
           </p>
 
           <div className="vs-article__body privacy-page__body">
+            <h2>Владелец сайта</h2>
+            <p>
+              {SITE.legalName}, ИНН {SITE.inn}, ОГРН {SITE.ogrn}. Адрес: {SITE.address}.
+              Связаться с владельцем сайта можно по телефону {SITE.phone} или по адресу
+              электронной почты {SITE.email}.
+            </p>
+
             <h2>Какие данные обрабатываются</h2>
             <p>
               В зависимости от формы пользователь может передать имя, телефон, email,
@@ -41,8 +49,9 @@ export default function PrivacyPage() {
 
             <h2>Срок хранения и удаление</h2>
             <p>
-              Срок хранения и порядок удаления данных будут уточнены в финальной редакции
-              документа после получения юридических данных владельца сайта.
+              Данные хранятся только в течение срока, необходимого для обработки обращения
+              и исполнения договорённостей. Для запроса на удаление данных напишите на
+              <a href={SITE.emailHref}> {SITE.email}</a>.
             </p>
           </div>
         </article>
