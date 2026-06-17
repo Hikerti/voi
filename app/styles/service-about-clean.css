@@ -9,7 +9,7 @@
   max-width: 1280px;
   min-height: 0;
   margin: 0 auto;
-  padding: clamp(32px, 4vw, 52px) 0 clamp(64px, 7vw, 92px);
+  padding: clamp(68px, 6vw, 92px) 0 clamp(64px, 7vw, 92px);
   overflow: clip;
   box-sizing: border-box;
 }
@@ -31,12 +31,11 @@
   min-height: clamp(330px, 36vw, 470px);
   place-items: center;
   overflow: hidden;
-  padding: clamp(26px, 3.5vw, 46px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
-  background:
-    radial-gradient(circle at 20% 15%, rgba(216, 255, 85, 0.08), transparent 42%),
-    rgba(14, 15, 20, 0.68);
+  padding: clamp(20px, 3vw, 40px);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   box-sizing: border-box;
   contain: layout paint;
 }
@@ -249,15 +248,14 @@
   .route-frame > .service-detail-page,
   .route-frame > .about-page-clean {
     width: min(calc(100% - 24px), 1280px);
-    padding-top: 24px;
+    padding-top: 38px;
     padding-bottom: 54px;
   }
 
   .service-detail-page__visual,
   .about-page-clean__visual {
     min-height: 210px;
-    padding: 22px;
-    border-radius: 14px;
+    padding: 18px;
   }
 
   .service-detail-page__copy > h2:first-child {
