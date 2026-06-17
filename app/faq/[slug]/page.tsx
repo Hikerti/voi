@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import StructuredData from "@/components/seo/StructuredData";
-import { FAQ_ITEMS, getFaqBySlug } from "@/lib/site-data";
+import { FAQ_ITEMS } from "@/lib/site-data";
 import { getCmsFaqBySlug } from "@/lib/cms-api";
 import { absoluteUrl, createPageMetadata } from "@/lib/seo";
 
@@ -15,7 +15,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: FaqDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const item = (await getCmsFaqBySlug(slug)) || getFaqBySlug(slug);
+  const item = (await getCmsFaqBySlug(slug)) || FAQ_ITEMS.find((faq) => faq.slug === slug);
   if (!item) return {};
 
   return createPageMetadata({
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: FaqDetailPageProps): Promise<
 
 export default async function FaqDetailPage({ params }: FaqDetailPageProps) {
   const { slug } = await params;
-  const item = (await getCmsFaqBySlug(slug)) || getFaqBySlug(slug);
+  const item = (await getCmsFaqBySlug(slug)) || FAQ_ITEMS.find((faq) => faq.slug === slug);
   if (!item) notFound();
 
   const faqJsonLd = {
