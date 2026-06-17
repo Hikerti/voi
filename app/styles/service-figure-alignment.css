@@ -1,0 +1,16 @@
+/* Align the text column with the visible top edge of the decorative figure. */
+
+@media (min-width: 901px) {
+  .service-detail-page__content,
+  .about-page-clean__content {
+    padding-top: clamp(72px, 6vw, 96px) !important;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 900px) {
+  .service-detail-page__content,
+  .about-page-clean__content {
+    padding-top: 0 !important;
+  }
+}
