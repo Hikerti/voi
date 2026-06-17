@@ -1,0 +1,32 @@
+/* Keep the consent checkbox interactive after client-side validation errors. */
+
+.vs-form__consent {
+  position: relative !important;
+  z-index: 4 !important;
+  cursor: pointer !important;
+  user-select: none;
+}
+
+.vs-form__consent input[type="checkbox"] {
+  position: relative !important;
+  z-index: 5 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+}
+
+.vs-form__consent input[type="checkbox"][aria-invalid="true"] {
+  border-color: #ff8b8b !important;
+  box-shadow: 0 0 0 3px rgba(255, 139, 139, 0.12) !important;
+}
+
+.vs-form__consent input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--content-accent, #d8ff55) !important;
+  outline-offset: 3px !important;
+}
+
+.vs-form__field-error {
+  position: relative !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
