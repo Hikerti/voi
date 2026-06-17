@@ -28,7 +28,12 @@ export default function ContactsContent() {
             <div>
               <dt>Адрес</dt>
               <dd>
-                <a href={SITE.addressHref} target="_blank" rel="noopener noreferrer">
+                <a
+                  className="contact-address-link"
+                  href={SITE.addressHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {SITE.address}
                 </a>
               </dd>
