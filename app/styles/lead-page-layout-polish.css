@@ -1,0 +1,80 @@
+/* Application page: align the two lower cards and tighten the signal panel rhythm. */
+
+.route-frame > .lead-page .lead-page__layout {
+  display: grid !important;
+  grid-template-columns: minmax(300px, 0.38fr) minmax(0, 0.62fr) !important;
+  gap: clamp(18px, 3vw, 36px) !important;
+  align-items: stretch !important;
+}
+
+.route-frame > .lead-page .lead-page__layout > .lead-page__signal,
+.route-frame > .lead-page .lead-page__layout > .vs-form {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.route-frame > .lead-page .lead-page__signal {
+  display: grid !important;
+  grid-template-rows: auto auto auto auto auto !important;
+  align-content: start !important;
+  gap: 14px !important;
+  padding: clamp(24px, 3vw, 36px) !important;
+}
+
+.route-frame > .lead-page .lead-page__signal span {
+  margin: 0 !important;
+  font-size: clamp(68px, 7vw, 116px) !important;
+  line-height: 0.82 !important;
+}
+
+.route-frame > .lead-page .lead-page__signal strong {
+  max-width: 340px !important;
+  margin: 2px 0 0 !important;
+  font-size: clamp(30px, 2.8vw, 48px) !important;
+  line-height: 1.05 !important;
+}
+
+.route-frame > .lead-page .lead-page__signal i {
+  margin: 12px 0 8px !important;
+}
+
+.route-frame > .lead-page .lead-page__signal em,
+.route-frame > .lead-page .lead-page__signal p {
+  margin: 0 !important;
+  line-height: 1.5 !important;
+}
+
+.route-frame > .lead-page .lead-page__signal p {
+  max-width: 440px !important;
+  margin-top: 4px !important;
+}
+
+.route-frame > .lead-page .vs-form {
+  align-content: start !important;
+  padding: clamp(24px, 3vw, 36px) !important;
+}
+
+@media (max-width: 1080px) {
+  .route-frame > .lead-page .lead-page__layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .route-frame > .lead-page .lead-page__layout > .lead-page__signal,
+  .route-frame > .lead-page .lead-page__layout > .vs-form {
+    height: auto !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .route-frame > .lead-page .lead-page__signal,
+  .route-frame > .lead-page .vs-form {
+    padding: 20px !important;
+  }
+
+  .route-frame > .lead-page .lead-page__signal {
+    gap: 12px !important;
+  }
+}
