@@ -37,7 +37,15 @@ export default function Footer() {
             <a href={SITE.phoneHref}>{SITE.phone}</a>
             <a href={SITE.emailHref}>{SITE.email}</a>
             <span>{SITE.workHours}</span>
-            <span>{SITE.address}</span>
+            <a
+              className="site-footer__address-link"
+              href={SITE.addressHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${SITE.address} — открыть в Яндекс Картах`}
+            >
+              {SITE.address}
+            </a>
             <span className="site-footer__visit-note">{SITE.visitNote}</span>
           </address>
           <SocialLinks className="site-footer__socials" />
