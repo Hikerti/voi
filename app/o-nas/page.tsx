@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/layout/PageHeader";
 import ONasSection from "@/components/o-nas/ONasSection";
-import GridLines from "@/components/layout/GridLines";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -15,11 +14,7 @@ export default function ONasPage() {
   return (
     <>
       <PageHeader backLabel={null} />
-      <main>
-        <h1 className="sr-only">О студии и подход к работе</h1>
-        <GridLines />
-        <ONasSection />
-      </main>
+      <ONasSection />
     </>
   );
 }
