@@ -1,0 +1,37 @@
+/* Yandex Maps links in contacts and footer. */
+
+.site-footer__address-link,
+.contact-address-link {
+  color: rgba(245, 245, 239, 0.78) !important;
+  text-decoration: underline !important;
+  text-decoration-color: rgba(216, 255, 85, 0.38) !important;
+  text-underline-offset: 0.2em;
+}
+
+.site-footer__address-link:hover,
+.contact-address-link:hover {
+  color: #d8ff55 !important;
+  text-decoration-color: #d8ff55 !important;
+}
+
+.contacts-page__map-link {
+  display: grid !important;
+  align-content: center;
+  gap: 12px;
+  color: inherit !important;
+  text-decoration: none !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.contacts-page__map-link::after {
+  content: "Открыть в Яндекс Картах ↗";
+  color: #d8ff55;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.contacts-page__map-link:hover {
+  border-color: rgba(216, 255, 85, 0.36) !important;
+  background: rgba(216, 255, 85, 0.045) !important;
+  transform: translateY(-2px);
+}
