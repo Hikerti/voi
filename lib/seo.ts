@@ -92,6 +92,7 @@ const socialLinks = [
   SITE.whatsapp,
   SITE.instagram,
   SITE.facebook,
+  SITE.max,
   SITE.vk,
 ].flatMap((value) => (value ? [value] : []));
 
@@ -100,12 +101,22 @@ export const ORGANIZATION_JSON_LD = {
   "@type": "ProfessionalService",
   "@id": `${SITE.baseUrl}/#organization`,
   name: SITE.name,
+  legalName: SITE.legalName,
   url: SITE.baseUrl,
-  logo: absoluteUrl("/logo.png"),
+  logo: absoluteUrl("/logo_2.png"),
   image: absoluteUrl("/images/blog/seo-thumb.jpg"),
   description: SITE.description,
   telephone: SITE.phone,
   email: SITE.email,
+  taxID: SITE.inn,
+  identifier: SITE.ogrn,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Научный проезд, 14А, стр. 1",
+    addressLocality: "Москва",
+    addressCountry: "RU",
+  },
+  openingHours: "Mo-Fr 10:00-19:00",
   areaServed: {
     "@type": "City",
     name: "Москва",
