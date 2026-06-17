@@ -25,6 +25,7 @@ import "./styles/faq-width-final.css";
 import "./styles/content-detail-final.css";
 import "./styles/final-delivery-polish.css";
 import "./styles/social-contact-polish.css";
+import "./styles/russian-typography.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
