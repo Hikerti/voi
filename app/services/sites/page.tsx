@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getCmsServices } from "@/lib/cms-api";
+import { SERVICES } from "@/lib/site-data";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -15,9 +16,12 @@ const WEBSITE_SLUGS = new Set(["landing-page", "corporate-site", "support"]);
 
 export default async function SitesPage() {
   const services = await getCmsServices();
-  const websiteServices = services.filter(
+  const fromCms = services.filter(
     (service) => service.category === "sites" || WEBSITE_SLUGS.has(service.slug),
   );
+  const websiteServices = fromCms.length
+    ? fromCms
+    : SERVICES.filter((service) => WEBSITE_SLUGS.has(service.slug));
 
   return (
     <main className="vs-page-shell vs-page-shell--dark services-page services-sites-page">
@@ -31,6 +35,14 @@ export default async function SitesPage() {
           </p>
         </div>
       </section>
+
+      <nav className="service-category-nav" aria-label="Категории услуг">
+        <Link href="/services">Все услуги</Link>
+        <Link href="/services/sites" aria-current="page">Сайты</Link>
+        <Link href="/services/design">Дизайн</Link>
+        <Link href="/services/strategy">Стратегия</Link>
+        <Link href="/services/marketing">Маркетинг</Link>
+      </nav>
 
       <section className="vs-catalog-grid" aria-label="Услуги по созданию сайтов">
         {websiteServices.map((service) => (
@@ -52,10 +64,6 @@ export default async function SitesPage() {
           </Link>
         ))}
       </section>
-
-      <div className="services-sites-page__back">
-        <Link className="button button--ghost" href="/services">Все услуги</Link>
-      </div>
     </main>
   );
 }
