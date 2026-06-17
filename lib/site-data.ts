@@ -17,7 +17,8 @@ export const SERVICES: ServiceItem[] = [
   {
     slug: "landing-page",
     title: "Лендинг под заявки",
-    category: "digital",
+    category: "sites",
+    categoryLabel: "Сайты",
     price: "от 90 000 ₽",
     summary: "Яркая посадочная страница с понятной структурой, вау-первым экраном и формами заявок.",
     description:
@@ -30,7 +31,8 @@ export const SERVICES: ServiceItem[] = [
   {
     slug: "corporate-site",
     title: "Сайт компании",
-    category: "digital",
+    category: "sites",
+    categoryLabel: "Сайты",
     price: "от 160 000 ₽",
     summary: "Многостраничный сайт для доверия, SEO и презентации услуг компании.",
     description:
@@ -44,6 +46,7 @@ export const SERVICES: ServiceItem[] = [
     slug: "brand-identity",
     title: "Айдентика и визуальная система",
     category: "design",
+    categoryLabel: "Дизайн",
     price: "от 70 000 ₽",
     summary: "Логотип, цвета, шрифты и графические приемы, которые сайт сможет развивать дальше.",
     description:
@@ -57,6 +60,7 @@ export const SERVICES: ServiceItem[] = [
     slug: "seo-start",
     title: "SEO-старт",
     category: "marketing",
+    categoryLabel: "Маркетинг",
     price: "от 35 000 ₽",
     summary: "Метатеги, структура посадочных страниц, sitemap, robots и базовые редиректы.",
     description:
@@ -70,6 +74,7 @@ export const SERVICES: ServiceItem[] = [
     slug: "content-seo",
     title: "SEO-тексты и структура",
     category: "strategy",
+    categoryLabel: "Стратегия",
     price: "от 45 000 ₽",
     summary: "Структура страниц и тексты, которые помогают пользователю понять услугу и поиску увидеть смысл.",
     description:
@@ -82,7 +87,8 @@ export const SERVICES: ServiceItem[] = [
   {
     slug: "support",
     title: "Поддержка и развитие",
-    category: "digital",
+    category: "sites",
+    categoryLabel: "Сайты",
     price: "от 25 000 ₽/мес",
     summary: "Правки, новые блоки, аналитика, публикации и развитие сайта после запуска.",
     description:
@@ -219,26 +225,14 @@ export const NEWS_ITEMS = [
     date: "8 июня 2026",
     excerpt: "Новый этап разработки начинается с живого прототипа, чтобы быстрее проверять дизайн и мобильную версию.",
     content:
-      "Для проекта выбран путь прототипирования сразу в Next.js: это ускоряет проверку анимаций, адаптива и реального поведения форм.",
+      "Прототипирование в коде позволяет сразу проверять реальную типографику, адаптив, анимацию и переходы между страницами.",
   },
   {
     slug: "content-management-after-launch",
-    title: "Как поддерживать сайт после запуска",
+    title: "Как управлять контентом после запуска",
     date: "8 июня 2026",
-    excerpt: "После публикации важно быстро обновлять услуги, новости, отзывы и FAQ без лишних технических действий.",
+    excerpt: "Услуги, FAQ, отзывы и новости можно обновлять без ручного редактирования страниц.",
     content:
-      "Сайт должен развиваться после запуска: обновлять услуги, публиковать новости, добавлять отзывы и расширять FAQ по реальным вопросам клиентов.",
+      "Административная часть проекта помогает поддерживать актуальность услуг, материалов, отзывов и вопросов после публикации сайта.",
   },
 ];
-
-export function getServiceBySlug(slug: string) {
-  return SERVICES.find((service) => service.slug === slug);
-}
-
-export function getFaqBySlug(slug: string) {
-  return FAQ_ITEMS.find((item) => item.slug === slug);
-}
-
-export function getNewsBySlug(slug: string) {
-  return NEWS_ITEMS.find((item) => item.slug === slug);
-}
