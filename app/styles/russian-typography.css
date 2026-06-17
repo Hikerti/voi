@@ -1,0 +1,106 @@
+/* Global Russian typography: whole-word headings and dictionary hyphenation in body copy. */
+
+html[lang="ru"] {
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+/* Headlines must never split a Russian word in the middle. */
+html[lang="ru"] :where(
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  legend,
+  .section-title,
+  .page-title,
+  .hero-title,
+  .lead-page__copy h1,
+  .lead-page__signal strong,
+  .faq-accordion__item strong,
+  .vs-stage h3,
+  .vs-price-card h3,
+  .vs-service-card h3,
+  .blog-card h2,
+  .related-content h3
+) {
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  -webkit-hyphens: none !important;
+  hyphens: none !important;
+  text-wrap: balance;
+}
+
+/* Paragraph text uses the browser Russian hyphenation dictionary when available. */
+html[lang="ru"] :where(
+  p,
+  li,
+  dd,
+  dt,
+  blockquote,
+  figcaption,
+  label,
+  .rich-content,
+  .vs-article__body,
+  .article-page__body,
+  .faq-accordion__answer,
+  .lead-page__copy,
+  .lead-page__signal
+) {
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  hyphenate-limit-chars: 7 3 3;
+  hyphenate-limit-lines: 2;
+  hyphenate-limit-zone: 8%;
+  text-wrap: pretty;
+  orphans: 2;
+  widows: 2;
+}
+
+/* Interface labels and controls stay intact and do not receive automatic hyphens. */
+html[lang="ru"] :where(
+  button,
+  input,
+  textarea,
+  select,
+  option,
+  nav,
+  .button,
+  .social-link,
+  .breadcrumbs,
+  .site-header-phone,
+  .section-kicker,
+  .vs-kicker
+) {
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  -webkit-hyphens: none !important;
+  hyphens: none !important;
+}
+
+/* Long technical strings may wrap anywhere so they never break the layout. */
+html[lang="ru"] :where(
+  code,
+  pre,
+  kbd,
+  samp,
+  a[href^="mailto:"],
+  a[href^="tel:"],
+  .contact-details dd,
+  .site-footer__contacts address
+) {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  -webkit-hyphens: none !important;
+  hyphens: none !important;
+}
+
+@media (max-width: 760px) {
+  html[lang="ru"] :where(h1, h2, h3, h4, h5, h6, legend) {
+    text-wrap: balance;
+  }
+}
