@@ -1,0 +1,116 @@
+/* Unified social icons and updated contact details. */
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.social-link {
+  display: inline-flex;
+  min-width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(245, 245, 239, 0.78) !important;
+  text-decoration: none !important;
+  box-sizing: border-box;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.social-link:hover {
+  border-color: rgba(216, 255, 85, 0.42);
+  background: rgba(216, 255, 85, 0.08);
+  color: #d8ff55 !important;
+  transform: translateY(-2px);
+}
+
+.social-link:focus-visible {
+  outline: 2px solid #d8ff55;
+  outline-offset: 3px;
+}
+
+.social-link__icon {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  place-items: center;
+}
+
+.social-link__icon svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.social-link__label {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.site-footer__socials.social-links {
+  gap: 8px;
+}
+
+.site-footer__socials .social-link {
+  width: 42px;
+  padding: 0;
+}
+
+.site-footer__contacts address strong {
+  color: #f5f5ef;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.site-footer__visit-note {
+  max-width: 310px;
+  color: rgba(216, 255, 85, 0.72);
+  font-size: 12px;
+}
+
+.contact-socials {
+  margin-top: 24px;
+}
+
+.contact-socials .social-link {
+  min-width: 0;
+}
+
+.contacts-page--clean .contact-details dd {
+  overflow-wrap: anywhere;
+}
+
+.contacts-page--clean .contact-details div:has(dt:first-child) dd {
+  color: rgba(245, 245, 239, 0.78);
+}
+
+@media (max-width: 620px) {
+  .contact-socials .social-link {
+    width: 42px;
+    padding: 0;
+  }
+
+  .contact-socials .social-link__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
