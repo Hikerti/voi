@@ -66,6 +66,8 @@ const FALLBACK_IMAGES = [
   "/images/blog/seo-thumb.jpg",
 ];
 
+const WEBSITE_SERVICE_SLUGS = new Set(["landing-page", "corporate-site", "support"]);
+
 async function fetchCms<T>(path: string): Promise<T | null> {
   try {
     const controller = new AbortController();
@@ -90,12 +92,13 @@ function serviceImage(service: ApiService, index = 0) {
 
 function mapService(service: ApiService, index = 0): ServiceItem {
   const related = service.relatedServices?.map((item) => item.slug) ?? [];
+  const isWebsiteService = WEBSITE_SERVICE_SLUGS.has(service.slug);
 
   return {
     slug: service.slug,
     title: service.title,
-    category: service.category?.slug || "digital",
-    categoryLabel: service.category?.title || undefined,
+    category: isWebsiteService ? "sites" : service.category?.slug || "digital",
+    categoryLabel: isWebsiteService ? "Сайты" : service.category?.title || undefined,
     price: [service.pricePrefix, service.price].filter(Boolean).join(" ") || "по запросу",
     pricePrefix: service.pricePrefix || undefined,
     summary: service.summary,
