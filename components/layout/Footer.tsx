@@ -1,12 +1,6 @@
 import Link from "next/link";
+import SocialLinks from "@/components/social/SocialLinks";
 import { FOOTER_NAV, SITE } from "@/lib/constants";
-
-const SOCIAL_LINKS = [
-  { label: "Telegram", href: SITE.telegram },
-  { label: "WhatsApp", href: SITE.whatsapp },
-  { label: "VK", href: SITE.vk },
-  { label: "MAX", href: SITE.max },
-].filter((item): item is { label: string; href: string } => Boolean(item.href));
 
 export default function Footer() {
   const hasRequisites = Boolean(SITE.inn || SITE.ogrn);
@@ -39,23 +33,14 @@ export default function Footer() {
         <div className="site-footer__contacts">
           <h2>Контакты</h2>
           <address>
+            <strong>{SITE.legalName}</strong>
             <a href={SITE.phoneHref}>{SITE.phone}</a>
-            {SITE.secondaryPhone && SITE.secondaryPhoneHref && (
-              <a href={SITE.secondaryPhoneHref}>{SITE.secondaryPhone}</a>
-            )}
             <a href={SITE.emailHref}>{SITE.email}</a>
             <span>{SITE.workHours}</span>
             <span>{SITE.address}</span>
+            <span className="site-footer__visit-note">{SITE.visitNote}</span>
           </address>
-          {SOCIAL_LINKS.length > 0 && (
-            <div className="site-footer__socials" aria-label="Социальные сети и мессенджеры">
-              {SOCIAL_LINKS.map((item) => (
-                <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer">
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          )}
+          <SocialLinks className="site-footer__socials" />
         </div>
       </div>
 
@@ -63,7 +48,8 @@ export default function Footer() {
 
       <div className="site-footer__bottom">
         <p>© {new Date().getFullYear()} {SITE.name}. Все права защищены.</p>
-        {hasRequisites && <p>{[SITE.inn, SITE.ogrn].filter(Boolean).join(" · ")}</p>}
+        <p>{SITE.legalName}</p>
+        {hasRequisites && <p>ИНН {SITE.inn} · ОГРН {SITE.ogrn}</p>}
         <p>Информация на сайте не является публичной офертой.</p>
       </div>
     </footer>
