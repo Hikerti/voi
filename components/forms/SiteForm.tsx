@@ -109,7 +109,9 @@ export default function SiteForm({
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [serverError, setServerError] = useState("");
+  const [consentChecked, setConsentChecked] = useState(false);
   const startedAtRef = useRef(new Date().toISOString());
+  const consentRef = useRef<HTMLInputElement>(null);
 
   const showName = !compact || variant !== "general";
   const showPhone = variant === "general" || variant === "callback" || variant === "contact";
@@ -123,6 +125,7 @@ export default function SiteForm({
   const validationMessages = Array.from(new Set(Object.values(errors).filter(Boolean)));
   const successTitle = SUCCESS_TITLES[variant];
   const successMessage = SUCCESS_MESSAGES[variant];
+  const consentId = `${source}-${variant}-consent`;
 
   function validate(formData: FormData) {
     const nextErrors: FieldErrors = {};
@@ -143,6 +146,22 @@ export default function SiteForm({
     return nextErrors;
   }
 
+  function handleConsentChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const checked = event.target.checked;
+    setConsentChecked(checked);
+    setServerError("");
+
+    if (status === "error") setStatus("idle");
+
+    if (checked) {
+      setErrors((current) => {
+        if (!current.consent) return current;
+        const { consent: _consent, ...rest } = current;
+        return rest;
+      });
+    }
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
@@ -153,6 +172,10 @@ export default function SiteForm({
       setErrors(nextErrors);
       setServerError("");
       setStatus("idle");
+
+      if (nextErrors.consent) {
+        window.requestAnimationFrame(() => consentRef.current?.focus());
+      }
       return;
     }
 
@@ -175,6 +198,7 @@ export default function SiteForm({
     try {
       await submitLead(payload, variant);
       form.reset();
+      setConsentChecked(false);
       startedAtRef.current = new Date().toISOString();
       setStatus("success");
       trackGoal("lead_form_submit", { source, variant });
@@ -194,89 +218,99 @@ export default function SiteForm({
         <fieldset disabled={status === "loading"}>
           <legend>{title}</legend>
 
-        {validationMessages.length > 0 && (
-          <div className="vs-form__error-summary" role="alert">
-            <strong>Проверьте форму</strong>
-            <ul>
-              {validationMessages.map((message) => <li key={message}>{message}</li>)}
-            </ul>
+          {validationMessages.length > 0 && (
+            <div className="vs-form__error-summary" role="alert">
+              <strong>Проверьте форму</strong>
+              <ul>
+                {validationMessages.map((message) => <li key={message}>{message}</li>)}
+              </ul>
+            </div>
+          )}
+
+          <div className="vs-form__honeypot" aria-hidden="true">
+            <label htmlFor={`${source}-company`}>Компания</label>
+            <input id={`${source}-company`} name="company" type="text" tabIndex={-1} autoComplete="off" />
           </div>
-        )}
 
-        <div className="vs-form__honeypot" aria-hidden="true">
-          <label htmlFor={`${source}-company`}>Компания</label>
-          <input id={`${source}-company`} name="company" type="text" tabIndex={-1} autoComplete="off" />
-        </div>
+          {showName && (
+            <label className="vs-form__field">
+              <span>Имя{nameRequired ? " *" : ""}</span>
+              <input
+                name="name"
+                type="text"
+                autoComplete="name"
+                aria-invalid={Boolean(errors.name)}
+                aria-describedby={errors.name ? `${source}-name-error` : undefined}
+                required={nameRequired}
+              />
+              {errors.name && <small id={`${source}-name-error`}>{errors.name}</small>}
+            </label>
+          )}
 
-        {showName && (
-          <label className="vs-form__field">
-            <span>Имя{nameRequired ? " *" : ""}</span>
+          {showPhone && (
+            <label className="vs-form__field">
+              <span>Телефон{phoneRequired ? " *" : ""}</span>
+              <input
+                name="phone"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                aria-invalid={Boolean(errors.phone)}
+                aria-describedby={errors.phone ? `${source}-phone-error` : undefined}
+                required={phoneRequired}
+              />
+              {errors.phone && <small id={`${source}-phone-error`}>{errors.phone}</small>}
+            </label>
+          )}
+
+          {showEmail && (
+            <label className="vs-form__field">
+              <span>Email{emailRequired ? " *" : ""}</span>
+              <input
+                name="email"
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                aria-invalid={Boolean(errors.email)}
+                aria-describedby={errors.email ? `${source}-email-error` : undefined}
+                required={emailRequired}
+              />
+              {errors.email && <small id={`${source}-email-error`}>{errors.email}</small>}
+            </label>
+          )}
+
+          {showMessage && (
+            <label className="vs-form__field">
+              <span>{messageLabel}{messageRequired ? " *" : ""}</span>
+              <textarea
+                name="message"
+                rows={5}
+                aria-invalid={Boolean(errors.message)}
+                aria-describedby={errors.message ? `${source}-message-error` : undefined}
+                required={messageRequired}
+              />
+              {errors.message && <small id={`${source}-message-error`}>{errors.message}</small>}
+            </label>
+          )}
+
+          <label className="vs-form__consent" htmlFor={consentId}>
             <input
-              name="name"
-              type="text"
-              autoComplete="name"
-              aria-invalid={Boolean(errors.name)}
-              aria-describedby={errors.name ? `${source}-name-error` : undefined}
-              required={nameRequired}
+              ref={consentRef}
+              id={consentId}
+              name="consent"
+              type="checkbox"
+              checked={consentChecked}
+              onChange={handleConsentChange}
+              aria-invalid={Boolean(errors.consent)}
+              aria-describedby={errors.consent ? `${consentId}-error` : undefined}
+              required
             />
-            {errors.name && <small id={`${source}-name-error`}>{errors.name}</small>}
+            <span>
+              Нажимая кнопку «{submitLabel}», я даю согласие на обработку персональных данных и принимаю{" "}
+              <Link href={SITE.privacy}>политику конфиденциальности</Link>.
+            </span>
           </label>
-        )}
-
-        {showPhone && (
-          <label className="vs-form__field">
-            <span>Телефон{phoneRequired ? " *" : ""}</span>
-            <input
-              name="phone"
-              type="tel"
-              inputMode="tel"
-              autoComplete="tel"
-              aria-invalid={Boolean(errors.phone)}
-              aria-describedby={errors.phone ? `${source}-phone-error` : undefined}
-              required={phoneRequired}
-            />
-            {errors.phone && <small id={`${source}-phone-error`}>{errors.phone}</small>}
-          </label>
-        )}
-
-        {showEmail && (
-          <label className="vs-form__field">
-            <span>Email{emailRequired ? " *" : ""}</span>
-            <input
-              name="email"
-              type="email"
-              inputMode="email"
-              autoComplete="email"
-              aria-invalid={Boolean(errors.email)}
-              aria-describedby={errors.email ? `${source}-email-error` : undefined}
-              required={emailRequired}
-            />
-            {errors.email && <small id={`${source}-email-error`}>{errors.email}</small>}
-          </label>
-        )}
-
-        {showMessage && (
-          <label className="vs-form__field">
-            <span>{messageLabel}{messageRequired ? " *" : ""}</span>
-            <textarea
-              name="message"
-              rows={5}
-              aria-invalid={Boolean(errors.message)}
-              aria-describedby={errors.message ? `${source}-message-error` : undefined}
-              required={messageRequired}
-            />
-            {errors.message && <small id={`${source}-message-error`}>{errors.message}</small>}
-          </label>
-        )}
-
-        <label className="vs-form__consent">
-          <input name="consent" type="checkbox" aria-invalid={Boolean(errors.consent)} required />
-          <span>
-            Нажимая кнопку «{submitLabel}», я даю согласие на обработку персональных данных и принимаю{" "}
-            <Link href={SITE.privacy}>политику конфиденциальности</Link>.
-          </span>
-        </label>
-        {errors.consent && <small className="vs-form__field-error">{errors.consent}</small>}
+          {errors.consent && <small id={`${consentId}-error`} className="vs-form__field-error">{errors.consent}</small>}
 
           <div className="vs-form__status" aria-live="polite">
             {status === "success" && <p className="vs-form__success">{successMessage}</p>}
