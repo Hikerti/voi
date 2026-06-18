@@ -172,9 +172,10 @@
     text-wrap: balance !important;
   }
 
-  /* Article detail and related articles align with the header instead of the old 16px gutter. */
+  /* Article detail, related articles and the final CTA align with the header. */
   .article-page__inner,
-  .article-page .related-content {
+  .article-page .related-content,
+  body:has(.article-page) .decision-cta {
     width: calc(100% - (2 * var(--mobile-content-gutter))) !important;
     max-width: var(--mobile-content-width) !important;
     margin-right: auto !important;
