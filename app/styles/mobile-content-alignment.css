@@ -35,10 +35,14 @@
 
   .contacts-page--clean .contacts-page__hero,
   .contacts-page--clean .contacts-page__layout,
+  .contacts-page--clean .contacts-page__panel,
+  .contacts-page--clean .vs-form,
   .contacts-page--clean .contacts-page__map-card {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
     box-sizing: border-box !important;
   }
 
