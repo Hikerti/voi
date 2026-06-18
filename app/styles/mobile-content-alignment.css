@@ -193,6 +193,16 @@
     box-sizing: border-box !important;
   }
 
+  .article-page__media {
+    margin: 28px auto 0 !important;
+    justify-self: center !important;
+  }
+
+  .article-page__media img {
+    margin-right: auto !important;
+    margin-left: auto !important;
+  }
+
   .article-page__header h1,
   .article-page .related-content h2 {
     max-width: 100% !important;
