@@ -1,70 +1,38 @@
-/* Experimental rotating orbit behind every home hero slide. */
+/* Experimental rotating circle behind every home hero slide. */
 
 .home-ref__orbit {
-  --orbit-size: min(44vw, 660px);
-  --orbit-color: rgba(157, 85, 255, 0.34);
-  --orbit-accent: #d8ff55;
+  --orbit-size: min(38vw, 570px);
+  --orbit-color: rgba(157, 85, 255, 0.3);
   position: absolute;
   z-index: 0;
-  top: 50%;
-  left: 50%;
+  top: 36%;
+  left: 35%;
   width: var(--orbit-size);
   aspect-ratio: 1;
   border: 2px dashed var(--orbit-color);
   border-radius: 50%;
-  opacity: 0.82;
+  opacity: 0.76;
   transform: translate(-50%, -50%) rotate(0deg);
   animation: homeRefOrbitSpin 18s linear infinite;
   animation-play-state: paused;
   pointer-events: none;
-  filter: drop-shadow(0 0 18px rgba(157, 85, 255, 0.12));
   will-change: transform;
 }
 
-.home-ref__orbit::before,
-.home-ref__orbit::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-}
-
-.home-ref__orbit::before {
-  top: 8%;
-  left: 19%;
-  width: 13px;
-  height: 13px;
-  border: 2px solid var(--orbit-accent);
-  background: rgba(248, 248, 246, 0.82);
-  transform: rotate(45deg);
-  box-shadow: 0 0 18px rgba(216, 255, 85, 0.28);
-}
-
-.home-ref__orbit::after {
-  right: 8%;
-  bottom: 18%;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--orbit-accent);
-  box-shadow:
-    0 0 0 6px rgba(216, 255, 85, 0.1),
-    0 0 22px rgba(216, 255, 85, 0.34);
-}
-
 .home-ref__scene--runner {
-  --orbit-size: min(45vw, 680px);
+  --orbit-size: min(40vw, 600px);
 }
 
 .home-ref__scene--wrench {
-  --orbit-size: min(41vw, 620px);
+  --orbit-size: min(36vw, 540px);
 }
 
 .home-ref__scene--phone {
-  --orbit-size: min(42vw, 630px);
+  --orbit-size: min(37vw, 555px);
 }
 
 .home-ref__scene--paper {
-  --orbit-size: min(40vw, 600px);
+  --orbit-size: min(35vw, 525px);
 }
 
 .home-ref[data-active="0"] .home-ref__scene--runner .home-ref__orbit,
@@ -86,18 +54,14 @@
   .home-ref__scene--wrench,
   .home-ref__scene--phone,
   .home-ref__scene--paper {
-    --orbit-size: min(86vw, 410px);
+    --orbit-size: min(72vw, 340px);
   }
 
   .home-ref__orbit {
-    top: 49%;
+    top: 35%;
+    left: 32%;
     border-width: 1.5px;
-    opacity: 0.72;
-  }
-
-  .home-ref__orbit::before {
-    width: 10px;
-    height: 10px;
+    opacity: 0.68;
   }
 }
 
