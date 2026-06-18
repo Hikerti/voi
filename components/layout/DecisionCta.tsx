@@ -15,7 +15,11 @@ export default function DecisionCta() {
   if (HIDDEN_ROUTES.includes(pathname) || hasOwnFinalAction(pathname)) return null;
 
   return (
-    <section className="decision-cta" aria-labelledby="decision-cta-title">
+    <section
+      className="decision-cta"
+      aria-labelledby="decision-cta-title"
+      style={{ boxSizing: "border-box" }}
+    >
       <div>
         <p className="section-kicker">следующий шаг</p>
         <h2 id="decision-cta-title">Обсудим задачу и предложим понятный формат запуска</h2>
@@ -25,8 +29,20 @@ export default function DecisionCta() {
         </p>
       </div>
       <div className="decision-cta__actions">
-        <Link href="/zayavka" className="button button--accent">Оставить заявку</Link>
-        <Link href="/contacts" className="button button--ghost">Контакты</Link>
+        <Link
+          href="/zayavka"
+          className="button button--accent"
+          style={{ boxSizing: "border-box" }}
+        >
+          Оставить заявку
+        </Link>
+        <Link
+          href="/contacts"
+          className="button button--ghost"
+          style={{ boxSizing: "border-box" }}
+        >
+          Контакты
+        </Link>
       </div>
     </section>
   );
