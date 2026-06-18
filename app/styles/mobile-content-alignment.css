@@ -1,0 +1,202 @@
+/* Mobile-only alignment fixes. Keep page content on the same vertical lines as the header. */
+
+@media (max-width: 760px) {
+  :root {
+    --mobile-content-gutter: 24px;
+    --mobile-content-width: 520px;
+  }
+
+  /* Portfolio case hero: center the long project preview and match the header width. */
+  body:has(.project-detail-page) .case-hero-hider {
+    width: calc(100% - (2 * var(--mobile-content-gutter))) !important;
+    max-width: var(--mobile-content-width) !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    padding: 128px 0 38px !important;
+    box-sizing: border-box !important;
+  }
+
+  body:has(.project-detail-page) .case-hero-raboti {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    background-position: center top !important;
+  }
+
+  /* Contacts: the page, form and map use the same 24px side gutters as the header. */
+  .route-frame > .contacts-page--clean {
+    width: calc(100% - (2 * var(--mobile-content-gutter))) !important;
+    max-width: var(--mobile-content-width) !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .contacts-page--clean .contacts-page__hero,
+  .contacts-page--clean .contacts-page__layout,
+  .contacts-page--clean .contacts-page__map-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .contacts-page__map-overlay {
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .contacts-page__route-button {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding-right: 16px !important;
+    padding-left: 16px !important;
+    white-space: normal !important;
+    text-align: center;
+    box-sizing: border-box !important;
+  }
+
+  /* Privacy: remove the double mobile inset and allow the long heading to wrap. */
+  .route-frame > .privacy-page {
+    width: calc(100% - (2 * var(--mobile-content-gutter))) !important;
+    max-width: var(--mobile-content-width) !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .privacy-page__article,
+  .privacy-page__intro,
+  .privacy-page__body {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .privacy-page__title {
+    max-width: 100% !important;
+    font-size: clamp(30px, 8.4vw, 40px) !important;
+    line-height: 1.04 !important;
+    letter-spacing: -0.025em !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    hyphens: auto !important;
+    text-wrap: balance !important;
+  }
+
+  /* About and the service-category pages share the same figure/text layout. */
+  .route-frame > .about-page-clean,
+  .route-frame > .service-detail-page:not(.vs-page-shell) {
+    width: calc(100% - (2 * var(--mobile-content-gutter))) !important;
+    max-width: var(--mobile-content-width) !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    padding: 156px 0 54px !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+  }
+
+  .about-page-clean__layout,
+  .service-detail-page:not(.vs-page-shell) .service-detail-page__layout {
+    width: 100% !important;
+    max-width: 100% !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 28px !important;
+    box-sizing: border-box !important;
+  }
+
+  .about-page-clean__visual,
+  .service-detail-page:not(.vs-page-shell) .service-detail-page__visual {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 210px !important;
+    margin: 0 !important;
+    padding: 18px 0 10px !important;
+    box-sizing: border-box !important;
+  }
+
+  .about-page-clean__content,
+  .service-detail-page:not(.vs-page-shell) .service-detail-page__content,
+  .about-page-clean__text,
+  .service-detail-page:not(.vs-page-shell) .service-detail-page__copy {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .about-page-clean__content h1 {
+    max-width: 100% !important;
+    font-size: clamp(38px, 11vw, 52px) !important;
+    line-height: 1.02 !important;
+  }
+
+  .about-page-clean__text p,
+  .service-detail-page:not(.vs-page-shell) .service-detail-page__copy > p {
+    max-width: 100% !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: auto !important;
+  }
+
+  /* Service pages: prevent a second inset and give the related heading normal rhythm. */
+  .route-frame > .service-detail-page.vs-page-shell > :not(script) {
+    width: calc(100% - (2 * var(--mobile-content-gutter))) !important;
+    max-width: var(--mobile-content-width) !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .service-detail-page.vs-page-shell .vs-related,
+  .service-detail-page.vs-page-shell .vs-related-grid,
+  .service-detail-page.vs-page-shell .vs-related-card {
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .service-detail-page.vs-page-shell .vs-related > h2 {
+    max-width: 100% !important;
+    margin: 10px 0 24px !important;
+    font-size: clamp(30px, 9vw, 42px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.025em !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: auto !important;
+    text-wrap: balance !important;
+  }
+
+  /* Article detail and related articles align with the header instead of the old 16px gutter. */
+  .article-page__inner,
+  .article-page .related-content {
+    width: calc(100% - (2 * var(--mobile-content-gutter))) !important;
+    max-width: var(--mobile-content-width) !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .article-page__header,
+  .article-page__media,
+  .article-page__body,
+  .article-page .related-content > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .article-page__header h1,
+  .article-page .related-content h2 {
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    hyphens: auto !important;
+  }
+}
