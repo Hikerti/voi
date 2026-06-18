@@ -30,6 +30,7 @@ import "./styles/lead-page-layout-polish.css";
 import "./styles/yandex-map-links.css";
 import "./styles/portfolio-title-wrap-fix.css";
 import "./styles/form-consent-fix.css";
+import "./styles/mobile-content-alignment.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
