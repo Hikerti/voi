@@ -33,8 +33,17 @@
     box-sizing: border-box !important;
   }
 
-  .contacts-page--clean .contacts-page__hero,
-  .contacts-page--clean .contacts-page__layout,
+  /* Override the generic direct-child mobile rule that was applying a second 24px inset. */
+  .route-frame > .contacts-page--clean > .contacts-page__hero,
+  .route-frame > .contacts-page--clean > .contacts-page__layout {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    box-sizing: border-box !important;
+  }
+
   .contacts-page--clean .contacts-page__panel,
   .contacts-page--clean .vs-form,
   .contacts-page--clean .contacts-page__map-card {
