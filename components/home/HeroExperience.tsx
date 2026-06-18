@@ -56,6 +56,7 @@ function Scene({ item }: { item: HeroItem }) {
   return (
     <div className={`home-ref__scene home-ref__scene--${item.visual}`} aria-hidden="true">
       <span className="home-ref__code">590105</span>
+      <span className="home-ref__orbit" />
       <span className="home-ref__shape" style={assetStyle(item.shape)} />
       <span
         className="home-ref__asset home-ref__asset--left"
