@@ -1,4 +1,4 @@
-/* Final placement for the fixed catalog and flat service-page backgrounds. */
+/* Final placement for the fixed catalog and service-page glow. */
 
 @media (min-width: 981px) {
   .service-catalog-fixed {
@@ -29,12 +29,74 @@ body:has(.services-page) .route-frame::before,
 body:has(.services-page) .route-frame::after,
 body:has(.service-detail-page) .route-frame::before,
 body:has(.service-detail-page) .route-frame::after,
-body:has(.services-page) .services-page::before,
-body:has(.services-page) .services-page::after,
-body:has(.service-detail-page) .service-detail-page::before,
-body:has(.service-detail-page) .service-detail-page::after,
 body:has(.service-detail-page) .vs-detail-hero::before,
 body:has(.service-detail-page) .vs-detail-hero::after {
   display: none !important;
   content: none !important;
+}
+
+/* Localized glow only: the base remains flat and dark. */
+.services-page,
+.service-detail-page {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.services-page::before,
+.services-page::after,
+.service-detail-page::before,
+.service-detail-page::after {
+  content: "" !important;
+  position: absolute;
+  z-index: -1;
+  display: block !important;
+  width: clamp(360px, 42vw, 720px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0.72;
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.services-page::before,
+.service-detail-page::before {
+  top: 40px;
+  left: clamp(-360px, -20vw, -170px);
+  background: radial-gradient(circle, rgba(216, 255, 85, 0.16) 0%, rgba(216, 255, 85, 0.07) 38%, transparent 72%);
+}
+
+.services-page::after,
+.service-detail-page::after {
+  top: 180px;
+  right: clamp(-390px, -22vw, -190px);
+  background: radial-gradient(circle, rgba(157, 85, 255, 0.18) 0%, rgba(157, 85, 255, 0.08) 40%, transparent 72%);
+}
+
+.services-page > *,
+.service-detail-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 760px) {
+  .services-page::before,
+  .services-page::after,
+  .service-detail-page::before,
+  .service-detail-page::after {
+    width: 420px;
+    opacity: 0.58;
+  }
+
+  .services-page::before,
+  .service-detail-page::before {
+    top: 80px;
+    left: -300px;
+  }
+
+  .services-page::after,
+  .service-detail-page::after {
+    top: 360px;
+    right: -320px;
+  }
 }
