@@ -96,6 +96,32 @@ body:has(.service-detail-page) .vs-detail-hero::after {
   transform: rotate(225deg);
 }
 
+/* Subcategories expand inside the catalog instead of covering the page content. */
+.service-page-intro .catalog-menu__children,
+.service-page-intro .catalog-menu__branch:not(.is-expanded):hover > .catalog-menu__children,
+.service-page-intro .catalog-menu__branch:not(.is-expanded):focus-within > .catalog-menu__children {
+  position: static !important;
+  display: none !important;
+  width: auto !important;
+  margin: 3px 0 5px 12px !important;
+  padding: 2px 0 2px 8px !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(216, 255, 85, 0.22) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+.service-page-intro .catalog-menu__branch.is-expanded > .catalog-menu__children,
+.service-page-intro .catalog-menu__branch:hover > .catalog-menu__children,
+.service-page-intro .catalog-menu__branch:focus-within > .catalog-menu__children {
+  display: grid !important;
+}
+
 .service-page-intro__content,
 .service-page-intro > .vs-page-hero,
 .service-page-intro > .vs-detail-hero,
@@ -118,6 +144,62 @@ body:has(.service-detail-page) .vs-detail-hero::after {
   margin-right: auto !important;
   margin-left: auto !important;
   box-sizing: border-box !important;
+}
+
+/* Header nested menus also expand inside the first dropdown, avoiding overlap. */
+.header-nav__chevron {
+  display: block;
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  transform: rotate(45deg);
+  transform-origin: 50% 50%;
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
+}
+
+.header-nav__item:hover > a .header-nav__chevron,
+.header-nav__item:focus-within > a .header-nav__chevron {
+  transform: rotate(225deg);
+}
+
+.header-nav__dropdown:not(.header-nav__dropdown--nested) {
+  min-width: 270px;
+}
+
+.header-nav__dropdown .header-nav__dropdown--nested,
+.header-nav__dropdown .header-nav__item:hover > .header-nav__dropdown--nested,
+.header-nav__dropdown .header-nav__item:focus-within > .header-nav__dropdown--nested {
+  position: static !important;
+  display: none !important;
+  width: auto !important;
+  min-width: 0 !important;
+  margin: 3px 0 6px 10px !important;
+  padding: 2px 0 2px 8px !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(216, 255, 85, 0.2) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  transition: none !important;
+  pointer-events: auto !important;
+}
+
+.header-nav__dropdown .header-nav__item:hover > .header-nav__dropdown--nested,
+.header-nav__dropdown .header-nav__item:focus-within > .header-nav__dropdown--nested {
+  display: grid !important;
+}
+
+.header-nav__dropdown--nested::before {
+  display: none !important;
+  content: none !important;
 }
 
 /* Localized glow only: the base remains flat and dark. */
