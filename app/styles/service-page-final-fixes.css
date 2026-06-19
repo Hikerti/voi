@@ -50,8 +50,12 @@ body:has(.services-page) .vs-page-hero {
   background: transparent !important;
 }
 
+/* Preserve the original header positioning. Only raise its stacking order. */
 body:has(.services-page) .vs-site-header,
-body:has(.service-detail-page) .vs-site-header,
+body:has(.service-detail-page) .vs-site-header {
+  z-index: 1000 !important;
+}
+
 body:has(.services-page) .route-frame,
 body:has(.service-detail-page) .route-frame,
 body:has(.services-page) .services-page,
