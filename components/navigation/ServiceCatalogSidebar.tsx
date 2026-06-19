@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SERVICE_CATALOG_NAV, type NavigationItem } from "@/lib/navigation";
 
 function containsPath(item: NavigationItem, pathname: string): boolean {
@@ -10,123 +10,136 @@ function containsPath(item: NavigationItem, pathname: string): boolean {
   return item.children?.some((child) => containsPath(child, pathname)) ?? false;
 }
 
-function CurrentAwareLink({ item, pathname }: { item: NavigationItem; pathname: string }) {
+function CurrentAwareLink({
+  item,
+  pathname,
+  onNavigate,
+}: {
+  item: NavigationItem;
+  pathname: string;
+  onNavigate: () => void;
+}) {
   if (pathname === item.href) {
     return (
-      <span className="service-sidebar__current" aria-current="page">
+      <span className="catalog-menu__current" aria-current="page">
         {item.label}
       </span>
     );
   }
 
-  return <Link href={item.href}>{item.label}</Link>;
+  return (
+    <Link className="catalog-menu__link" href={item.href} onClick={onNavigate}>
+      {item.label}
+    </Link>
+  );
 }
 
 export default function ServiceCatalogSidebar() {
   const pathname = usePathname();
   const activeBranch =
     SERVICE_CATALOG_NAV.find((item) => containsPath(item, pathname))?.href ?? null;
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [catalogOpen, setCatalogOpen] = useState(pathname.startsWith("/services"));
   const [expandedBranch, setExpandedBranch] = useState<string | null>(activeBranch);
 
+  useEffect(() => {
+    if (pathname.startsWith("/services")) setCatalogOpen(true);
+    if (activeBranch) setExpandedBranch(activeBranch);
+  }, [activeBranch, pathname]);
+
+  const closeAfterNavigate = () => {
+    if (window.matchMedia("(max-width: 980px)").matches) setCatalogOpen(false);
+  };
+
   return (
-    <>
+    <div className={`service-catalog-fixed${catalogOpen ? " is-open" : ""}`}>
       <button
         type="button"
-        className="service-sidebar-toggle"
-        aria-expanded={drawerOpen}
-        aria-controls="service-catalog-sidebar"
-        onClick={() => setDrawerOpen((open) => !open)}
+        className="service-catalog-fixed__toggle"
+        aria-expanded={catalogOpen}
+        aria-controls="service-catalog-fixed-panel"
+        onClick={() => setCatalogOpen((open) => !open)}
       >
         <span>Каталог услуг</span>
-        <span aria-hidden="true">{drawerOpen ? "Закрыть" : "Открыть"}</span>
+        <span className="service-catalog-fixed__chevron" aria-hidden="true">⌄</span>
       </button>
 
-      {drawerOpen && (
-        <button
-          type="button"
-          className="service-sidebar-backdrop"
-          aria-label="Закрыть каталог услуг"
-          onClick={() => setDrawerOpen(false)}
-        />
-      )}
-
       <aside
-        id="service-catalog-sidebar"
-        className={`service-sidebar${drawerOpen ? " is-open" : ""}`}
+        id="service-catalog-fixed-panel"
+        className="service-catalog-fixed__panel"
         aria-label="Каталог услуг"
+        aria-hidden={!catalogOpen}
       >
-        <div className="service-sidebar__inner">
-          <div className="service-sidebar__head">
-            <p>Каталог услуг</p>
-            <button type="button" onClick={() => setDrawerOpen(false)} aria-label="Закрыть меню">
-              ×
-            </button>
-          </div>
+        <nav aria-label="Разделы каталога услуг">
+          <ul className="catalog-menu__list">
+            <li className={pathname === "/services" ? "is-current" : ""}>
+              <CurrentAwareLink
+                item={{ href: "/services", label: "Все услуги" }}
+                pathname={pathname}
+                onNavigate={closeAfterNavigate}
+              />
+            </li>
 
-          <nav aria-label="Разделы каталога услуг">
-            <ul className="service-sidebar__list">
-              <li className={pathname === "/services" ? "is-current" : ""}>
-                <CurrentAwareLink
-                  item={{ href: "/services", label: "Все услуги" }}
-                  pathname={pathname}
-                />
-              </li>
+            {SERVICE_CATALOG_NAV.map((item) => {
+              const branchActive = containsPath(item, pathname);
+              const branchExpanded = expandedBranch === item.href || branchActive;
+              const hasChildren = Boolean(item.children?.length);
 
-              {SERVICE_CATALOG_NAV.map((item) => {
-                const branchActive = containsPath(item, pathname);
-                const branchExpanded = expandedBranch === item.href || branchActive;
-                const hasChildren = Boolean(item.children?.length);
-
-                return (
-                  <li
-                    key={item.href}
-                    className={[
-                      "service-sidebar__branch",
-                      branchActive ? "is-active" : "",
-                      branchExpanded ? "is-expanded" : "",
-                      pathname === item.href ? "is-current" : "",
-                    ]
-                      .filter(Boolean)
-                      .join(" ")}
-                  >
-                    <div className="service-sidebar__row">
-                      <CurrentAwareLink item={item} pathname={pathname} />
-                      {hasChildren && (
-                        <button
-                          type="button"
-                          aria-expanded={branchExpanded}
-                          aria-label={`${branchExpanded ? "Свернуть" : "Развернуть"} ${item.label}`}
-                          onClick={() =>
-                            setExpandedBranch((current) =>
-                              current === item.href ? null : item.href,
-                            )
-                          }
-                        >
-                          <span aria-hidden="true">›</span>
-                        </button>
-                      )}
-                    </div>
-
+              return (
+                <li
+                  key={item.href}
+                  className={[
+                    "catalog-menu__branch",
+                    branchActive ? "is-active" : "",
+                    branchExpanded ? "is-expanded" : "",
+                    pathname === item.href ? "is-current" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                >
+                  <div className="catalog-menu__row">
+                    <CurrentAwareLink
+                      item={item}
+                      pathname={pathname}
+                      onNavigate={closeAfterNavigate}
+                    />
                     {hasChildren && (
-                      <ul className="service-sidebar__children">
-                        {item.children!.map((child) => (
-                          <li
-                            key={child.href}
-                            className={pathname === child.href ? "is-current" : ""}
-                          >
-                            <CurrentAwareLink item={child} pathname={pathname} />
-                          </li>
-                        ))}
-                      </ul>
+                      <button
+                        type="button"
+                        aria-expanded={branchExpanded}
+                        aria-label={`${branchExpanded ? "Свернуть" : "Развернуть"} ${item.label}`}
+                        onClick={() =>
+                          setExpandedBranch((current) =>
+                            current === item.href && !branchActive ? null : item.href,
+                          )
+                        }
+                      >
+                        <span aria-hidden="true">›</span>
+                      </button>
                     )}
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-        </div>
+                  </div>
+
+                  {hasChildren && (
+                    <ul className="catalog-menu__children">
+                      {item.children!.map((child) => (
+                        <li
+                          key={child.href}
+                          className={pathname === child.href ? "is-current" : ""}
+                        >
+                          <CurrentAwareLink
+                            item={child}
+                            pathname={pathname}
+                            onNavigate={closeAfterNavigate}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
       </aside>
-    </>
+    </div>
   );
 }
