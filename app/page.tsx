@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+import "./styles/home-heading-layout.css";
+import "./styles/home-reviews-layout.css";
+import "./styles/home-faq-layout.css";
+import "./styles/home-form-project-heading.css";
 import HeroExperience from "@/components/home/HeroExperience";
 import IntroSection from "@/components/home/IntroSection";
 import StudioSection from "@/components/home/StudioSection";
