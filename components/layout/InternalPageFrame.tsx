@@ -20,7 +20,7 @@ export default function InternalPageFrame({ children }: { children: ReactNode })
 
   return (
     <div className="internal-page-frame">
-      <ServiceCatalogSidebar />
+      <ServiceCatalogSidebar key={pathname} />
       <div className="internal-page-frame__content">
         <div className="route-frame">
           <Breadcrumbs />
