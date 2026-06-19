@@ -1,0 +1,82 @@
+/* Final service-page alignment and full-viewport glow overrides. */
+
+html:has(.services-page),
+html:has(.service-detail-page),
+body:has(.services-page),
+body:has(.service-detail-page) {
+  background-color: #07080b !important;
+}
+
+body:has(.services-page),
+body:has(.service-detail-page) {
+  background-image:
+    radial-gradient(circle at 4% 34%, rgba(216, 255, 85, 0.14) 0, rgba(216, 255, 85, 0.06) 18%, transparent 42%),
+    radial-gradient(circle at 94% 42%, rgba(157, 85, 255, 0.17) 0, rgba(157, 85, 255, 0.07) 20%, transparent 44%) !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+  background-attachment: fixed !important;
+}
+
+body:has(.services-page) .route-frame,
+body:has(.service-detail-page) .route-frame,
+body:has(.services-page) .services-page,
+body:has(.service-detail-page) .service-detail-page,
+body:has(.service-detail-page) .vs-detail-hero,
+body:has(.services-page) .vs-page-hero {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+.services-page::before,
+.services-page::after,
+.service-detail-page::before,
+.service-detail-page::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Keep the intro text attached to the top edge of the catalog column. */
+.service-page-intro {
+  align-items: start !important;
+}
+
+.service-page-intro > .service-page-intro__content,
+.service-page-intro > .vs-page-hero,
+.service-page-intro > .vs-detail-hero,
+.service-page-intro > .service-detail-page__layout {
+  align-self: start !important;
+  min-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.service-page-intro > .vs-page-hero,
+.service-page-intro > .vs-detail-hero {
+  align-items: start !important;
+}
+
+.service-page-intro > .vs-page-hero > div,
+.service-page-intro > .vs-detail-hero > div,
+.service-page-intro__content > div:first-child,
+.service-page-intro--category .service-detail-page__content,
+.service-page-intro--category .service-detail-page__copy {
+  align-self: start !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.service-page-intro .vs-kicker,
+.service-page-intro .section-kicker,
+.service-page-intro .service-detail-page__copy > h2:first-child {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 760px) {
+  body:has(.services-page),
+  body:has(.service-detail-page) {
+    background-image:
+      radial-gradient(circle at -28% 24%, rgba(216, 255, 85, 0.13) 0, transparent 48%),
+      radial-gradient(circle at 128% 52%, rgba(157, 85, 255, 0.15) 0, transparent 48%) !important;
+    background-attachment: scroll !important;
+  }
+}
