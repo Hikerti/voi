@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import "../../styles/service-related-layout.css";
 import SiteForm from "@/components/forms/SiteForm";
+import ServiceCatalogSidebar from "@/components/navigation/ServiceCatalogSidebar";
 import StructuredData from "@/components/seo/StructuredData";
 import { SERVICES } from "@/lib/site-data";
 import { getCmsServiceBySlug, getCmsServices } from "@/lib/cms-api";
@@ -62,20 +63,24 @@ export default async function ServicePage({ params }: ServicePageProps) {
     <main className="vs-page-shell vs-page-shell--dark service-detail-page">
       <StructuredData data={serviceJsonLd} />
 
-      <section className="vs-detail-hero" aria-labelledby="service-title">
-        <div>
-          <p className="vs-kicker">услуга</p>
-          <h1 id="service-title">{service.title}</h1>
-          <p>{service.description}</p>
-          <strong><small>Цена </small>{service.price}</strong>
-        </div>
-        <div
-          className="vs-detail-media"
-          style={{ backgroundImage: `url('${service.image}')` }}
-          role="img"
-          aria-label={`${service.title} — иллюстрация услуги`}
-        />
-      </section>
+      <div className="service-page-intro">
+        <ServiceCatalogSidebar />
+
+        <section className="vs-detail-hero service-page-intro__content" aria-labelledby="service-title">
+          <div>
+            <p className="vs-kicker">услуга</p>
+            <h1 id="service-title">{service.title}</h1>
+            <p>{service.description}</p>
+            <strong><small>Цена </small>{service.price}</strong>
+          </div>
+          <div
+            className="vs-detail-media"
+            style={{ backgroundImage: `url('${service.image}')` }}
+            role="img"
+            aria-label={`${service.title} — иллюстрация услуги`}
+          />
+        </section>
+      </div>
 
       <section className="seo-copy rich-content" aria-labelledby="service-includes-title">
         <p className="seo-copy__eyebrow">состав работ</p>
