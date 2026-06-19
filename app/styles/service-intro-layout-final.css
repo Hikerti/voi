@@ -1,15 +1,95 @@
 /* Final service intro layout: catalog beside only the first block. */
 
-.vs-page-shell > .service-page-intro {
-  padding-top: var(--breadcrumb-reserve, clamp(70px, 6vw, 92px));
-}
-
+.vs-page-shell > .service-page-intro,
 .service-page-intro--category {
-  padding-top: 0;
+  padding-top: var(--breadcrumb-reserve, clamp(70px, 6vw, 92px));
 }
 
 .service-page-intro > .service-catalog-fixed {
   align-self: start;
+}
+
+/* The whole category row receives the active/hover background. */
+.service-page-intro .catalog-menu__row {
+  overflow: hidden;
+  border-radius: 9px;
+  background: transparent;
+  transition: background-color 0.18s ease;
+}
+
+.service-page-intro .catalog-menu__row > .catalog-menu__link,
+.service-page-intro .catalog-menu__row > .catalog-menu__current {
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+.service-page-intro .catalog-menu__branch:hover > .catalog-menu__row,
+.service-page-intro .catalog-menu__branch:focus-within > .catalog-menu__row,
+.service-page-intro .catalog-menu__branch.is-active > .catalog-menu__row,
+.service-page-intro .catalog-menu__branch.is-current > .catalog-menu__row {
+  background: rgba(216, 255, 85, 0.1);
+}
+
+/* Keep an accessible button, but render it visually as a plain icon. */
+.service-page-intro .catalog-menu__branch-toggle {
+  align-self: stretch;
+  width: 38px !important;
+  height: auto !important;
+  min-height: 40px;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: rgba(245, 245, 239, 0.68);
+  box-shadow: none !important;
+}
+
+.service-page-intro .catalog-menu__branch-toggle:hover,
+.service-page-intro .catalog-menu__branch-toggle:focus-visible,
+.service-page-intro .catalog-menu__branch.is-active .catalog-menu__branch-toggle {
+  color: #d8ff55;
+}
+
+.service-page-intro .catalog-menu__branch-icon {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transform-origin: 50% 50%;
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
+}
+
+.service-page-intro .catalog-menu__branch.is-expanded .catalog-menu__branch-icon {
+  transform: rotate(45deg) !important;
+}
+
+@media (min-width: 901px) {
+  /* Category slugs: catalog, figure and text start on one horizontal line. */
+  .service-page-intro--category .service-detail-page__layout {
+    align-items: start !important;
+  }
+
+  .service-page-intro--category .service-detail-page__content {
+    padding-top: 0 !important;
+  }
+
+  .service-page-intro--category .service-detail-page__visual {
+    min-height: clamp(280px, 27vw, 390px) !important;
+    align-content: start !important;
+    place-items: start center !important;
+    overflow: visible !important;
+    padding: 0 clamp(14px, 2vw, 28px) 24px !important;
+    contain: none !important;
+  }
+
+  .service-page-intro--category .service-detail-page__visual img {
+    width: min(86%, 320px) !important;
+    max-height: 340px !important;
+    object-position: center top !important;
+  }
 }
 
 @media (min-width: 981px) {
@@ -29,7 +109,20 @@
   box-sizing: border-box !important;
 }
 
+@media (max-width: 900px) and (min-width: 761px) {
+  .service-page-intro--category .service-detail-page__visual {
+    min-height: 240px !important;
+    align-content: start !important;
+    place-items: start center !important;
+    padding-top: 0 !important;
+  }
+}
+
 @media (max-width: 760px) {
+  .service-page-intro--category {
+    padding-top: 0;
+  }
+
   .service-page-intro > .service-catalog-fixed {
     display: none !important;
   }
