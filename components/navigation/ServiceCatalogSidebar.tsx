@@ -38,7 +38,7 @@ export default function ServiceCatalogSidebar() {
   const pathname = usePathname();
   const activeBranch =
     SERVICE_CATALOG_NAV.find((item) => containsPath(item, pathname))?.href ?? null;
-  const [catalogOpen, setCatalogOpen] = useState(false);
+  const [catalogOpen, setCatalogOpen] = useState(true);
   const [expandedBranch, setExpandedBranch] = useState<string | null>(activeBranch);
 
   useEffect(() => {
