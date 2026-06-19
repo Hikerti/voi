@@ -21,6 +21,7 @@ import "./styles/layout.css";
 import "./styles/forms.css";
 import "./styles/content-pages.css";
 import "./styles/header.css";
+import "./styles/navigation-menus.css";
 import "./styles/accessibility.css";
 import "./styles/faq-width-final.css";
 import "./styles/content-detail-final.css";
@@ -35,10 +36,10 @@ import "./styles/mobile-content-alignment.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
+import InternalPageFrame from "@/components/layout/InternalPageFrame";
 import ScrollRevealLayer from "@/components/layout/ScrollRevealLayer";
 import AnalyticsEvents from "@/components/analytics/AnalyticsEvents";
 import ProjectHeroSizer from "@/components/portfolio/ProjectHeroSizer";
-import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import DecisionCta from "@/components/layout/DecisionCta";
 import StructuredData from "@/components/seo/StructuredData";
 import { SITE } from "@/lib/constants";
@@ -122,10 +123,7 @@ export default function RootLayout({
           <AnalyticsEvents />
           <ProjectHeroSizer />
           <SiteHeader />
-          <div className="route-frame">
-            <Breadcrumbs />
-            {children}
-          </div>
+          <InternalPageFrame>{children}</InternalPageFrame>
           <DecisionCta />
           <Footer />
           <ScrollRevealLayer />
