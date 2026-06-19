@@ -33,13 +33,20 @@ body:has(.home-ref) .vs-faq-preview__head > p:last-child {
 }
 
 body:has(.home-ref) .vs-faq-preview .faq-accordion {
+  display: grid !important;
   width: 100% !important;
   max-width: none !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 0 !important;
   margin: 0 !important;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body:has(.home-ref) .vs-faq-preview .faq-accordion__item {
+  width: 100% !important;
+  min-height: 0 !important;
+  grid-column: 1 / -1 !important;
+  margin: 0 !important;
   border: 0 !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 0 !important;
@@ -54,6 +61,7 @@ body:has(.home-ref) .vs-faq-preview .faq-accordion__item.is-open {
 }
 
 body:has(.home-ref) .vs-faq-preview .faq-accordion__item button {
+  width: 100% !important;
   grid-template-columns: 48px minmax(0, 1fr) 44px !important;
   gap: 18px !important;
   align-items: start !important;
