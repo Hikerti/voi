@@ -34,6 +34,18 @@
   color: var(--content-accent);
 }
 
+/* After a route click, keep every desktop dropdown closed until the pointer leaves
+   and enters the navigation again. This prevents a focused/hovered menu hanging
+   over the newly loaded page. */
+.header-nav.is-suppressed .header-nav__dropdown,
+.header-nav.is-suppressed .header-nav__item:hover > .header-nav__dropdown,
+.header-nav.is-suppressed .header-nav__item:focus-within > .header-nav__dropdown {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(8px) !important;
+  pointer-events: none !important;
+}
+
 @media (max-width: 1180px) {
   .site-search-link {
     display: inline-flex;
