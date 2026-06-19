@@ -16,6 +16,10 @@ export default function ContactsContent() {
             Напишите, позвоните или оставьте заявку. Отвечаем в рабочее время и начинаем
             с короткого уточнения задачи, сроков и готовых материалов.
           </p>
+          <p className="contacts-page__legal-name">
+            <span>Полное наименование</span>
+            <strong>{SITE.legalName}</strong>
+          </p>
         </div>
       </section>
 
