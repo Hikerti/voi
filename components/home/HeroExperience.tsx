@@ -52,9 +52,9 @@ function assetStyle(src: string): AssetStyle {
   return { "--asset-url": `url("${src}")` };
 }
 
-function Scene({ item }: { item: HeroItem }) {
+function Scene({ item, isPrimary = false }: { item: HeroItem; isPrimary?: boolean }) {
   return (
-    <div className={`home-ref__scene home-ref__scene--${item.visual}`} aria-hidden="true">
+    <div className={`home-ref__scene home-ref__scene--${item.visual}`} aria-hidden={!isPrimary}>
       <span className="home-ref__code">590105</span>
       <span className="home-ref__orbit" />
       <span className="home-ref__shape" style={assetStyle(item.shape)} />
@@ -67,7 +67,11 @@ function Scene({ item }: { item: HeroItem }) {
         style={assetStyle(item.right)}
       />
       <span className="home-ref__split" />
-      <strong className="home-ref__logo">VOITOV STUDIO</strong>
+      {isPrimary ? (
+        <h1 className="home-ref__logo">VOITOV STUDIO</h1>
+      ) : (
+        <strong className="home-ref__logo">VOITOV STUDIO</strong>
+      )}
       <span className="home-ref__subline">creative club</span>
     </div>
   );
@@ -153,8 +157,8 @@ export default function HeroExperience() {
       </div>
 
       <div className="home-ref__scenes">
-        {HERO_ITEMS.map((item) => (
-          <Scene key={item.visual} item={item} />
+        {HERO_ITEMS.map((item, index) => (
+          <Scene key={item.visual} item={item} isPrimary={index === 0} />
         ))}
       </div>
 
