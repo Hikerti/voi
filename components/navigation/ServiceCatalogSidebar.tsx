@@ -38,13 +38,12 @@ export default function ServiceCatalogSidebar() {
   const pathname = usePathname();
   const activeBranch =
     SERVICE_CATALOG_NAV.find((item) => containsPath(item, pathname))?.href ?? null;
-  const [catalogOpen, setCatalogOpen] = useState(pathname.startsWith("/services"));
+  const [catalogOpen, setCatalogOpen] = useState(false);
   const [expandedBranch, setExpandedBranch] = useState<string | null>(activeBranch);
 
   useEffect(() => {
-    if (pathname.startsWith("/services")) setCatalogOpen(true);
     if (activeBranch) setExpandedBranch(activeBranch);
-  }, [activeBranch, pathname]);
+  }, [activeBranch]);
 
   const closeAfterNavigate = () => {
     if (window.matchMedia("(max-width: 980px)").matches) setCatalogOpen(false);
