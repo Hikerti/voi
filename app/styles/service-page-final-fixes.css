@@ -1,20 +1,44 @@
-/* Final service-page alignment and full-viewport glow overrides. */
+/* Final service-page alignment and one consistent full-viewport glow. */
 
 html:has(.services-page),
 html:has(.service-detail-page),
 body:has(.services-page),
 body:has(.service-detail-page) {
-  background-color: #07080b !important;
+  min-height: 100%;
+  background: #07080b !important;
 }
 
 body:has(.services-page),
 body:has(.service-detail-page) {
-  background-image:
-    radial-gradient(circle at 4% 34%, rgba(216, 255, 85, 0.14) 0, rgba(216, 255, 85, 0.06) 18%, transparent 42%),
-    radial-gradient(circle at 94% 42%, rgba(157, 85, 255, 0.17) 0, rgba(157, 85, 255, 0.07) 20%, transparent 44%) !important;
-  background-repeat: no-repeat !important;
-  background-size: 100% 100% !important;
-  background-attachment: fixed !important;
+  position: relative;
+  isolation: isolate;
+  background-image: none !important;
+}
+
+/* One shared glow layer for /services and every /services/* page. */
+body:has(.services-page)::before,
+body:has(.service-detail-page)::before {
+  content: "" !important;
+  position: fixed !important;
+  z-index: 0 !important;
+  inset: 0 !important;
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  border-radius: 0 !important;
+  background:
+    radial-gradient(circle at 4% 35%, rgba(216, 255, 85, 0.22) 0%, rgba(216, 255, 85, 0.1) 18%, transparent 43%),
+    radial-gradient(circle at 96% 42%, rgba(157, 85, 255, 0.24) 0%, rgba(157, 85, 255, 0.11) 20%, transparent 45%) !important;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  pointer-events: none !important;
+}
+
+body:has(.services-page)::after,
+body:has(.service-detail-page)::after {
+  display: none !important;
+  content: none !important;
 }
 
 body:has(.services-page) .route-frame,
@@ -23,8 +47,17 @@ body:has(.services-page) .services-page,
 body:has(.service-detail-page) .service-detail-page,
 body:has(.service-detail-page) .vs-detail-hero,
 body:has(.services-page) .vs-page-hero {
-  background-color: transparent !important;
-  background-image: none !important;
+  background: transparent !important;
+}
+
+body:has(.services-page) .vs-site-header,
+body:has(.service-detail-page) .vs-site-header,
+body:has(.services-page) .route-frame,
+body:has(.service-detail-page) .route-frame,
+body:has(.services-page) .services-page,
+body:has(.service-detail-page) .service-detail-page {
+  position: relative;
+  z-index: 1;
 }
 
 .services-page::before,
@@ -72,11 +105,10 @@ body:has(.services-page) .vs-page-hero {
 }
 
 @media (max-width: 760px) {
-  body:has(.services-page),
-  body:has(.service-detail-page) {
-    background-image:
-      radial-gradient(circle at -28% 24%, rgba(216, 255, 85, 0.13) 0, transparent 48%),
-      radial-gradient(circle at 128% 52%, rgba(157, 85, 255, 0.15) 0, transparent 48%) !important;
-    background-attachment: scroll !important;
+  body:has(.services-page)::before,
+  body:has(.service-detail-page)::before {
+    background:
+      radial-gradient(circle at -24% 24%, rgba(216, 255, 85, 0.18) 0%, transparent 48%),
+      radial-gradient(circle at 124% 54%, rgba(157, 85, 255, 0.2) 0%, transparent 50%) !important;
   }
 }
