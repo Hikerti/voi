@@ -111,6 +111,7 @@ export default function ServiceCatalogSidebar() {
                     {hasChildren && (
                       <button
                         type="button"
+                        className="catalog-menu__branch-toggle"
                         aria-expanded={branchExpanded}
                         aria-label={`${branchExpanded ? "Свернуть" : "Развернуть"} ${item.label}`}
                         onClick={() =>
@@ -119,7 +120,7 @@ export default function ServiceCatalogSidebar() {
                           )
                         }
                       >
-                        <span aria-hidden="true">›</span>
+                        <span className="catalog-menu__branch-icon" aria-hidden="true" />
                       </button>
                     )}
                   </div>
