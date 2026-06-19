@@ -1,4 +1,4 @@
-/* Final responsive safeguards for navigation layers and the services catalog. */
+/* Final responsive safeguards for navigation layers and the fixed service catalog. */
 
 body.body:has(.services-page) {
   background-color: #07080b !important;
@@ -11,41 +11,224 @@ body:has(.services-page) .services-page {
   background: #07080b !important;
 }
 
-.services-catalog-toolbar {
-  display: grid;
-  width: min(100%, var(--review-layout-width, 1280px));
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 24px;
+/* The catalog is fixed and does not change the shared content/header width. */
+.service-catalog-fixed {
+  position: fixed;
+  z-index: 940;
+  top: 148px;
+  left: max(16px, calc((100vw - 1540px) / 2));
+  width: 232px;
+  font-family: Jura, sans-serif;
+}
+
+.service-catalog-fixed__toggle {
+  display: flex;
+  width: 100%;
+  min-height: 48px;
   align-items: center;
-  margin: 0 auto clamp(34px, 4vw, 52px);
-  padding: 14px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  justify-content: space-between;
+  gap: 14px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: rgba(10, 10, 13, 0.96);
+  color: #f5f5ef;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(16px);
+  cursor: pointer;
   box-sizing: border-box;
 }
 
-.services-catalog-toolbar > p {
+.service-catalog-fixed__toggle:hover,
+.service-catalog-fixed__toggle:focus-visible,
+.service-catalog-fixed.is-open .service-catalog-fixed__toggle {
+  border-color: rgba(216, 255, 85, 0.4);
+  color: #d8ff55;
+}
+
+.service-catalog-fixed__chevron {
+  color: #d8ff55;
+  font-size: 18px;
+  line-height: 1;
+  transition: transform 0.22s ease;
+}
+
+.service-catalog-fixed.is-open .service-catalog-fixed__chevron {
+  transform: rotate(180deg);
+}
+
+.service-catalog-fixed__panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  max-height: calc(100vh - 220px);
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: rgba(10, 10, 13, 0.98);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.46);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.98);
+  transform-origin: top left;
+  transition: opacity 0.2s ease, transform 0.22s ease, visibility 0.2s ease;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.service-catalog-fixed.is-open .service-catalog-fixed__panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.catalog-menu__list,
+.catalog-menu__children {
   margin: 0;
-  color: rgba(245, 245, 239, 0.54) !important;
-  font-family: Jura, sans-serif;
+  padding: 0;
+  list-style: none;
+}
+
+.catalog-menu__list {
+  display: grid;
+  gap: 4px;
+}
+
+.catalog-menu__list > li,
+.catalog-menu__branch {
+  position: relative;
+  min-width: 0;
+}
+
+.catalog-menu__link,
+.catalog-menu__current {
+  display: flex;
+  width: 100%;
+  min-height: 40px;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 9px;
+  color: rgba(245, 245, 239, 0.76);
+  font-size: 13px;
+  font-weight: 680;
+  line-height: 1.25;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.catalog-menu__link:hover,
+.catalog-menu__link:focus-visible,
+.catalog-menu__branch.is-active > .catalog-menu__row > .catalog-menu__link,
+.catalog-menu__current {
+  background: rgba(216, 255, 85, 0.1);
+  color: #d8ff55;
+}
+
+.catalog-menu__current {
+  cursor: default;
+}
+
+.catalog-menu__row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) 34px;
+  align-items: center;
+}
+
+.catalog-menu__row > button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(245, 245, 239, 0.72);
+  cursor: pointer;
+}
+
+.catalog-menu__row > button:hover,
+.catalog-menu__row > button:focus-visible {
+  border-color: rgba(216, 255, 85, 0.38);
+  color: #d8ff55;
+}
+
+.catalog-menu__row > button span {
+  transition: transform 0.2s ease;
+}
+
+.catalog-menu__branch.is-expanded > .catalog-menu__row > button span {
+  transform: rotate(90deg);
+}
+
+/* Desktop: nested sections drop to the right on hover. */
+.catalog-menu__children {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 10px);
+  z-index: 20;
+  display: grid;
+  width: 250px;
+  gap: 3px;
+  padding: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(10, 10, 13, 0.99);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.44);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(8px);
+  transition: opacity 0.18s ease, transform 0.2s ease, visibility 0.18s ease;
+  pointer-events: none;
+}
+
+.catalog-menu__children::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 100%;
+  bottom: 0;
+  width: 12px;
+}
+
+.catalog-menu__branch:not(.is-expanded):hover > .catalog-menu__children,
+.catalog-menu__branch:not(.is-expanded):focus-within > .catalog-menu__children {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Current branch, or a branch opened with its arrow, expands inside the menu. */
+.catalog-menu__branch.is-expanded > .catalog-menu__children {
+  position: static;
+  width: auto;
+  margin: 3px 0 5px 12px;
+  padding: 2px 0 2px 8px;
+  border: 0;
+  border-left: 1px solid rgba(216, 255, 85, 0.22);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+}
+
+.catalog-menu__children .catalog-menu__link,
+.catalog-menu__children .catalog-menu__current {
+  min-height: 36px;
+  padding: 7px 9px;
   font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.services-catalog-toolbar .service-category-nav {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: flex-end;
-  gap: 9px !important;
-  margin: 0 !important;
-}
-
-.services-catalog-toolbar .service-category-nav a {
-  min-height: 42px;
-  padding: 0 16px !important;
 }
 
 @media (max-width: 980px) {
@@ -57,28 +240,56 @@ body:has(.services-page) .services-page {
     display: inline-flex !important;
   }
 
-  .services-catalog-toolbar {
-    grid-template-columns: 1fr;
-    gap: 12px;
+  .service-catalog-fixed {
+    top: 124px;
+    left: 16px;
+    width: min(280px, calc(100vw - 32px));
   }
 
-  .services-catalog-toolbar .service-category-nav {
-    justify-content: flex-start;
+  .service-catalog-fixed__panel {
+    max-height: calc(100vh - 194px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .catalog-menu__children,
+  .catalog-menu__branch:not(.is-expanded):hover > .catalog-menu__children,
+  .catalog-menu__branch:not(.is-expanded):focus-within > .catalog-menu__children {
+    position: static;
+    display: none;
+    width: auto;
+    margin: 3px 0 5px 12px;
+    padding: 2px 0 2px 8px;
+    border: 0;
+    border-left: 1px solid rgba(216, 255, 85, 0.22);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .catalog-menu__branch.is-expanded > .catalog-menu__children {
+    display: grid;
   }
 }
 
 @media (max-width: 760px) {
-  .services-catalog-toolbar {
-    padding: 16px 0;
+  .service-catalog-fixed {
+    top: 112px;
+    left: 12px;
+    width: min(270px, calc(100vw - 24px));
   }
 
-  .services-catalog-toolbar .service-category-nav {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .service-catalog-fixed__toggle {
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 12px;
   }
 
-  .services-catalog-toolbar .service-category-nav a {
-    width: 100%;
-    box-sizing: border-box;
+  .service-catalog-fixed__panel {
+    max-height: calc(100vh - 170px);
   }
 }
