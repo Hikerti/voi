@@ -30,9 +30,7 @@ export default function StudioSection({ projects = [] }: StudioSectionProps) {
     <section className="studio2">
       <div className="studio2__inner">
         <div className="studio2__head">
-          <h2 className="studio2__title">
-            Работы<br />в полный экран
-          </h2>
+          <h2 className="studio2__title">Работы в полный экран</h2>
         </div>
 
         {projects.length > 0 ? (
