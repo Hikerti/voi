@@ -1,0 +1,7 @@
+.route-frame > .project-detail-layout > .project-detail-page {
+  padding-top: 0 !important;
+}
+
+.route-frame > .project-detail-layout > .project-detail-page .case-hero-hider {
+  padding-top: 0 !important;
+}

@@ -1,10 +1,5 @@
-import Link from "next/link";
-import {
-  FAQ_ITEMS,
-  REVIEWS,
-  WORK_STAGES,
-  type WorkStageItem,
-} from "@/lib/site-data";
+import FaqAccordion from "@/components/faq/FaqAccordion";
+import { FAQ_ITEMS, REVIEWS, WORK_STAGES, type WorkStageItem } from "@/lib/site-data";
 import type { FaqItem, ReviewItem } from "@/lib/cms-api";
 
 interface HomeTrustSectionsProps {
@@ -19,6 +14,7 @@ export default function HomeTrustSections({
   faq = FAQ_ITEMS,
 }: HomeTrustSectionsProps) {
   const visibleReviews = reviews.slice(0, 4);
+  const visibleFaq = faq.slice(0, 4);
 
   return (
     <>
@@ -45,32 +41,30 @@ export default function HomeTrustSections({
         </div>
       </section>
 
-      <section className="vs-reviews-preview">
+      <section className="vs-reviews-preview" aria-labelledby="home-reviews-title">
         <div className="vs-section-head">
-          <h2>Клиенты приходят за сайтом, который выглядит сильнее рынка</h2>
+          <h2 id="home-reviews-title">Отзывы после реальных запусков</h2>
+          <p>Публикуем впечатления клиентов после завершения работ.</p>
         </div>
-        <div className="vs-review-grid">
+        <div className="vs-review-grid vs-review-grid--home">
           {visibleReviews.map((review) => (
-            <article className="vs-review" key={review.name}>
-              <p>{review.text}</p>
-              <span>{review.name} · {review.date}</span>
+            <article className="vs-review" key={`${review.name}-${review.date}`}>
+              <blockquote>{review.text}</blockquote>
+              <p>{review.name} · {review.date}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="vs-faq-preview">
-        <div>
-          <h2>Коротко о том, что обычно спрашивают до старта</h2>
+      <section className="vs-faq-preview" aria-labelledby="home-faq-title">
+        <div className="vs-faq-preview__head">
+          <p className="vs-kicker">FAQ</p>
+          <h2 id="home-faq-title">Ответы перед стартом проекта</h2>
+          <p>
+            Сроки, дизайн, SEO, контент, правки и запуск — коротко и по существу.
+          </p>
         </div>
-        <div className="vs-faq-list">
-          {faq.slice(0, 4).map((item) => (
-            <Link href={`/faq/${item.slug}`} className="vs-faq-row" key={item.slug}>
-              <h3>{item.question}</h3>
-              <p>{item.answer}</p>
-            </Link>
-          ))}
-        </div>
+        <FaqAccordion items={visibleFaq} />
       </section>
     </>
   );
