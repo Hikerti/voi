@@ -127,24 +127,9 @@ body:has(.service-detail-page) .vs-detail-hero::after {
     justify-self: end !important;
   }
 
-  /* Keep the catalog fixed on mobile and align it exactly with the header. */
+  /* The service catalog is desktop/tablet only. */
   .service-catalog-fixed {
-    position: fixed !important;
-    top: 138px !important;
-    right: auto !important;
-    left: 50% !important;
-    width: calc(100% - 48px) !important;
-    max-width: 520px !important;
-    transform: translateX(-50%) !important;
-    box-sizing: border-box !important;
-  }
-
-  .service-catalog-fixed__panel {
-    width: 100% !important;
-    max-height: calc(100dvh - 208px) !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    box-sizing: border-box !important;
+    display: none !important;
   }
 
   .services-page,
