@@ -1,0 +1,36 @@
+/* Final service intro layout: catalog beside only the first block. */
+
+.vs-page-shell > .service-page-intro {
+  padding-top: var(--breadcrumb-reserve, clamp(70px, 6vw, 92px));
+}
+
+.service-page-intro--category {
+  padding-top: 0;
+}
+
+.service-page-intro > .service-catalog-fixed {
+  align-self: start;
+}
+
+@media (min-width: 981px) {
+  .service-page-intro > .service-catalog-fixed .service-catalog-fixed__panel {
+    overflow: visible !important;
+  }
+}
+
+.services-page > .vs-catalog-grid,
+.services-page > .seo-copy,
+.service-detail-page.vs-page-shell > section,
+.service-detail-page.vs-page-shell > .vs-related {
+  width: min(100%, var(--review-layout-width, 1280px)) !important;
+  max-width: var(--review-layout-width, 1280px) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 760px) {
+  .service-page-intro > .service-catalog-fixed {
+    display: none !important;
+  }
+}
