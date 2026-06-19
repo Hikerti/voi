@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import AnimatedLink from "@/components/ui/AnimatedLink";
 import type { ReactNode } from "react";
+import ServiceCatalogSidebar from "@/components/navigation/ServiceCatalogSidebar";
+import AnimatedLink from "@/components/ui/AnimatedLink";
 
 const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
@@ -31,35 +32,39 @@ export default function ServiceDetailSection({
   const cleanNextLabel = nextLabel.replace(/^Next\s+/i, "").trim();
 
   return (
-    <main className="service-detail-page">
-      <section className="service-detail-page__layout">
-        <motion.div
-          className="service-detail-page__visual"
-          initial={{ x: -28, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.75, ease: EASE }}
-          aria-hidden="true"
-        >
-          <img src={icon} alt="" />
-        </motion.div>
+    <main className="service-detail-page service-detail-page--category">
+      <div className="service-page-intro service-page-intro--category">
+        <ServiceCatalogSidebar />
 
-        <div className="service-detail-page__content">
+        <section className="service-detail-page__layout service-page-intro__content">
           <motion.div
-            className="service-detail-page__copy"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.12, ease: EASE }}
+            className="service-detail-page__visual"
+            initial={{ x: -28, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.75, ease: EASE }}
+            aria-hidden="true"
           >
-            {desktopContent}
+            <img src={icon} alt="" />
           </motion.div>
 
-          <AnimatedLink href={nextHref} className="service-detail-page__next">
-            <span>Следующий раздел</span>
-            <strong>{cleanNextLabel}</strong>
-            <span aria-hidden="true">→</span>
-          </AnimatedLink>
-        </div>
-      </section>
+          <div className="service-detail-page__content">
+            <motion.div
+              className="service-detail-page__copy"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.12, ease: EASE }}
+            >
+              {desktopContent}
+            </motion.div>
+
+            <AnimatedLink href={nextHref} className="service-detail-page__next">
+              <span>Следующий раздел</span>
+              <strong>{cleanNextLabel}</strong>
+              <span aria-hidden="true">→</span>
+            </AnimatedLink>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
