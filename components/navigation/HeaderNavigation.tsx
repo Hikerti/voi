@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   HEADER_NAVIGATION,
   isNavigationItemActive,
@@ -13,8 +14,19 @@ function normalizePath(pathname: string): string {
   return pathname.replace(/\/+$/, "");
 }
 
-function HeaderMenuItem({ item, depth = 0 }: { item: NavigationItem; depth?: number }) {
-  const pathname = normalizePath(usePathname());
+interface HeaderMenuItemProps {
+  item: NavigationItem;
+  pathname: string;
+  onNavigate: () => void;
+  depth?: number;
+}
+
+function HeaderMenuItem({
+  item,
+  pathname,
+  onNavigate,
+  depth = 0,
+}: HeaderMenuItemProps) {
   const hasChildren = Boolean(item.children?.length);
   const isExact = pathname === normalizePath(item.href);
   const isActive = isNavigationItemActive(item, pathname);
@@ -34,6 +46,10 @@ function HeaderMenuItem({ item, depth = 0 }: { item: NavigationItem; depth?: num
         href={item.href}
         aria-current={isExact ? "page" : undefined}
         aria-haspopup={hasChildren ? "menu" : undefined}
+        onClick={(event) => {
+          event.currentTarget.blur();
+          onNavigate();
+        }}
       >
         <span>{item.label}</span>
         {hasChildren && <i className="header-nav__chevron" aria-hidden="true" />}
@@ -41,11 +57,21 @@ function HeaderMenuItem({ item, depth = 0 }: { item: NavigationItem; depth?: num
 
       {hasChildren && (
         <ul
-          className={depth === 0 ? "header-nav__dropdown" : "header-nav__dropdown header-nav__dropdown--nested"}
+          className={
+            depth === 0
+              ? "header-nav__dropdown"
+              : "header-nav__dropdown header-nav__dropdown--nested"
+          }
           role="menu"
         >
           {item.children!.map((child) => (
-            <HeaderMenuItem key={child.href} item={child} depth={depth + 1} />
+            <HeaderMenuItem
+              key={child.href}
+              item={child}
+              pathname={pathname}
+              onNavigate={onNavigate}
+              depth={depth + 1}
+            />
           ))}
         </ul>
       )}
@@ -54,11 +80,29 @@ function HeaderMenuItem({ item, depth = 0 }: { item: NavigationItem; depth?: num
 }
 
 export default function HeaderNavigation() {
+  const pathname = normalizePath(usePathname());
+  const [menusSuppressed, setMenusSuppressed] = useState(false);
+
+  useEffect(() => {
+    setMenusSuppressed(true);
+  }, [pathname]);
+
   return (
-    <nav className="vs-site-header__nav header-nav" aria-label="Основная навигация">
+    <nav
+      className={`vs-site-header__nav header-nav${menusSuppressed ? " is-suppressed" : ""}`}
+      aria-label="Основная навигация"
+      onPointerEnter={() => setMenusSuppressed(false)}
+      onPointerLeave={() => setMenusSuppressed(false)}
+      onFocusCapture={() => setMenusSuppressed(false)}
+    >
       <ul className="header-nav__list">
         {HEADER_NAVIGATION.map((item) => (
-          <HeaderMenuItem key={item.href} item={item} />
+          <HeaderMenuItem
+            key={item.href}
+            item={item}
+            pathname={pathname}
+            onNavigate={() => setMenusSuppressed(true)}
+          />
         ))}
       </ul>
     </nav>
