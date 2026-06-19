@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { SERVICE_CATALOG_NAV, type NavigationItem } from "@/lib/navigation";
 
 function containsPath(item: NavigationItem, pathname: string): boolean {
@@ -24,17 +24,10 @@ function CurrentAwareLink({ item, pathname }: { item: NavigationItem; pathname: 
 
 export default function ServiceCatalogSidebar() {
   const pathname = usePathname();
-  const activeBranch = useMemo(
-    () => SERVICE_CATALOG_NAV.find((item) => containsPath(item, pathname))?.href ?? null,
-    [pathname],
-  );
+  const activeBranch =
+    SERVICE_CATALOG_NAV.find((item) => containsPath(item, pathname))?.href ?? null;
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [expandedBranch, setExpandedBranch] = useState<string | null>(activeBranch);
-
-  useEffect(() => {
-    setExpandedBranch(activeBranch);
-    setDrawerOpen(false);
-  }, [activeBranch, pathname]);
 
   return (
     <>
