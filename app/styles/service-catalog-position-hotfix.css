@@ -1,14 +1,4 @@
-/* Final placement for the fixed catalog and service-page glow. */
-
-@media (min-width: 981px) {
-  .service-catalog-fixed {
-    top: 166px !important;
-    left: max(
-      var(--review-layout-gutter, 16px),
-      calc((100vw - var(--review-layout-width, 1280px)) / 2)
-    ) !important;
-  }
-}
+/* Service catalog beside the first service block, plus the shared service-page glow. */
 
 body:has(.services-page),
 body:has(.service-detail-page),
@@ -33,6 +23,64 @@ body:has(.service-detail-page) .vs-detail-hero::before,
 body:has(.service-detail-page) .vs-detail-hero::after {
   display: none !important;
   content: none !important;
+}
+
+/* Only the first block uses two columns. Every following block keeps the header width. */
+.service-page-intro {
+  display: grid;
+  width: min(100%, var(--review-layout-width, 1280px));
+  max-width: var(--review-layout-width, 1280px);
+  grid-template-columns: minmax(210px, 232px) minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 40px);
+  align-items: start;
+  margin-right: auto !important;
+  margin-bottom: clamp(42px, 6vw, 92px);
+  margin-left: auto !important;
+  box-sizing: border-box;
+}
+
+.service-page-intro > .service-catalog-fixed {
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  width: 100% !important;
+  max-width: none !important;
+  transform: none !important;
+  box-sizing: border-box !important;
+}
+
+.service-page-intro > .service-catalog-fixed .service-catalog-fixed__panel {
+  width: 100% !important;
+  max-height: min(620px, calc(100vh - 190px));
+  overflow-x: visible;
+  overflow-y: auto;
+}
+
+.service-page-intro__content,
+.service-page-intro > .vs-page-hero,
+.service-page-intro > .vs-detail-hero,
+.service-page-intro > .service-detail-page__layout {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.services-page > .vs-catalog-grid,
+.services-page > .seo-copy,
+.services-page > .service-category-nav,
+.service-detail-page > .seo-copy,
+.service-detail-page > section,
+.service-detail-page > .vs-related {
+  width: min(100%, var(--review-layout-width, 1280px)) !important;
+  max-width: var(--review-layout-width, 1280px) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  box-sizing: border-box !important;
 }
 
 /* Localized glow only: the base remains flat and dark. */
@@ -79,6 +127,13 @@ body:has(.service-detail-page) .vs-detail-hero::after {
   z-index: 1;
 }
 
+@media (max-width: 980px) and (min-width: 761px) {
+  .service-page-intro {
+    grid-template-columns: minmax(180px, 210px) minmax(0, 1fr);
+    gap: 20px;
+  }
+}
+
 @media (max-width: 760px) {
   html:has(.services-page),
   html:has(.service-detail-page),
@@ -100,7 +155,6 @@ body:has(.service-detail-page) .vs-detail-hero::after {
     box-sizing: border-box !important;
   }
 
-  /* Restore the original centered mobile header with 24px side gutters. */
   body:has(.services-page) .vs-site-header,
   body:has(.service-detail-page) .vs-site-header {
     top: 18px !important;
@@ -127,8 +181,14 @@ body:has(.service-detail-page) .vs-detail-hero::after {
     justify-self: end !important;
   }
 
-  /* The service catalog is desktop/tablet only. */
-  .service-catalog-fixed {
+  .service-page-intro {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: clamp(36px, 10vw, 56px);
+  }
+
+  .service-page-intro > .service-catalog-fixed {
     display: none !important;
   }
 
