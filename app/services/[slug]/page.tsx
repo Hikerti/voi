@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import "../../styles/service-related-layout.css";
 import SiteForm from "@/components/forms/SiteForm";
 import StructuredData from "@/components/seo/StructuredData";
 import { SERVICES } from "@/lib/site-data";
