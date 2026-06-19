@@ -1,13 +1,16 @@
 /* Final responsive safeguards for navigation layers and the fixed service catalog. */
 
-body.body:has(.services-page) {
+body.body:has(.services-page),
+body.body:has(.service-detail-page) {
   background-color: #07080b !important;
   background-image: none !important;
   background-attachment: scroll !important;
 }
 
 body:has(.services-page) .route-frame,
-body:has(.services-page) .services-page {
+body:has(.services-page) .services-page,
+body:has(.service-detail-page) .route-frame,
+body:has(.service-detail-page) .service-detail-page {
   background: #07080b !important;
 }
 
