@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import ServiceCatalogSidebar from "@/components/navigation/ServiceCatalogSidebar";
 import { getCmsServices } from "@/lib/cms-api";
 import { SERVICES } from "@/lib/site-data";
 import { createPageMetadata } from "@/lib/seo";
@@ -25,16 +26,20 @@ export default async function SitesPage() {
 
   return (
     <main className="vs-page-shell vs-page-shell--dark services-page services-sites-page">
-      <section className="vs-page-hero" aria-labelledby="sites-title">
-        <div>
-          <p className="section-kicker">сайты</p>
-          <h1 id="sites-title">Разработка сайтов под задачи бизнеса</h1>
-          <p>
-            Лендинги, многостраничные сайты и дальнейшая поддержка. Подбираем формат,
-            собираем структуру, дизайн и техническую основу проекта.
-          </p>
-        </div>
-      </section>
+      <div className="service-page-intro">
+        <ServiceCatalogSidebar />
+
+        <section className="vs-page-hero service-page-intro__content" aria-labelledby="sites-title">
+          <div>
+            <p className="section-kicker">сайты</p>
+            <h1 id="sites-title">Разработка сайтов под задачи бизнеса</h1>
+            <p>
+              Лендинги, многостраничные сайты и дальнейшая поддержка. Подбираем формат,
+              собираем структуру, дизайн и техническую основу проекта.
+            </p>
+          </div>
+        </section>
+      </div>
 
       <nav className="service-category-nav" aria-label="Категории услуг">
         <Link href="/services">Все услуги</Link>
