@@ -1,6 +1,13 @@
 import { SITE } from "@/lib/constants";
 
-type SocialKey = "telegram" | "whatsapp" | "instagram" | "facebook" | "max";
+type SocialKey =
+  | "telegram"
+  | "whatsapp"
+  | "instagram"
+  | "facebook"
+  | "max"
+  | "vk"
+  | "odnoklassniki";
 
 type SocialItem = {
   key: SocialKey;
@@ -9,12 +16,26 @@ type SocialItem = {
   description?: string;
 };
 
-const SOCIALS: SocialItem[] = [
-  { key: "telegram", label: "Telegram", href: SITE.telegram },
-  { key: "whatsapp", label: "WhatsApp", href: SITE.whatsapp },
-  { key: "instagram", label: "Instagram", href: SITE.instagram },
-  { key: "facebook", label: "Facebook", href: SITE.facebook },
-  { key: "max", label: "MAX", href: SITE.max, description: SITE.maxPhone },
+const SOCIALS: Record<SocialKey, SocialItem> = {
+  telegram: { key: "telegram", label: "Telegram", href: SITE.telegram },
+  whatsapp: { key: "whatsapp", label: "WhatsApp", href: SITE.whatsapp },
+  instagram: { key: "instagram", label: "Instagram", href: SITE.instagram },
+  facebook: { key: "facebook", label: "Facebook", href: SITE.facebook },
+  max: { key: "max", label: "MAX", href: SITE.max, description: SITE.maxPhone },
+  vk: { key: "vk", label: "ВКонтакте", href: SITE.vk },
+  odnoklassniki: {
+    key: "odnoklassniki",
+    label: "Одноклассники",
+    href: SITE.odnoklassniki,
+  },
+};
+
+const DEFAULT_NETWORKS: readonly SocialKey[] = [
+  "telegram",
+  "whatsapp",
+  "instagram",
+  "facebook",
+  "max",
 ];
 
 function SocialIcon({ name }: { name: SocialKey }) {
@@ -52,6 +73,23 @@ function SocialIcon({ name }: { name: SocialKey }) {
     );
   }
 
+  if (name === "vk") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3.2 6.4h3.1c.2 3.5 1.7 5 3 5.3V6.4h3v3c1.3-.1 2.7-1.4 3.1-3h3.1c-.4 1.9-1.9 3.3-3 3.9 1.1.4 2.7 1.7 3.3 3.8h-3.4c-.5-1.4-1.6-2.5-3.1-2.7v2.7h-.4c-5.2 0-8.2-3.5-8.7-7.7Z" />
+      </svg>
+    );
+  }
+
+  if (name === "odnoklassniki") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="6.5" r="3" fill="none" stroke="currentColor" strokeWidth="2" />
+        <path d="M7.4 12.4c1.3 1 2.9 1.5 4.6 1.5s3.3-.5 4.6-1.5M9 20l3-3.2 3 3.2M12 13.9v2.9" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M4 18V6h3.2l4.8 6 4.8-6H20v12h-3.1v-7.3L12 16.5l-4.9-5.8V18H4Z" />
@@ -62,29 +100,56 @@ function SocialIcon({ name }: { name: SocialKey }) {
 interface SocialLinksProps {
   className?: string;
   showLabels?: boolean;
+  networks?: readonly SocialKey[];
+  showUnavailable?: boolean;
 }
 
-export default function SocialLinks({ className = "", showLabels = false }: SocialLinksProps) {
-  const items = SOCIALS.filter((item): item is SocialItem & { href: string } => Boolean(item.href));
+export default function SocialLinks({
+  className = "",
+  showLabels = false,
+  networks = DEFAULT_NETWORKS,
+  showUnavailable = false,
+}: SocialLinksProps) {
+  const items = networks
+    .map((key) => SOCIALS[key])
+    .filter((item) => showUnavailable || Boolean(item.href));
 
   if (items.length === 0) return null;
 
   return (
     <div className={`social-links ${className}`.trim()} aria-label="Социальные сети и мессенджеры">
-      {items.map((item) => (
-        <a
-          key={item.key}
-          className={`social-link social-link--${item.key}`}
-          href={item.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={item.description ? `${item.label}: ${item.description}` : item.label}
-          title={item.description ? `${item.label}: ${item.description}` : item.label}
-        >
-          <span className="social-link__icon"><SocialIcon name={item.key} /></span>
-          {showLabels ? <span className="social-link__label">{item.label}</span> : <span className="sr-only">{item.label}</span>}
-        </a>
-      ))}
+      {items.map((item) => {
+        const label = item.description ? `${item.label}: ${item.description}` : item.label;
+        const content = (
+          <>
+            <span className="social-link__icon"><SocialIcon name={item.key} /></span>
+            {showLabels ? <span className="social-link__label">{item.label}</span> : <span className="sr-only">{item.label}</span>}
+          </>
+        );
+
+        return item.href ? (
+          <a
+            key={item.key}
+            className={`social-link social-link--${item.key}`}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            title={label}
+          >
+            {content}
+          </a>
+        ) : (
+          <span
+            key={item.key}
+            className={`social-link social-link--${item.key} is-disabled`}
+            aria-disabled="true"
+            title={`${item.label}: ссылка будет добавлена`}
+          >
+            {content}
+          </span>
+        );
+      })}
     </div>
   );
 }
