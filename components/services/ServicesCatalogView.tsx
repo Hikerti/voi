@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import ServiceCatalogSidebar from "@/components/navigation/ServiceCatalogSidebar";
 import { SERVICES, type ServiceItem } from "@/lib/site-data";
 
 const CATEGORY_LINKS = [
@@ -21,15 +22,19 @@ interface ServicesCatalogViewProps {
 export default function ServicesCatalogView({ services = SERVICES }: ServicesCatalogViewProps) {
   return (
     <main className="vs-page-shell vs-page-shell--dark services-page">
-      <section className="vs-page-hero" aria-labelledby="services-title">
-        <div>
-          <h1 id="services-title">Каталог услуг Voitov Studio</h1>
-          <p>
-            Сайты, айдентика, SEO-структура и поддержка после запуска. В каждой карточке
-            указаны формат работы, стартовая цена и краткое описание результата.
-          </p>
-        </div>
-      </section>
+      <div className="service-page-intro">
+        <ServiceCatalogSidebar />
+
+        <section className="vs-page-hero service-page-intro__content" aria-labelledby="services-title">
+          <div>
+            <h1 id="services-title">Каталог услуг Voitov Studio</h1>
+            <p>
+              Сайты, айдентика, SEO-структура и поддержка после запуска. В каждой карточке
+              указаны формат работы, стартовая цена и краткое описание результата.
+            </p>
+          </div>
+        </section>
+      </div>
 
       <section id="service-list" className="vs-catalog-grid" aria-label="Список услуг">
         {services.map((service) => (
