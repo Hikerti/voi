@@ -5,8 +5,15 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SERVICE_CATALOG_NAV, type NavigationItem } from "@/lib/navigation";
 
+function normalizePath(pathname: string): string {
+  if (pathname === "/") return pathname;
+  return pathname.replace(/\/+$/, "");
+}
+
 function containsPath(item: NavigationItem, pathname: string): boolean {
-  if (pathname === item.href) return true;
+  const normalizedHref = normalizePath(item.href);
+
+  if (pathname === normalizedHref) return true;
   return item.children?.some((child) => containsPath(child, pathname)) ?? false;
 }
 
@@ -19,7 +26,7 @@ function CurrentAwareLink({
   pathname: string;
   onNavigate: () => void;
 }) {
-  if (pathname === item.href) {
+  if (pathname === normalizePath(item.href)) {
     return (
       <span className="catalog-menu__current" aria-current="page">
         {item.label}
@@ -35,7 +42,7 @@ function CurrentAwareLink({
 }
 
 export default function ServiceCatalogSidebar() {
-  const pathname = usePathname();
+  const pathname = normalizePath(usePathname());
   const activeBranch =
     SERVICE_CATALOG_NAV.find((item) => containsPath(item, pathname))?.href ?? null;
   const [catalogOpen, setCatalogOpen] = useState(true);
@@ -90,7 +97,7 @@ export default function ServiceCatalogSidebar() {
                     "catalog-menu__branch",
                     branchActive ? "is-active" : "",
                     branchExpanded ? "is-expanded" : "",
-                    pathname === item.href ? "is-current" : "",
+                    pathname === normalizePath(item.href) ? "is-current" : "",
                   ]
                     .filter(Boolean)
                     .join(" ")}
@@ -122,7 +129,7 @@ export default function ServiceCatalogSidebar() {
                       {item.children!.map((child) => (
                         <li
                           key={child.href}
-                          className={pathname === child.href ? "is-current" : ""}
+                          className={pathname === normalizePath(child.href) ? "is-current" : ""}
                         >
                           <CurrentAwareLink
                             item={child}
