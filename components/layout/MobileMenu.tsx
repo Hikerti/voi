@@ -87,11 +87,6 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           />
 
           <div className="menudivgl div-block-25" style={{ display: "flex" }}>
-            <button className="vs-menu-close" type="button" onClick={onClose} aria-label="Закрыть меню">
-              <span className="vs-menu-close__icon" aria-hidden="true">×</span>
-              <span className="vs-menu-close__text">Закрыть</span>
-            </button>
-
             <PanelDiv className="menu1" delay={0} />
 
             <PanelDiv className="menu2" delay={0.06}>
