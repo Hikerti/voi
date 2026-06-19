@@ -1,4 +1,4 @@
-/* Compact homepage reviews. */
+/* Compact reviews on the homepage and the reviews route. */
 
 body:has(.home-ref) .vs-reviews-preview {
   padding-top: clamp(72px, 7vw, 104px) !important;
@@ -59,22 +59,82 @@ body:has(.home-ref) .vs-review-grid--home .vs-review > p {
   line-height: 1.4 !important;
 }
 
+.reviews-page .reviews-page__hero {
+  display: block !important;
+  min-height: 0 !important;
+  margin-bottom: clamp(30px, 4vw, 48px) !important;
+}
+
+.reviews-page .reviews-page__copy {
+  width: 100%;
+  max-width: 920px !important;
+}
+
+.reviews-page .reviews-page__copy h1 {
+  max-width: 900px !important;
+  margin: 0 !important;
+  font-size: clamp(42px, 4.8vw, 72px) !important;
+  line-height: 1 !important;
+  text-wrap: balance;
+}
+
+.reviews-page .reviews-page__copy p:not(.vs-kicker) {
+  max-width: 680px !important;
+  margin-top: 18px !important;
+  font-size: 16px !important;
+  line-height: 1.55 !important;
+}
+
+.reviews-page .vs-review-grid--page {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.reviews-page .vs-review-grid--page .vs-review {
+  min-height: 280px !important;
+  padding: clamp(24px, 2.3vw, 30px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+}
+
+.reviews-page .vs-review-grid--page blockquote {
+  margin: 0;
+  color: rgba(244, 244, 239, 0.9);
+  font-family: Jura, sans-serif;
+  font-size: clamp(15px, 1.05vw, 17px) !important;
+  font-weight: 600;
+  line-height: 1.55 !important;
+}
+
+.reviews-page .vs-review-grid--page .vs-review > p {
+  margin: 24px 0 0 !important;
+  color: rgba(244, 244, 239, 0.62) !important;
+  font-family: Jura, sans-serif;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+}
+
 @media (max-width: 1100px) {
-  body:has(.home-ref) .vs-review-grid--home {
+  body:has(.home-ref) .vs-review-grid--home,
+  .reviews-page .vs-review-grid--page {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
 @media (max-width: 700px) {
-  body:has(.home-ref) .vs-reviews-preview .vs-section-head h2 {
+  body:has(.home-ref) .vs-reviews-preview .vs-section-head h2,
+  .reviews-page .reviews-page__copy h1 {
     font-size: clamp(36px, 11vw, 52px) !important;
   }
 
-  body:has(.home-ref) .vs-review-grid--home {
+  body:has(.home-ref) .vs-review-grid--home,
+  .reviews-page .vs-review-grid--page {
     grid-template-columns: 1fr !important;
   }
 
-  body:has(.home-ref) .vs-review-grid--home .vs-review {
+  body:has(.home-ref) .vs-review-grid--home .vs-review,
+  .reviews-page .vs-review-grid--page .vs-review {
     min-height: 220px !important;
   }
 }
