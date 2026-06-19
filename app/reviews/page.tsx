@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "../styles/home-reviews-layout.css";
 import SiteForm from "@/components/forms/SiteForm";
 import PageHeader from "@/components/layout/PageHeader";
 import { getCmsReviews } from "@/lib/cms-api";
