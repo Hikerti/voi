@@ -54,9 +54,8 @@ body:has(.service-detail-page) .vs-detail-hero::after {
 
 .service-page-intro > .service-catalog-fixed .service-catalog-fixed__panel {
   width: 100% !important;
-  max-height: min(620px, calc(100vh - 190px));
-  overflow-x: visible;
-  overflow-y: auto;
+  max-height: none !important;
+  overflow: visible !important;
 }
 
 .service-page-intro__content,
