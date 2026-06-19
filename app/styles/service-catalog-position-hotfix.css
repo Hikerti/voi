@@ -1,14 +1,17 @@
 /* Service catalog beside the first service block, plus the shared service-page glow. */
 
 body:has(.services-page),
-body:has(.service-detail-page),
+body:has(.service-detail-page) {
+  background-color: #07080b !important;
+  background-image: none !important;
+}
+
 body:has(.services-page) .route-frame,
 body:has(.service-detail-page) .route-frame,
 body:has(.services-page) .services-page,
 body:has(.service-detail-page) .service-detail-page,
 body:has(.service-detail-page) .vs-detail-hero {
-  background-color: #07080b !important;
-  background-image: none !important;
+  background: transparent !important;
 }
 
 body:has(.services-page)::before,
@@ -34,7 +37,7 @@ body:has(.service-detail-page) .vs-detail-hero::after {
   gap: clamp(24px, 3vw, 40px);
   align-items: start;
   margin-right: auto !important;
-  margin-bottom: clamp(42px, 6vw, 92px);
+  margin-bottom: clamp(24px, 3vw, 40px);
   margin-left: auto !important;
   box-sizing: border-box;
 }
@@ -48,7 +51,7 @@ body:has(.service-detail-page) .vs-detail-hero::after {
   left: auto !important;
   width: 100% !important;
   max-width: none !important;
-  margin-top: 56px !important;
+  margin-top: 0 !important;
   transform: none !important;
   box-sizing: border-box !important;
 }
@@ -72,6 +75,25 @@ body:has(.service-detail-page) .vs-detail-hero::after {
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
+}
+
+.service-page-intro .service-catalog-fixed__chevron {
+  display: block;
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  transform: rotate(45deg);
+  transform-origin: 50% 50%;
+  transition: transform 0.22s ease;
+  box-sizing: border-box;
+}
+
+.service-page-intro .service-catalog-fixed.is-open .service-catalog-fixed__chevron {
+  transform: rotate(225deg);
 }
 
 .service-page-intro__content,
@@ -200,7 +222,7 @@ body:has(.service-detail-page) .vs-detail-hero::after {
     display: block;
     width: 100% !important;
     max-width: 100% !important;
-    margin-bottom: clamp(36px, 10vw, 56px);
+    margin-bottom: clamp(28px, 8vw, 44px);
   }
 
   .service-page-intro > .service-catalog-fixed {
