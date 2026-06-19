@@ -59,7 +59,7 @@ export default function ServiceCatalogSidebar() {
         onClick={() => setCatalogOpen((open) => !open)}
       >
         <span>Каталог услуг</span>
-        <span className="service-catalog-fixed__chevron" aria-hidden="true">⌄</span>
+        <span className="service-catalog-fixed__chevron" aria-hidden="true" />
       </button>
 
       <aside
