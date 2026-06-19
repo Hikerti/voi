@@ -48,14 +48,30 @@ body:has(.service-detail-page) .vs-detail-hero::after {
   left: auto !important;
   width: 100% !important;
   max-width: none !important;
+  margin-top: 56px !important;
   transform: none !important;
   box-sizing: border-box !important;
 }
 
 .service-page-intro > .service-catalog-fixed .service-catalog-fixed__panel {
+  position: static !important;
+  inset: auto !important;
+  display: none !important;
   width: 100% !important;
   max-height: none !important;
+  margin-top: 10px !important;
   overflow: visible !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: none !important;
+  pointer-events: none !important;
+}
+
+.service-page-intro > .service-catalog-fixed.is-open .service-catalog-fixed__panel {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
 .service-page-intro__content,
