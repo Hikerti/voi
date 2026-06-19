@@ -1,0 +1,40 @@
+/* Final placement for the fixed catalog and flat service-page backgrounds. */
+
+@media (min-width: 981px) {
+  .service-catalog-fixed {
+    top: 166px !important;
+    left: max(
+      var(--review-layout-gutter, 16px),
+      calc((100vw - var(--review-layout-width, 1280px)) / 2)
+    ) !important;
+  }
+}
+
+body:has(.services-page),
+body:has(.service-detail-page),
+body:has(.services-page) .route-frame,
+body:has(.service-detail-page) .route-frame,
+body:has(.services-page) .services-page,
+body:has(.service-detail-page) .service-detail-page,
+body:has(.service-detail-page) .vs-detail-hero {
+  background-color: #07080b !important;
+  background-image: none !important;
+}
+
+body:has(.services-page)::before,
+body:has(.services-page)::after,
+body:has(.service-detail-page)::before,
+body:has(.service-detail-page)::after,
+body:has(.services-page) .route-frame::before,
+body:has(.services-page) .route-frame::after,
+body:has(.service-detail-page) .route-frame::before,
+body:has(.service-detail-page) .route-frame::after,
+body:has(.services-page) .services-page::before,
+body:has(.services-page) .services-page::after,
+body:has(.service-detail-page) .service-detail-page::before,
+body:has(.service-detail-page) .service-detail-page::after,
+body:has(.service-detail-page) .vs-detail-hero::before,
+body:has(.service-detail-page) .vs-detail-hero::after {
+  display: none !important;
+  content: none !important;
+}
