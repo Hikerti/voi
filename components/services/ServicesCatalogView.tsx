@@ -31,16 +31,6 @@ export default function ServicesCatalogView({ services = SERVICES }: ServicesCat
         </div>
       </section>
 
-      <section className="services-catalog-toolbar" aria-labelledby="services-catalog-label">
-        <p id="services-catalog-label">Каталог услуг</p>
-        <nav className="service-category-nav" aria-label="Категории услуг">
-          <a href="#service-list">Все услуги</a>
-          {CATEGORY_LINKS.map((item) => (
-            <Link key={item.slug} href={`/services/${item.slug}`}>{item.label}</Link>
-          ))}
-        </nav>
-      </section>
-
       <section id="service-list" className="vs-catalog-grid" aria-label="Список услуг">
         {services.map((service) => (
           <Link href={`/services/${service.slug}`} className="vs-catalog-card" key={service.slug}>
