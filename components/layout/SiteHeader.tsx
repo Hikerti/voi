@@ -7,7 +7,7 @@ import { SITE } from "@/lib/constants";
 import { useMenu } from "./MenuProvider";
 import MenuToggle from "./MenuToggle";
 
-const HEADER_SOCIALS = ["vk", "odnoklassniki", "max", "whatsapp", "telegram"] as const;
+const HEADER_SOCIALS = ["instagram", "facebook", "max", "whatsapp", "telegram"] as const;
 
 export default function SiteHeader() {
   const { isOpen, toggle } = useMenu();
