@@ -8,10 +8,15 @@ import {
   type NavigationItem,
 } from "@/lib/navigation";
 
+function normalizePath(pathname: string): string {
+  if (pathname === "/") return pathname;
+  return pathname.replace(/\/+$/, "");
+}
+
 function HeaderMenuItem({ item, depth = 0 }: { item: NavigationItem; depth?: number }) {
-  const pathname = usePathname();
+  const pathname = normalizePath(usePathname());
   const hasChildren = Boolean(item.children?.length);
-  const isExact = pathname === item.href;
+  const isExact = pathname === normalizePath(item.href);
   const isActive = isNavigationItemActive(item, pathname);
 
   return (
@@ -31,7 +36,7 @@ function HeaderMenuItem({ item, depth = 0 }: { item: NavigationItem; depth?: num
         aria-haspopup={hasChildren ? "menu" : undefined}
       >
         <span>{item.label}</span>
-        {hasChildren && <i aria-hidden="true">{depth === 0 ? "⌄" : "›"}</i>}
+        {hasChildren && <i className="header-nav__chevron" aria-hidden="true" />}
       </Link>
 
       {hasChildren && (
