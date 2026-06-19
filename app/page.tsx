@@ -3,6 +3,7 @@ import "./styles/home-heading-layout.css";
 import "./styles/home-reviews-layout.css";
 import "./styles/home-faq-layout.css";
 import "./styles/home-form-project-heading.css";
+import "./styles/home-content-sections.css";
 import HeroExperience from "@/components/home/HeroExperience";
 import IntroSection from "@/components/home/IntroSection";
 import StudioSection from "@/components/home/StudioSection";
@@ -12,10 +13,10 @@ import HomeTrustSections from "@/components/home/HomeTrustSections";
 import HomeFinalCta from "@/components/home/HomeFinalCta";
 import HomeSeoSection from "@/components/home/HomeSeoSection";
 import { getAllProjectSlugs, getProjectBySlug } from "@/lib/portfolio";
-import { getAllArticleSlugs, getArticleBySlug } from "@/lib/blog";
 import GridLines from "@/components/layout/GridLines";
 import {
   getCmsFaq,
+  getCmsNews,
   getCmsReviews,
   getCmsServices,
   getCmsWorkStages,
@@ -37,11 +38,12 @@ export const metadata: Metadata = createPageMetadata({
 });
 
 export default async function HomePage() {
-  const [services, stages, reviews, faq] = await Promise.all([
+  const [services, stages, reviews, faq, news] = await Promise.all([
     getCmsServices(),
     getCmsWorkStages(),
     getCmsReviews(),
     getCmsFaq(),
+    getCmsNews(),
   ]);
 
   const projects = getAllProjectSlugs()
@@ -55,16 +57,12 @@ export default async function HomePage() {
     }))
     .sort((a, b) => a.tabIndex - b.tabIndex);
 
-  const newsItems = getAllArticleSlugs()
-    .map((slug) => getArticleBySlug(slug))
-    .filter(Boolean)
-    .slice(0, 6)
-    .map((article) => ({
-      slug: article!.slug,
-      title: article!.title,
-      date: article!.date,
-      image: article!.thumbnail,
-    }));
+  const newsItems = news.slice(0, 3).map((item) => ({
+    slug: item.slug,
+    title: item.title,
+    date: item.date,
+    excerpt: item.excerpt,
+  }));
 
   return (
     <>
@@ -75,8 +73,8 @@ export default async function HomePage() {
       <StudioSection projects={projects} />
       <HomeTrustSections stages={stages} reviews={reviews} faq={faq} />
       <NewsPreview items={newsItems} />
-      <HomeSeoSection />
       <HomeFinalCta />
+      <HomeSeoSection />
     </>
   );
 }

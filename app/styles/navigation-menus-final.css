@@ -1,0 +1,25 @@
+/* Final responsive safeguards for navigation layers. */
+
+@media (max-width: 1280px) {
+  .internal-page-frame .breadcrumbs {
+    padding-left: 154px !important;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 980px) {
+  .vs-site-header {
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
+  }
+
+  .vs-site-header__actions .vs-burger {
+    display: inline-flex !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .internal-page-frame .breadcrumbs {
+    top: 122px !important;
+    padding-left: 0 !important;
+  }
+}
