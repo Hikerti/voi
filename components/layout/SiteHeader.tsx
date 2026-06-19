@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import SocialLinks from "@/components/social/SocialLinks";
 import { NAV_LINKS, SITE } from "@/lib/constants";
 import { useMenu } from "./MenuProvider";
 import MenuToggle from "./MenuToggle";
+
+const HEADER_SOCIALS = ["vk", "odnoklassniki", "max", "whatsapp", "telegram"] as const;
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -48,9 +51,34 @@ export default function SiteHeader() {
         <Link className="site-search-link" href="/search" aria-label="Открыть поиск по сайту">
           Поиск
         </Link>
-        <a className="site-header-phone" href={SITE.phoneHref} aria-label={`Позвонить: ${SITE.phone}`}>
-          {SITE.phone}
-        </a>
+
+        <div className="vs-site-header__contact-panel">
+          <SocialLinks
+            className="vs-site-header__socials"
+            networks={HEADER_SOCIALS}
+            showUnavailable
+          />
+
+          <div className="vs-site-header__contact-list" aria-label="Контактная информация">
+            <span className="vs-site-header__contact-row vs-site-header__work-hours">
+              {SITE.workHours}
+            </span>
+            <a
+              className="vs-site-header__contact-row vs-site-header__email"
+              href={SITE.emailHref}
+            >
+              {SITE.email}
+            </a>
+            <a
+              className="vs-site-header__contact-row site-header-phone"
+              href={SITE.phoneHref}
+              aria-label={`Позвонить: ${SITE.phone}`}
+            >
+              {SITE.phone}
+            </a>
+          </div>
+        </div>
+
         <MenuToggle isOpen={isOpen} onToggle={toggle} />
       </div>
     </header>
