@@ -5,12 +5,16 @@ import { usePathname } from "next/navigation";
 
 const HIDDEN_ROUTES = ["/", "/zayavka", "/spasibo", "/privacy", "/contacts", "/reviews", "/faq"];
 
+function normalizePathname(pathname: string) {
+  return pathname.replace(/\/+$/, "") || "/";
+}
+
 function hasOwnFinalAction(pathname: string) {
   return pathname.startsWith("/services/") || pathname.startsWith("/portfolio/");
 }
 
 export default function DecisionCta() {
-  const pathname = usePathname();
+  const pathname = normalizePathname(usePathname());
 
   if (HIDDEN_ROUTES.includes(pathname) || hasOwnFinalAction(pathname)) return null;
 

@@ -13,7 +13,7 @@ export const metadata: Metadata = createPageMetadata({
 
 export default function SpasiboPage() {
   return (
-    <main className={styles.page}>
+    <main id="spasibo-page" className={styles.page}>
       <section className={styles.card}>
         <p className={styles.kicker}>Заявка успешно отправлена</p>
         <h1 className={styles.title}>Спасибо!</h1>

@@ -1,9 +1,18 @@
+:global(body:has(#spasibo-page) .vs-site-header) {
+  position: relative !important;
+  top: 0 !important;
+  left: auto !important;
+  margin: 0 auto !important;
+  transform: none !important;
+}
+
 .page {
   box-sizing: border-box;
   display: flex;
   width: min(calc(100% - 32px), var(--review-layout-width, 1280px));
-  margin: clamp(24px, 3vw, 40px) auto;
-  padding: 0;
+  min-height: calc(100svh - 88px);
+  margin: 0 auto;
+  padding: 16px 0;
   align-items: center;
   justify-content: center;
 }
@@ -12,7 +21,7 @@
   position: relative;
   display: flex;
   width: 100%;
-  min-height: clamp(560px, calc(100svh - 190px), 820px);
+  min-height: clamp(520px, calc(100svh - 120px), 720px);
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;
@@ -140,11 +149,12 @@
 @media (max-width: 640px) {
   .page {
     width: min(calc(100% - 32px), var(--review-layout-width, 1280px));
-    margin: 16px auto 24px;
+    min-height: calc(100svh - 76px);
+    padding: 12px 0 16px;
   }
 
   .card {
-    min-height: calc(100svh - 128px);
+    min-height: calc(100svh - 104px);
     padding: 48px 20px;
     border-radius: 22px;
   }
