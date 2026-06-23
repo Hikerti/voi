@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { trackGoal } from "@/lib/analytics";
+import { SITE } from "@/lib/constants";
 
 function goalFromHref(href: string) {
   if (href.startsWith("tel:")) return "phone_click";
@@ -33,8 +34,24 @@ export default function AnalyticsEvents() {
       trackGoal(goal, { href });
     }
 
+    function redirectAfterSuccessfulForm() {
+      const successDialog = document.querySelector<HTMLElement>(".vs-form__success-dialog");
+      if (!successDialog) return;
+
+      successDialog.hidden = true;
+      window.location.assign(SITE.spasibo);
+    }
+
+    const observer = new MutationObserver(redirectAfterSuccessfulForm);
+    observer.observe(document.body, { childList: true, subtree: true });
+
     document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
+    redirectAfterSuccessfulForm();
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("click", handleClick);
+    };
   }, []);
 
   return null;
