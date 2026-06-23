@@ -37,6 +37,7 @@ import "./styles/navigation-menus-final.css";
 import "./styles/service-catalog-position-hotfix.css";
 import "./styles/service-intro-layout-final.css";
 import "./styles/service-page-final-fixes.css";
+import "./styles/spasibo-layout.css";
 import MenuProvider from "@/components/layout/MenuProvider";
 import Footer from "@/components/layout/Footer";
 import SiteHeader from "@/components/layout/SiteHeader";
