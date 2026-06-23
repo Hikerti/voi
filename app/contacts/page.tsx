@@ -5,7 +5,7 @@ import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Контакты веб-студии",
-  description: `Контакты ${SITE.legalName}: телефон, email, график работы и форма связи с Voitov Studio.`,
+  description: `Контакты ${SITE.name}: телефон, email, график работы и форма связи.`,
   path: "/contacts",
   keywords: ["контакты веб-студии", "заказать сайт Москва"],
 });
