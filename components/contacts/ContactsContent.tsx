@@ -18,7 +18,7 @@ export default function ContactsContent() {
           </p>
           <p className="contacts-page__legal-name">
             <span>Полное наименование</span>
-            <strong>{SITE.legalName}</strong>
+            <strong>{SITE.name}</strong>
           </p>
         </div>
       </section>
@@ -28,7 +28,8 @@ export default function ContactsContent() {
           <p className="section-kicker">прямой контакт</p>
           <h2 id="contacts-details-title">Как связаться</h2>
           <dl className="contact-details">
-            <div><dt>Компания</dt><dd>{SITE.legalName}</dd></div>
+            <div><dt>Компания</dt><dd>{SITE.name}</dd></div>
+            <div><dt>Юридическое наименование</dt><dd>{SITE.legalName}</dd></div>
             <div><dt>Телефон</dt><dd><a href={SITE.phoneHref}>{SITE.phone}</a></dd></div>
             <div><dt>Email</dt><dd><a href={SITE.emailHref}>{SITE.email}</a></dd></div>
             <div><dt>График</dt><dd>{SITE.workHours}</dd></div>
