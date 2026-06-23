@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BackButton from "@/components/spasibo/BackButton";
 import { createPageMetadata } from "@/lib/seo";
+import styles from "./page.module.css";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Спасибо за обращение",
@@ -11,17 +13,16 @@ export const metadata: Metadata = createPageMetadata({
 
 export default function SpasiboPage() {
   return (
-    <main className="div-block-77">
-      <h1 className="spasibo-h1">
-        Спасибо за<br />заявку!
-      </h1>
-      <p className="paragraph-337">
-        Обращение принято. Мы свяжемся с вами в рабочее время, а пока можно посмотреть{" "}
-        <Link href="/blog" className="link-20">наши статьи</Link>.
-      </p>
-      <Link href="/" className="button-21 w-button">
-        Вернуться на главную
-      </Link>
+    <main className={styles.page}>
+      <section className={styles.card}>
+        <p className={styles.kicker}>Заявка успешно отправлена</p>
+        <h1 className={styles.title}>Спасибо!</h1>
+        <p className={styles.text}>Мы получили обращение и свяжемся с вами в рабочее время.</p>
+        <div className={styles.actions}>
+          <BackButton className={styles.secondaryButton} />
+          <Link className={styles.primaryButton} href="/">На главную</Link>
+        </div>
+      </section>
     </main>
   );
 }
