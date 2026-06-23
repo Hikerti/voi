@@ -9,8 +9,8 @@ export const SITE = {
   phoneHref: "tel:+79959039161",
   secondaryPhone: null as string | null,
   secondaryPhoneHref: null as string | null,
-  email: "info@voitov.ru",
-  emailHref: "mailto:info@voitov.ru",
+  email: "hello@voitov.ru",
+  emailHref: "mailto:hello@voitov.ru",
   workHours: "Пн–Пт, 10:00–19:00",
   address: "Москва, Научный проезд, 14А, стр. 1",
   addressHref:
