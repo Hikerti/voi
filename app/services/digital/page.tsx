@@ -28,7 +28,7 @@ export default function DigitalPage() {
         nextLabel="Маркетинг"
         desktopContent={
           <>
-            <h2>Digital</h2>
+            <h1>Digital-разработка и UI/UX</h1>
             <h2>Создание контента</h2>
             <p>Готовим тексты, изображения, анимацию и видео как часть единой системы сайта.</p>
             <h2>Дизайн и разработка сайтов</h2>
