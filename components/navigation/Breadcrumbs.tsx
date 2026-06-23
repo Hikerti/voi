@@ -70,9 +70,10 @@ function humanize(segment: string) {
 
 export default function Breadcrumbs() {
   const pathname = usePathname();
-  const segments = pathname.split("/").filter(Boolean);
+  const normalizedPathname = pathname.replace(/\/+$/, "") || "/";
+  const segments = normalizedPathname.split("/").filter(Boolean);
 
-  if (segments.length === 0 || pathname === "/spasibo") return null;
+  if (normalizedPathname === "/" || normalizedPathname === SITE.spasibo) return null;
 
   const items = [
     { label: "Главная", href: "/" },
