@@ -104,11 +104,28 @@ body:has(.service-detail-page) .service-detail-page {
 
 .service-page-intro .vs-kicker,
 .service-page-intro .section-kicker,
+.service-page-intro .service-detail-page__copy > h1:first-child,
 .service-page-intro .service-detail-page__copy > h2:first-child {
   margin-top: 0 !important;
 }
 
+/* The category title is now a semantic H1 while preserving the original kicker styling. */
+.service-detail-page__copy > h1:first-child {
+  margin: 0 0 20px;
+  color: #d8ff55;
+  font-family: Inconsolata, monospace;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
 @media (max-width: 760px) {
+  .service-detail-page__copy > h1:first-child {
+    margin-bottom: 18px;
+  }
+
   body:has(.services-page)::before,
   body:has(.service-detail-page)::before {
     background:
