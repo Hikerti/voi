@@ -1,0 +1,8 @@
+/* Page-specific header flow for the thank-you route. */
+body:has(#spasibo-page) .vs-site-header {
+  position: relative !important;
+  top: 0 !important;
+  left: auto !important;
+  margin: 0 auto !important;
+  transform: none !important;
+}
