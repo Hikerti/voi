@@ -2,9 +2,9 @@
   box-sizing: border-box;
   display: grid;
   width: min(calc(100% - (2 * var(--content-gutter))), var(--content-width));
-  min-height: calc(100svh - 96px);
-  margin: 0 auto;
-  padding: clamp(40px, 8vw, 96px) 0;
+  min-height: calc(100svh - 152px);
+  margin: clamp(32px, 4vw, 56px) auto 0;
+  padding: 0 0 clamp(40px, 8vw, 96px);
   place-items: center;
 }
 
@@ -140,8 +140,9 @@
 @media (max-width: 640px) {
   .page {
     width: min(calc(100% - 32px), var(--content-width));
-    min-height: calc(100svh - 78px);
-    padding: 24px 0 48px;
+    min-height: calc(100svh - 116px);
+    margin-top: 20px;
+    padding: 0 0 48px;
   }
 
   .card {
