@@ -47,6 +47,7 @@ const HERO_ITEMS = [
 type HeroItem = (typeof HERO_ITEMS)[number];
 type AssetStyle = CSSProperties & { "--asset-url": string };
 type PointerVars = CSSProperties & { "--mx": string; "--my": string };
+type TouchPoint = { x: number; y: number };
 
 function assetStyle(src: string): AssetStyle {
   return { "--asset-url": `url("${src}")` };
@@ -83,7 +84,7 @@ export default function HeroExperience() {
     "--mx": "0",
     "--my": "0",
   });
-  const touchStartX = useRef<number | null>(null);
+  const touchStart = useRef<TouchPoint | null>(null);
 
   function selectRelative(direction: 1 | -1) {
     setActiveIndex((current) => (current + direction + HERO_ITEMS.length) % HERO_ITEMS.length);
@@ -103,20 +104,30 @@ export default function HeroExperience() {
   }
 
   function handleTouchStart(event: TouchEvent<HTMLElement>) {
-    touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+    const touch = event.changedTouches[0];
+    touchStart.current = touch ? { x: touch.clientX, y: touch.clientY } : null;
   }
 
   function handleTouchEnd(event: TouchEvent<HTMLElement>) {
-    const startX = touchStartX.current;
-    const endX = event.changedTouches[0]?.clientX;
-    touchStartX.current = null;
+    const start = touchStart.current;
+    const touch = event.changedTouches[0];
+    touchStart.current = null;
 
-    if (startX == null || endX == null) return;
+    if (!start || !touch) return;
 
-    const delta = endX - startX;
-    if (Math.abs(delta) < 44) return;
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+    const distanceX = Math.abs(deltaX);
+    const distanceY = Math.abs(deltaY);
 
-    selectRelative(delta < 0 ? 1 : -1);
+    if (distanceX < 12 && distanceY < 12) {
+      window.location.assign(HERO_ITEMS[activeIndex].href);
+      return;
+    }
+
+    if (distanceX >= 44 && distanceX > distanceY) {
+      selectRelative(deltaX < 0 ? 1 : -1);
+    }
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLElement>) {
@@ -135,7 +146,7 @@ export default function HeroExperience() {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onTouchCancel={() => {
-        touchStartX.current = null;
+        touchStart.current = null;
       }}
       onKeyDown={handleKeyDown}
       tabIndex={0}
@@ -181,7 +192,7 @@ export default function HeroExperience() {
         Наведите на четверть экрана
       </div>
       <div className="home-ref__mobile-hint" aria-hidden="true">
-        Листайте пальцем
+        Листайте пальцем или нажмите
       </div>
       <p className="home-ref__status" aria-live="polite">
         {activeIndex + 1} из {HERO_ITEMS.length}: {HERO_ITEMS[activeIndex].label}

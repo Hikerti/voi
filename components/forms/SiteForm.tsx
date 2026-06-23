@@ -51,17 +51,6 @@ function countDigits(value: string) {
   return value.replace(/\D/g, "").length;
 }
 
-function directLeadEndpoint(variant: FormVariant) {
-  if (variant === "review") return "/api/leads/review";
-  if (variant === "question") return "/api/leads/question";
-  if (variant === "callback") return "/api/leads/callback";
-  return "/api/leads/contact";
-}
-
-function formEndpoints(variant: FormVariant) {
-  return ["/submit-lead/", "/api/contact/", directLeadEndpoint(variant)];
-}
-
 async function responseError(response: Response) {
   const data = (await response.json().catch(() => null)) as
     | { error?: string; message?: string | string[] }
@@ -70,33 +59,23 @@ async function responseError(response: Response) {
   return data?.error?.trim() || message?.trim() || FALLBACK_ERROR;
 }
 
-async function submitLead(payload: LeadPayload, variant: FormVariant) {
-  const endpoints = formEndpoints(variant);
-  let lastError = FALLBACK_ERROR;
+async function submitLead(payload: LeadPayload) {
+  try {
+    const response = await fetch("/submit-lead/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
 
-  for (const [index, endpoint] of endpoints.entries()) {
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) return;
-
-      lastError = await responseError(response);
-      const isValidationError = response.status >= 400 && response.status < 500 && response.status !== 404;
-      if (isValidationError || index === endpoints.length - 1) throw new Error(lastError);
-    } catch (error) {
-      lastError = error instanceof Error && error.message && error.message !== "Failed to fetch"
-        ? error.message
-        : FALLBACK_ERROR;
-
-      if (index === endpoints.length - 1) throw new Error(lastError);
+    if (response.ok) return;
+    throw new Error(await responseError(response));
+  } catch (error) {
+    if (error instanceof Error && error.message && error.message !== "Failed to fetch") {
+      throw error;
     }
-  }
 
-  throw new Error(lastError);
+    throw new Error(FALLBACK_ERROR);
+  }
 }
 
 export default function SiteForm({
@@ -196,7 +175,7 @@ export default function SiteForm({
     };
 
     try {
-      await submitLead(payload, variant);
+      await submitLead(payload);
       form.reset();
       setConsentChecked(false);
       startedAtRef.current = new Date().toISOString();

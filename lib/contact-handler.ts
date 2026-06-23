@@ -147,9 +147,9 @@ async function storeLead(body: ContactPayload, requestOrigin?: string): Promise<
 }
 
 async function sendEmail(body: ContactPayload, leadId?: number): Promise<EmailResult> {
-  const to = process.env.CONTACT_EMAIL_TO;
-  const from = process.env.CONTACT_EMAIL_FROM ?? "Voitov Studio <onboarding@resend.dev>";
-  const resendApiKey = process.env.RESEND_API_KEY;
+  const to = process.env.CONTACT_EMAIL_TO?.trim();
+  const from = process.env.CONTACT_EMAIL_FROM?.trim() ?? "Voitov Studio <onboarding@resend.dev>";
+  const resendApiKey = process.env.RESEND_API_KEY?.trim();
 
   if (!resendApiKey || !to) {
     return { ok: false, error: "Email transport is not configured" };
@@ -179,7 +179,7 @@ async function sendEmail(body: ContactPayload, leadId?: number): Promise<EmailRe
       },
       body: JSON.stringify({
         from,
-        to,
+        to: [to],
         subject,
         text,
         ...(body.email ? { reply_to: body.email } : {}),
@@ -190,14 +190,19 @@ async function sendEmail(body: ContactPayload, leadId?: number): Promise<EmailRe
 
     if (!response.ok) {
       const error = await response.text();
-      console.error("Email send error:", error);
+      console.error("Email send error:", {
+        status: response.status,
+        to,
+        from,
+        error,
+      });
       return { ok: false, error };
     }
 
     return { ok: true };
   } catch (error) {
     const message = error instanceof Error ? error.message : "Email transport error";
-    console.error("Email transport error:", error);
+    console.error("Email transport error:", { to, from, error });
     return { ok: false, error: message };
   }
 }
@@ -227,13 +232,29 @@ export async function handleContactPost(request: NextRequest) {
 
     const emailResult = await sendEmail(body, storedLead.id);
 
-    if (storedLead.ok) {
-      return NextResponse.json({ ok: true, leadId: storedLead.id, emailSent: emailResult.ok });
+    if (storedLead.ok && emailResult.ok) {
+      return NextResponse.json({ ok: true, leadId: storedLead.id, emailSent: true });
+    }
+
+    if (storedLead.ok && !emailResult.ok) {
+      console.error("Lead stored, but email delivery failed:", {
+        leadId: storedLead.id,
+        error: emailResult.error,
+      });
+      return NextResponse.json(
+        {
+          error:
+            "Заявка сохранена, но уведомление на почту временно не доставлено. Повторно отправлять форму не нужно.",
+          leadId: storedLead.id,
+          emailSent: false,
+        },
+        { status: 502 },
+      );
     }
 
     if (emailResult.ok) {
       console.error("Lead store error; delivered by email:", storedLead.error);
-      return NextResponse.json({ ok: true, delivery: "email" });
+      return NextResponse.json({ ok: true, delivery: "email", emailSent: true });
     }
 
     console.error("Lead store error:", storedLead.error);
