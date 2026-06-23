@@ -1,18 +1,18 @@
 .page {
   box-sizing: border-box;
-  display: grid;
-  width: min(calc(100% - (2 * var(--content-gutter))), var(--content-width));
-  min-height: calc(100svh - 152px);
-  margin: clamp(32px, 4vw, 56px) auto 0;
-  padding: 0 0 clamp(40px, 8vw, 96px);
-  place-items: center;
+  display: flex;
+  width: min(calc(100% - 32px), var(--review-layout-width, 1280px));
+  margin: clamp(24px, 3vw, 40px) auto;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 .card {
   position: relative;
   display: flex;
   width: 100%;
-  min-height: min(620px, 72svh);
+  min-height: clamp(560px, calc(100svh - 190px), 820px);
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;
@@ -139,14 +139,12 @@
 
 @media (max-width: 640px) {
   .page {
-    width: min(calc(100% - 32px), var(--content-width));
-    min-height: calc(100svh - 116px);
-    margin-top: 20px;
-    padding: 0 0 48px;
+    width: min(calc(100% - 32px), var(--review-layout-width, 1280px));
+    margin: 16px auto 24px;
   }
 
   .card {
-    min-height: 70svh;
+    min-height: calc(100svh - 128px);
     padding: 48px 20px;
     border-radius: 22px;
   }
